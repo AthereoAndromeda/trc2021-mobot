@@ -6,7 +6,7 @@ void initSsd() {
   ssd.setTextColor(SSD1306_WHITE);
   ssd.cp437(true);
 
-  ssd.println("Quarantine best ship <33");
+  ssd.println("Hello there");
 
 //  testchar();
   ssd.display();

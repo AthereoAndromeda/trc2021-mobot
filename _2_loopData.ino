@@ -61,31 +61,31 @@ void loop() {
     Serial.println("Button Pressed!");
     delay(1000);
     if (cbutPress - lbutPress > 50) {
-      //        if (rotaryVal >= 0 && rotaryVal <= 42) {
-      //          movement1();
-      //        }
-      //        else if (rotaryVal >= 43 && rotaryVal <= 84) {
-      //          movement2();
-      //        }
-      //        else if (rotaryVal >= 85 && rotaryVal <= 127) {
-      //          movement3();
-      //        }
-      //        else if (rotaryVal >= 128 && rotaryVal <= 170) {
-      //          movement4();
-      //        }
-      //        else if (rotaryVal >= 171 && rotaryVal <= 213) {
-      //          movement5();
-      //        }
-      //        else if (rotaryVal >= 214 && rotaryVal <= 255) {
-      //          movement6();
-      //        }
+      if (rotaryVal >= 0 && rotaryVal <= 42) {
+        movement1();
+      }
+      else if (rotaryVal >= 43 && rotaryVal <= 84) {
+        movement2();
+      }
+      else if (rotaryVal >= 85 && rotaryVal <= 127) {
+        movement3();
+      }
+      else if (rotaryVal >= 128 && rotaryVal <= 170) {
+        movement4();
+      }
+      else if (rotaryVal >= 171 && rotaryVal <= 213) {
+        movement5();
+      }
+      else if (rotaryVal >= 214 && rotaryVal <= 255) {
+        movement6();
+      }
       Serial.println("Executing commands for selected task!");
       delay(2000);
     }
     lbutPress = cbutPress;
   }
 
-//  delay(1);
+  //  delay(1);
 
   // COLOR SENSOR READINGS
   //  apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);

@@ -1,6 +1,6 @@
-#define ROTARY_SWP 2
+#define ROTARY_SWP 4
 #define ROTARY_DTP 3
-#define ROTARY_CLK 4
+#define ROTARY_CLK 2
 #define LIFTER_PIN 7
 
 #define SERIAL_BAUD 115200

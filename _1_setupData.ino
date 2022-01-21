@@ -14,23 +14,26 @@ void setup() {
     Serial.println(">> LCD screen init successful!");
   }
 
-  initRotary();
+  pinMode(ROTARY_CLK, INPUT);
+  pinMode(ROTARY_DTP, INPUT);
+  pinMode(ROTARY_SWP, INPUT_PULLUP);
 
-  initLifter();
+  lrotState = digitalRead(ROTARY_CLK);
+
+  //  initRotary();
+
+  //  initLifter();
 
   //  initApds();
   //  Serial.println(">> Color sensor calibration successful!");
   initSsd();
 
-  setupMecanum();
+  //  setupMecanum();
 
-  delay(100);
-//  movement4();
+  //  delay(100);
+  //  movement4();
 
-  lifterDown();
+  //  lifterDown();
   //  delay(1000);
   //  lifterUp();
-
-  //  run(Forward, 1000);
-  //  movement1();
 }
