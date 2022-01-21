@@ -61,7 +61,10 @@ void setMotorDir(Direction _cmd)
     case Stop:
       PORTA = 0xFF;
       break;
+
     default:
+      Serial.println("Unknown Direction!");
+      while (true);
       break;
   }
 }
