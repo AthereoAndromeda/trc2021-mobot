@@ -66,7 +66,7 @@ static bool stopmotor = true;
 static int pwmcounter = 0;
 bool test_directions = true;
 
-enum lifterState {up, down};
+enum lifterState { up, down };
 int liftPwm, liftPosition;
 
 String apdsColor;
