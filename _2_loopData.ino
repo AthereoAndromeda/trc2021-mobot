@@ -15,14 +15,8 @@ void loop() {
       rotaryVal--;
       rotaryDir = "CCW";
     }
-
-    Serial.print("Direction: ");
-    Serial.print(crotState);
-    Serial.print(" | Counter: ");
-    Serial.println(rotaryVal);
-
   }
-  crotState = lrotState;
+  lrotState = crotState;
 
 
   Serial.print("rotaryVal: ");
@@ -31,24 +25,24 @@ void loop() {
   Serial.println(rotaryDir);
 
   // LCD SCREEN DISPLAYS
-  if (rotaryVal >= 0 && rotaryVal <= 42) {
-    ssd.println("Movement #01: Forward");
-  }
-  else if (rotaryVal >= 43 && rotaryVal <= 84) {
-    ssd.println("Movement #02: Backward");
-  }
-  else if (rotaryVal >= 85 && rotaryVal <= 127) {
-    ssd.println("Movement #03: Rotate Left");
-  }
-  else if (rotaryVal >= 128 && rotaryVal <= 170) {
-    ssd.println("Movement #04: Rotate Right");
-  }
-  else if (rotaryVal >= 171 && rotaryVal <= 213) {
-    ssd.println("Movement #05: Shift Left");
-  }
-  else if (rotaryVal >= 214 && rotaryVal <= 255) {
-    ssd.println("Movement #06: Shift Right");
-  }
+//  if (rotaryVal >= 0 && rotaryVal <= 42) {
+//    ssd.println("Movement #01: Forward");
+//  }
+//  else if (rotaryVal >= 43 && rotaryVal <= 84) {
+//    ssd.println("Movement #02: Backward");
+//  }
+//  else if (rotaryVal >= 85 && rotaryVal <= 127) {
+//    ssd.println("Movement #03: Rotate Left");
+//  }
+//  else if (rotaryVal >= 128 && rotaryVal <= 170) {
+//    ssd.println("Movement #04: Rotate Right");
+//  }
+//  else if (rotaryVal >= 171 && rotaryVal <= 213) {
+//    ssd.println("Movement #05: Shift Left");
+//  }
+//  else if (rotaryVal >= 214 && rotaryVal <= 255) {
+//    ssd.println("Movement #06: Shift Right");
+//  }
 
   // ENCODER BUTTON READINGS
   buttonState = digitalRead(ROTARY_SWP);
@@ -85,7 +79,7 @@ void loop() {
     lbutPress = cbutPress;
   }
 
-  //  delay(1);
+  delay(1);
 
   // COLOR SENSOR READINGS
   //  apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
