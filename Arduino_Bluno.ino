@@ -19,7 +19,7 @@
 #define LIFTER_MIN 500
 #define LIFTER_MAX 2500
 
-#define RUN_DELAY 2000
+#define MOTOR_DELAY 2000
 #define SET_PWM 60
 
 #define STNDBY1 36
@@ -73,7 +73,7 @@ static bool stopmotor = true;
 static int pwmcounter = 0;
 bool test_directions = true;
 
-enum lifterState { up, down };
+enum LifterState { Up, Down };
 int liftPwm, liftPosition;
 
 String apdsColor;
@@ -83,6 +83,6 @@ uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 int redCalib, greenCalib, blueCalib, clearCalib;
 
-void lifterMove(lifterState liftState, int liftAngle, int liftSpeed);
-void setMotorDir(Direction _cmd);
-void run(Direction direction, int duration);
+void lifterMove(LifterState liftState, int liftAngle, int liftSpeed);
+void setMotorDir(Direction dir);
+void motorMove(Direction direction, int duration);

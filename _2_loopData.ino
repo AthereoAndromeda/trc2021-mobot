@@ -56,22 +56,22 @@ void loop() {
     delay(1000);
     if (cbutPress - lbutPress > 50) {
       if (rotaryVal >= 0 && rotaryVal <= 42) {
-        movement1();
+        taskOne();
       }
       else if (rotaryVal >= 43 && rotaryVal <= 84) {
-        movement2();
+        taskTwo();
       }
       else if (rotaryVal >= 85 && rotaryVal <= 127) {
-        movement3();
+        taskThree();
       }
       else if (rotaryVal >= 128 && rotaryVal <= 170) {
-        movement4();
+        taskFour();
       }
       else if (rotaryVal >= 171 && rotaryVal <= 213) {
-        movement5();
+        taskFive();
       }
       else if (rotaryVal >= 214 && rotaryVal <= 255) {
-        movement6();
+        taskSix();
       }
       Serial.println("Executing commands for selected task!");
       delay(2000);

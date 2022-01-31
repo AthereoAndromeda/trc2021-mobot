@@ -1,7 +1,6 @@
-
-void setMotorDir(Direction _cmd)
+void setMotorDir(Direction dir)
 {
-  switch (_cmd)
+  switch (dir)
   {
     case Forward:
       PORTA = 0xAA;

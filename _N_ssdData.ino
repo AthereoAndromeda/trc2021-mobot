@@ -1,14 +1,14 @@
 void initSsd() {
-  
+
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
-  ssd.setTextSize(2);
+  ssd.setTextSize(1);
   ssd.setTextColor(SSD1306_WHITE);
   ssd.cp437(true);
 
   ssd.println("Hello there");
 
-//  testchar();
+  testInt();
   ssd.display();
 
   Serial.println(">> Lcd screen configuration successful!");
@@ -28,4 +28,19 @@ void testchar() {
 
   ssd.display();
   delay(2000);
+}
+
+void testInt() {
+  int counter = 0;
+
+  for (int i = 1; i <= 20; i++) {
+    ssd.println(i);
+    ssd.display();
+    counter++;
+
+    //    if (counter >= 9) {
+    //      ssd.startscrolldiagright(0x0F, 0x0F);
+    //      counter = 0;
+    //    }
+  }
 }

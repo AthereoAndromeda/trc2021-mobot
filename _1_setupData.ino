@@ -14,14 +14,23 @@ void setup() {
     Serial.println(">> LCD screen init successful!");
   }
 
-  initRotary();
-  initLed();
+  //  initRotary();
+  //  initLed();
 
   //  initLifter();
+  //  lifterDown();
 
   //  initApds();
   //  Serial.println(">> Color sensor calibration successful!");
   initSsd();
 
-  runLed();
+  //  setupMecanum();
+
+  delay(1000);
+
+  //  runLed();
+  //  taskOne();
+  taska();
+
+  delay(5000);
 }
