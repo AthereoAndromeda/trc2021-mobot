@@ -3,6 +3,11 @@
 #define ROTARY_CLK 19
 #define LIFTER_PIN 7
 
+
+#define LED_PIN 10
+#define LED_COUNT 1
+#define DELAYVAL 500
+
 #define SERIAL_BAUD 115200
 #define APDS_ACCURACY 5
 #define SSD_WIDTH 128
@@ -25,6 +30,7 @@
 #include <Servo.h>
 #include <TimerOne.h>
 
+#include <Adafruit_NeoPixel.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_APDS9960.h>
 #include <Adafruit_SSD1306.h>
@@ -32,6 +38,7 @@
 Servo lifter;
 Adafruit_APDS9960 apds;
 Adafruit_SSD1306 ssd(SSD_WIDTH, SSD_HEIGHT, &Wire, -1);
+Adafruit_NeoPixel pixels (LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
 enum Direction
 {
