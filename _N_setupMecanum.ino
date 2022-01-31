@@ -74,7 +74,7 @@ void setMotorPWM(int pwm)
   _pwmvalue = pwm;
 }
 
-void run(Direction direction, int duration)
+void motorMove(Direction direction, int duration)
 {
   setMotorDir(direction);
 

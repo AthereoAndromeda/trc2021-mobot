@@ -17,11 +17,14 @@ void setup() {
   initRotary();
   initLed();
 
-  //  initLifter();
+  initLifter();
+  lifterDown();
 
   //  initApds();
   //  Serial.println(">> Color sensor calibration successful!");
   initSsd();
+
+  delay(1000);
 
   runLed();
 }
