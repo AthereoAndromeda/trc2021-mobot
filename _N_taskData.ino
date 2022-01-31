@@ -58,18 +58,84 @@ void taskSix() {
 //  }
 //}
 
-void taska() {
-  Serial.println("WHY!?");
+// To conceptualize/visualize possible method
+void manualLed() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
-  ssd.println("bb");
+
+  ssd.println(1);
+  ssd.display();
+  ssd.clearDisplay();
+  delay(500);
+
+  ssd.setCursor(0, 0);
+  ssd.println(1);
+  ssd.println(2);
+  ssd.display();
+  ssd.clearDisplay();
+  delay(500);
+
+  ssd.setCursor(0, 0);
+  for (int i = 1; i < 8; i++) {
+    ssd.println(i);
+  }
+  ssd.display();
+  ssd.clearDisplay();
+  delay(500);
+
+  ssd.setCursor(0, 0);
+  for (int i = 2; i < 9; i++) {
+    ssd.println(i);
+  }
+  ssd.display();
+  ssd.clearDisplay();
+  delay(500);
+
+  ssd.setCursor(0, 0);
+  for (int i = 3; i < 10; i++) {
+    ssd.println(i);
+  }
+  ssd.display();
+  ssd.clearDisplay();
+  delay(500);
+}
+
+void taskNine_B() {
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+
+  for (int i = 1; i <= 21; i++) {
+    ssd.setCursor(0, 0);
+    int storedInt = i - 8;
+
+    // Prevents printing of negative and zero numbers
+    if (storedInt <= 0) continue;
+
+    for (int j = storedInt; j < i; j++) {
+      ssd.println(j);
+      ssd.display();
+    }
+
+    ssd.clearDisplay();
+    delay(100);
+  }
+
+}
+
+void taskNine_A() {
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+  ssd.println("aa");
   ssd.display();
 
   delay(3000);
+  ssd.clearDisplay();
 
   int arr[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   //  int arr[8];
   int counter = 0;
+  enum CountState { Descending, Ascending };
+  CountState countState = Ascending;
 
   for (int i = 1; i <= 20; i++) {
     ssd.setCursor(0, 0);
@@ -79,6 +145,7 @@ void taska() {
     Serial.print("Counter: ");
     Serial.println(counter);
     Serial.println(i);
+
 
     for (int j = 0; j < 8; j++) {
       int number = arr[j];
@@ -93,7 +160,7 @@ void taska() {
     }
 
     //    ssd.display();
-    delay(700);
+    delay(500);
 
     ssd.clearDisplay();
   }

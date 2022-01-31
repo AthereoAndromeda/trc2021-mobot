@@ -1,5 +1,4 @@
 void initSsd() {
-
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
   ssd.setTextSize(1);
@@ -31,16 +30,8 @@ void testchar() {
 }
 
 void testInt() {
-  int counter = 0;
-
   for (int i = 1; i <= 20; i++) {
     ssd.println(i);
     ssd.display();
-    counter++;
-
-    //    if (counter >= 9) {
-    //      ssd.startscrolldiagright(0x0F, 0x0F);
-    //      counter = 0;
-    //    }
   }
 }
