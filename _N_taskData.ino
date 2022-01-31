@@ -102,24 +102,23 @@ void manualLed() {
 
 void taskNine_B() {
   ssd.clearDisplay();
-  ssd.setCursor(0, 0);
 
   for (int i = 1; i <= 21; i++) {
     ssd.setCursor(0, 0);
     int storedInt = i - 8;
 
-    // Prevents printing of negative and zero numbers
-    if (storedInt <= 0) continue;
-
     for (int j = storedInt; j < i; j++) {
-      ssd.println(j);
-      ssd.display();
+      if (j <= 0) {
+        ssd.println("");
+      } else {
+        ssd.println(j);
+      }
     }
 
-    ssd.clearDisplay();
+    ssd.display();
     delay(100);
+    ssd.clearDisplay();
   }
-
 }
 
 void taskNine_A() {
