@@ -24,36 +24,23 @@ void taskSix() {
   motorMove(Right, MOTOR_DELAY);
 }
 
-//void taskNine() {
-//  for (ssdCounter = 1; ssdCounter <= 20; ssdCounter++) {
-//    if (ssdCounter <= 8) {
-//      for (ssdPosition = 70; ssdPrints < ssdTimes; ssdPosition - ssdPosition * 10) {
-//        ssd.setCursor(0, ssdPosition);
-//        ssd.println(ssdCounter - ssdRow);
-//        ssd.display();
-//        ssd.clearDisplay();
-//        delay(100);
-//
-//        ssdPrints++;
-//        ssdRow++;
-//      }
-//      ssdTimes++;
-//      ssdPrints, ssdRow = 0;
-//      continue;
-//    }
-//
-//    ssdRow = 0;
-//
-//    for (ssdPosition = 70; ssdPosition >= 0; ssdPosition - ssdPosition * 10) {
-//      ssd.setCursor(0, ssdPosition);
-//      ssd.println(ssdCounter - ssdRow);
-//      ssd.display();
-//      ssd.clearDisplay();
-//      delay(100);
-//
-//      if (ssdRow == 7) ssdRow = 0;
-//      else ssdRow++;
-//    }
-//    ssd.clearDisplay();
-//  }
-//}
+void taskNine() {
+  ssd.clearDisplay();
+
+  for (int i = 1; i <= 21; i++) {
+    ssd.setCursor(0, 0);
+    int storedInt = i - 8;
+
+    for (int j = storedInt; j < i; j++) {
+      if (j <= 0) {
+        ssd.println("");
+      } else {
+        ssd.println(j);
+      }
+    }
+
+    ssd.display();
+    delay(100);
+    ssd.clearDisplay();
+  }
+}

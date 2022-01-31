@@ -76,6 +76,10 @@ bool test_directions = true;
 enum LifterState { Up, Down };
 int liftPwm, liftPosition;
 
+int ssdTimes = 1;
+int ssdPrints, ssdRow = 0;
+int ssdCounter, ssdPosition;
+
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
 uint16_t redArr[5], greenArr[5], blueArr[5], clearArr[5];

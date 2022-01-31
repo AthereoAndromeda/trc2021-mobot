@@ -30,7 +30,15 @@ void setup() {
 
   //  runLed();
   //  taskOne();
-  taska();
+  //  taskNine_A();
+
+  //  delay(3000);
+
+  taskNine_B();
+
+  //  delay(3000);
+
+  //  manualLed();
 
   delay(5000);
 }
