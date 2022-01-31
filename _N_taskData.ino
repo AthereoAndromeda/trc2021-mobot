@@ -57,3 +57,44 @@ void taskSix() {
 //    ssd.clearDisplay();
 //  }
 //}
+
+void taska() {
+  Serial.println("WHY!?");
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+  ssd.println("bb");
+  ssd.display();
+
+  delay(3000);
+
+  int arr[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  //  int arr[8];
+  int counter = 0;
+
+  for (int i = 1; i <= 20; i++) {
+    ssd.setCursor(0, 0);
+    arr[counter] = i;
+    counter++;
+
+    Serial.print("Counter: ");
+    Serial.println(counter);
+    Serial.println(i);
+
+    for (int j = 0; j < 8; j++) {
+      int number = arr[j];
+      Serial.print("J is: ");
+      Serial.println(number);
+      ssd.println(number);
+      ssd.display();
+    }
+
+    if (counter >= 8) {
+      counter = 0;
+    }
+
+    //    ssd.display();
+    delay(700);
+
+    ssd.clearDisplay();
+  }
+}
