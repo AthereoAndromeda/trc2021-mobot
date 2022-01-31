@@ -6,7 +6,7 @@ void initSsd() {
   ssd.setTextColor(SSD1306_WHITE);
   ssd.cp437(true);
 
-  //  ssd.println("Hello there");
+  ssd.println("Hello there");
 
   testInt();
   ssd.display();
@@ -38,9 +38,9 @@ void testInt() {
     ssd.display();
     counter++;
 
-//    if (counter >= 9) {
-      ssd.startscrolldiagright(0x0F, 0x0F);
-//      counter = 0;
-//    }
+    //    if (counter >= 9) {
+    //      ssd.startscrolldiagright(0x0F, 0x0F);
+    //      counter = 0;
+    //    }
   }
 }

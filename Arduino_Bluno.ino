@@ -73,7 +73,7 @@ static bool stopmotor = true;
 static int pwmcounter = 0;
 bool test_directions = true;
 
-enum lifterState { up, down };
+enum LifterState { Up, Down };
 int liftPwm, liftPosition;
 
 String apdsColor;
@@ -83,6 +83,6 @@ uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 int redCalib, greenCalib, blueCalib, clearCalib;
 
-void lifterMove(lifterState liftState, int liftAngle, int liftSpeed);
+void lifterMove(LifterState liftState, int liftAngle, int liftSpeed);
 void setMotorDir(Direction dir);
 void motorMove(Direction direction, int duration);
