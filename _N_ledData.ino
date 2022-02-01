@@ -2,18 +2,26 @@ void initLed() {
   pixels.begin();
 }
 
-void runLed() {
-  pixels.clear();
+void cycleLed(int delayValue) {
+  // Red
   pixels.setPixelColor(0, 255, 0, 0);
   pixels.show();
-  delay(DELAYVAL);
+  delay(delayValue);
+
+  // Green
   pixels.setPixelColor(0, 0, 255, 0);
   pixels.show();
-  delay(DELAYVAL);
+  delay(delayValue);
+
+  // Blue
   pixels.setPixelColor(0, 0, 0, 255);
   pixels.show();
-  delay(DELAYVAL);
+  delay(delayValue);
+
+  // White
   pixels.setPixelColor(0, 255, 255, 255);
   pixels.show();
-  delay(DELAYVAL);
+  delay(delayValue);
+
+  pixels.clear();
 }

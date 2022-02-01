@@ -15,7 +15,7 @@ void setup() {
   }
 
   //  initRotary();
-  //  initLed();
+  //    initLed();
 
   //  initLifter();
   //  lifterDown();
@@ -30,7 +30,7 @@ void setup() {
 
   //  runLed();
   //  taskOne();
-  //  taskNine_A();
+  //  taskSeven();
 
   //  delay(3000);
 

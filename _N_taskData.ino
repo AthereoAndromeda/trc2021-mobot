@@ -24,6 +24,10 @@ void taskSix() {
   motorMove(Right, MOTOR_DELAY);
 }
 
+void taskSeven() {
+  cycleLed(500);
+}
+
 void taskNine() {
   for (int i = 1; i <= 21; i++) {
     ssd.clearDisplay();
