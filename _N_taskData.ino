@@ -25,13 +25,12 @@ void taskSix() {
 }
 
 void taskNine() {
-  ssd.clearDisplay();
-
   for (int i = 1; i <= 21; i++) {
+    ssd.clearDisplay();
     ssd.setCursor(0, 0);
-    int storedInt = i - 8;
+    int trailingInt = i - 8;
 
-    for (int j = storedInt; j < i; j++) {
+    for (int j = trailingInt; j < i; j++) {
       if (j <= 0) {
         ssd.println("");
       } else {
@@ -41,6 +40,5 @@ void taskNine() {
 
     ssd.display();
     delay(100);
-    ssd.clearDisplay();
   }
 }
