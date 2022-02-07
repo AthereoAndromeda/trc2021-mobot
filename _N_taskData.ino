@@ -7,11 +7,11 @@ void taskTwo() {
 }
 
 void taskThree() {
-  motorMove(CW_Center_Center, MOTOR_DELAY);
+  motorMove(CCW_Center_Center, MOTOR_DELAY);
 }
 
 void taskFour() {
-  motorMove(CCW_Center_Center, MOTOR_DELAY);
+  motorMove(CW_Center_Center, MOTOR_DELAY);
 }
 
 void taskFive() {

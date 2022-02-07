@@ -94,4 +94,5 @@ int redCalib, greenCalib, blueCalib, clearCalib;
 void lifterMove(LifterState liftState, int liftAngle, int liftSpeed);
 void setMotorDir(Direction dir);
 void motorMove(Direction direction, int duration);
-void calibrate_sensor(QTRSensors &lineSensor);
+void calibrate_sensor(QTRSensors &lineSensor, String sensorName);
+void _printSensorValues(QTRSensors &lineSensor, String sensorName);

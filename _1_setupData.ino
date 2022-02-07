@@ -16,8 +16,12 @@ void setup() {
 
   //  initRotary();
   //  initLed();
+  //  setupMecanum();
 
   //  initLifter();
+  //  delay(1000);
+
+  //  motorMove(Forward, 2000);
   //  lifterDown();
 
   //  initApds();
@@ -26,11 +30,13 @@ void setup() {
 
   initSsd();
 
-//  setupMecanum();
+  //  taskThree();
+  //  taskFour();
 
   delay(1000);
 
-  calibrate_sensor(qtr_front);
+  //  calibrate_sensor(qtr_front, "Front Sensors");
+  calibrateAllSensors();
 
   //  taskSeven();
 
