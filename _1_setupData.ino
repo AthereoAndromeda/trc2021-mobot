@@ -15,30 +15,26 @@ void setup() {
   }
 
   //  initRotary();
-  //    initLed();
+  //  initLed();
 
   //  initLifter();
   //  lifterDown();
 
   //  initApds();
   //  Serial.println(">> Color sensor calibration successful!");
+  setupLineSensors();
+
   initSsd();
 
-  //  setupMecanum();
+//  setupMecanum();
 
   delay(1000);
 
-  //  runLed();
-  //  taskOne();
+  calibrate_sensor(qtr_front);
+
   //  taskSeven();
 
-  //  delay(3000);
-
-  taskNine();
-
-  //  delay(3000);
-
-  //  manualLed();
+  //  taskNine();
 
   delay(5000);
 }

@@ -1,4 +1,21 @@
+uint16_t sensorValues[SensorCount];
+
 void loop() {
+  // read raw sensor values
+  qtr_front.read(sensorValues);
+
+  // print the sensor values as numbers from 0 to 2500, where 0 means maximum
+  // reflectance and 2500 means minimum reflectance
+  for (uint8_t i = 0; i < SensorCount; i++)
+  {
+    Serial.print(sensorValues[i]);
+    Serial.print('\t');
+  }
+  Serial.println();
+
+  delay(250);
+  return;
+
   // ENCODER KNOB READINGS
   crotState = digitalRead(ROTARY_CLK);
   Serial.print("crotState: ");
@@ -25,24 +42,24 @@ void loop() {
   Serial.println(rotaryDir);
 
   // LCD SCREEN DISPLAYS
-//  if (rotaryVal >= 0 && rotaryVal <= 42) {
-//    ssd.println("Movement #01: Forward");
-//  }
-//  else if (rotaryVal >= 43 && rotaryVal <= 84) {
-//    ssd.println("Movement #02: Backward");
-//  }
-//  else if (rotaryVal >= 85 && rotaryVal <= 127) {
-//    ssd.println("Movement #03: Rotate Left");
-//  }
-//  else if (rotaryVal >= 128 && rotaryVal <= 170) {
-//    ssd.println("Movement #04: Rotate Right");
-//  }
-//  else if (rotaryVal >= 171 && rotaryVal <= 213) {
-//    ssd.println("Movement #05: Shift Left");
-//  }
-//  else if (rotaryVal >= 214 && rotaryVal <= 255) {
-//    ssd.println("Movement #06: Shift Right");
-//  }
+  //  if (rotaryVal >= 0 && rotaryVal <= 42) {
+  //    ssd.println("Movement #01: Forward");
+  //  }
+  //  else if (rotaryVal >= 43 && rotaryVal <= 84) {
+  //    ssd.println("Movement #02: Backward");
+  //  }
+  //  else if (rotaryVal >= 85 && rotaryVal <= 127) {
+  //    ssd.println("Movement #03: Rotate Left");
+  //  }
+  //  else if (rotaryVal >= 128 && rotaryVal <= 170) {
+  //    ssd.println("Movement #04: Rotate Right");
+  //  }
+  //  else if (rotaryVal >= 171 && rotaryVal <= 213) {
+  //    ssd.println("Movement #05: Shift Left");
+  //  }
+  //  else if (rotaryVal >= 214 && rotaryVal <= 255) {
+  //    ssd.println("Movement #06: Shift Right");
+  //  }
 
   // ENCODER BUTTON READINGS
   buttonState = digitalRead(ROTARY_SWP);
@@ -56,22 +73,22 @@ void loop() {
     delay(1000);
     if (cbutPress - lbutPress > 50) {
       if (rotaryVal >= 0 && rotaryVal <= 42) {
-        taskOne();
+        //        taskOne();
       }
       else if (rotaryVal >= 43 && rotaryVal <= 84) {
-        taskTwo();
+        //        taskTwo();
       }
       else if (rotaryVal >= 85 && rotaryVal <= 127) {
-        taskThree();
+        //        taskThree();
       }
       else if (rotaryVal >= 128 && rotaryVal <= 170) {
-        taskFour();
+        //        taskFour();
       }
       else if (rotaryVal >= 171 && rotaryVal <= 213) {
-        taskFive();
+        //        taskFive();
       }
       else if (rotaryVal >= 214 && rotaryVal <= 255) {
-        taskSix();
+        //        taskSix();
       }
       Serial.println("Executing commands for selected task!");
       delay(2000);

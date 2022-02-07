@@ -1,13 +1,15 @@
 void initSsd() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
-  ssd.setTextSize(1);
+  ssd.setTextSize(2);
   ssd.setTextColor(SSD1306_WHITE);
   ssd.cp437(true);
 
-  ssd.println("Hello there");
+  //  ssd.println("kaoridean owo");
+  displayIdentifier();
+  ssd.setTextSize(1);
 
-  testInt();
+  //  testInt();
   ssd.display();
 
   Serial.println(">> Lcd screen configuration successful!");
@@ -34,4 +36,16 @@ void testInt() {
     ssd.println(i);
     ssd.display();
   }
+}
+
+// The secret code or identifying text
+void displayIdentifier() {
+  ssd.setTextSize(2);
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+
+  ssd.println("CalNatSci TRC2021");
+  ssd.display();
+
+  ssd.setTextSize(1);
 }

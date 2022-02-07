@@ -15,13 +15,13 @@ void taskFour() {
 }
 
 void taskFive() {
-  motorMove(Left, MOTOR_DELAY);
-  motorMove(Left, MOTOR_DELAY);
+  motorMove(Left, SIDEWAYS_MOTOR_DELAY);
+  motorMove(Left, SIDEWAYS_MOTOR_DELAY);
 }
 
 void taskSix() {
-  motorMove(Right, MOTOR_DELAY);
-  motorMove(Right, MOTOR_DELAY);
+  motorMove(Right, SIDEWAYS_MOTOR_DELAY);
+  motorMove(Right, SIDEWAYS_MOTOR_DELAY);
 }
 
 void taskSeven() {
@@ -45,4 +45,28 @@ void taskNine() {
     ssd.display();
     delay(100);
   }
+}
+
+
+
+void executeCheckOne() {
+  // Forward/Backwards
+  taskOne();
+  taskTwo();
+
+  // Rotate Left/Right
+  taskThree();
+  taskFour();
+
+  // Shift Left/Right
+  taskFive();
+  taskSix();
+}
+
+void executeCheckTwo() {
+  // Cycle LED
+  taskSeven();
+
+  // Scroll 1-20 LCD
+  taskNine();
 }

@@ -17,7 +17,8 @@
 #define LIFTER_MIN 500
 #define LIFTER_MAX 2500
 
-#define MOTOR_DELAY 2000
+#define MOTOR_DELAY 7800
+#define SIDEWAYS_MOTOR_DELAY 4200
 #define SET_PWM 60
 
 #define STNDBY1 36
@@ -32,6 +33,15 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_APDS9960.h>
 #include <Adafruit_SSD1306.h>
+
+#include <QTRSensors.h>
+
+#define SensorCount 4
+
+QTRSensors qtr_front;
+QTRSensors qtr_back;
+QTRSensors qtr_left;
+QTRSensors qtr_right;
 
 Servo lifter;
 Adafruit_APDS9960 apds;
@@ -84,3 +94,4 @@ int redCalib, greenCalib, blueCalib, clearCalib;
 void lifterMove(LifterState liftState, int liftAngle, int liftSpeed);
 void setMotorDir(Direction dir);
 void motorMove(Direction direction, int duration);
+void calibrate_sensor(QTRSensors &lineSensor);
