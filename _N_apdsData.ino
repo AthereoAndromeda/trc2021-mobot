@@ -9,7 +9,6 @@ void initApds() {
     greenArr[i] = greenVal;
     blueArr[i] = blueVal;
     clearArr[i] = clearVal;
-    delay(100);
   }
 
   redMin, redMax = redArr[0];
@@ -30,4 +29,6 @@ void initApds() {
     clearMin = min(clearArr[i], clearMin);
     clearMax = max(clearArr[i], clearMax);
   }
+
+  Serial.println(">> Color sensor calibration successful!");
 }

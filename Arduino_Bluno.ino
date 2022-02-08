@@ -7,7 +7,7 @@
 #define LED_COUNT 1
 
 #define SERIAL_BAUD 115200
-#define APDS_ACCURACY 10 // 5
+#define APDS_ACCURACY 5
 #define SSD_WIDTH 128
 #define SSD_HEIGHT 64
 #define SSD_ADDR 0x3C
@@ -17,7 +17,8 @@
 #define LIFTER_MIN 500
 #define LIFTER_MAX 2500
 
-#define MOTOR_DELAY 7800
+// MOTOR_DELAY represents 1 block
+#define MOTOR_DELAY 3970
 #define SIDEWAYS_MOTOR_DELAY 4200
 #define SET_PWM 60
 
@@ -48,8 +49,7 @@ Adafruit_APDS9960 apds;
 Adafruit_SSD1306 ssd(SSD_WIDTH, SSD_HEIGHT, &Wire, -1);
 Adafruit_NeoPixel pixels(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
-enum Direction
-{
+enum Direction {
   Forward,
   Backward,
   Left,

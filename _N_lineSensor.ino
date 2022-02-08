@@ -50,30 +50,7 @@ void calibrate_sensor(QTRSensors &lineSensor, String sensorName) {
     lineSensor.calibrate();
   }
   Serial.println();
-  //
-  //  Serial.print("Minimum Values: ");
-  //  // print the calibration minimum values measured when emitters were on
-  //  for (uint8_t i = 0; i < SensorCount; i++) {
-  //    Serial.print(lineSensor.calibrationOn.minimum[i]);
-  //    Serial.print(' ');
-  //
-  //    ssd.print(lineSensor.calibrationOn.minimum[i]);
-  //    ssd.print(' ');
-  //  }
-  //  ssd.println();
-  //  Serial.println();
-  //
-  //  Serial.print("Maximum Values: ");
-  //  // print the calibration maximum values measured when emitters were on
-  //  for (uint8_t i = 0; i < SensorCount; i++) {
-  //    Serial.print(lineSensor.calibrationOn.maximum[i]);
-  //    Serial.print(' ');
-  //
-  //    ssd.print(lineSensor.calibrationOn.maximum[i]);
-  //    ssd.print(' ');
-  //  }
-  //  ssd.println();
-  //  Serial.println();
+
   ssd.println(sensorName);
   for (uint8_t i = 0; i < SensorCount; i++) {
     ssd.print("Sensor ");
@@ -84,19 +61,6 @@ void calibrate_sensor(QTRSensors &lineSensor, String sensorName) {
     ssd.print(lineSensor.calibrationOn.maximum[i]);
     ssd.println();
   }
-
-  //  int minimumValue = lineSensor.calibrationOn.minimum[0];
-  //  for (uint8_t i = 0; i < 4; i++) {
-  //    minimumValue = min(minimumValue, lineSensor.calibrationOn.minimum[i]);
-  //  }
-  //
-  //  int maximumValue = lineSensor.calibrationOn.maximum[0];
-  //  for (uint8_t i = 0; i < 4; i++) {
-  //    maximumValue = max(maximumValue, lineSensor.calibrationOn.maximum[i]);
-  //  }
-
-  //  Serial.println(minimumValue);
-  //  Serial.println(maximumValue);
 
   ssd.display();
 
@@ -132,9 +96,10 @@ void calibrateAllSensors() {
 
   Serial.println("Calibrating . . .");
   Serial.println("Slowly move the sensor across the electrical tape");
+  
   // 2.5 ms RC read timeout (default) * 10 reads per calibrate() call
   // = ~25 ms per calibrate() call.
-  // Call calibrate() 400 times to make calibration take about 10 seconds.
+  // Call calibrate() 100 times to make calibration take about 10 seconds.
   //  for (uint16_t i = 0; i < 400; i++) {
   //    qtr_front.calibrate();
   //    qtr_back.calibrate();
@@ -142,7 +107,7 @@ void calibrateAllSensors() {
   //    qtr_right.calibrate();
   //  }
 
-  for (uint16_t i = 0; i < 100; i++) {
+  for (uint8_t i = 0; i < 100; i++) {
     qtr_front.calibrate();
     qtr_back.calibrate();
     qtr_left.calibrate();
@@ -159,11 +124,7 @@ void calibrateAllSensors() {
   delay(DELAY_TIME);
   _printSensorValues(qtr_right, "Right Sensors");
   delay(DELAY_TIME);
-  //  ssd.display();
 
   Serial.println("Done calibrating!");
   ssd.display();
-
-  delay(1000);
-  Serial.println();
 }

@@ -6,7 +6,6 @@ void initSsd() {
   ssd.cp437(true);
 
   displayIdentifier();
-  ssd.display();
 
   Serial.println(">> Lcd screen configuration successful!");
 }
