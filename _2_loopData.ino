@@ -52,29 +52,27 @@ void loop() {
 
   // If an object is detected
   //  if ((clearCalib > redCalib) && (clearCalib > blueCalib) && (clearCalib > greenCalib)) {
-  float clearMax80percent = clearMax * 0.80;
 
-  // If clearCalib is 80% or above of clearmax, then it counts as an object being detected
-  if (clearCalib > clearMax80percent) {
-    Serial.println("Object detected!");
+  //  if (clearCalib >= 255) {
+ 
 
-    if ((redCalib > greenCalib) && (redCalib > blueCalib) /*&& (redCalib > clearCalib)*/) {
-      apdsColor = "red";
-      Serial.println(">> Red-colored pallet detected!");
-    }
-    else if ((greenCalib > redCalib) && (greenCalib > blueCalib) /*&& (greenCalib > clearCalib)*/) {
-      apdsColor = "green";
-      Serial.println(">> Green-colored pallet detected!");
-    }
-    else if ((blueCalib > redCalib) && (blueCalib > greenCalib) /*&& (blueCalib > clearCalib)*/) {
-      apdsColor = "blue";
-      Serial.println(">> Blue-colored pallet detected!");
-    }
-    else {
-      apdsColor = "none";
-      Serial.println(">> Non-existent pallet detected!");
-    }
+  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > clearCalib)) {
+    apdsColor = "red";
+    Serial.println(">> Red-colored pallet detected!");
   }
+  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > clearCalib)) {
+    apdsColor = "green";
+    Serial.println(">> Green-colored pallet detected!");
+  }
+  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > clearCalib)) {
+    apdsColor = "blue";
+    Serial.println(">> Blue-colored pallet detected!");
+  }
+  else {
+    apdsColor = "none";
+    Serial.println(">> Non-existent pallet detected!");
+  }
+  
 
 
   delay(500);

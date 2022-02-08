@@ -1,5 +1,6 @@
 void initLed() {
   pixels.begin();
+  delay(300);
 }
 
 void cycleLed(int delayValue) {

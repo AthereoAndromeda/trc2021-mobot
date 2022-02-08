@@ -28,6 +28,13 @@ void setup() {
 
   //  taskTwo();
   //  lifterDown();
+  //  delay(1000);
+
+  // light for color sensor
+  //  pixels.setPixelColor(0, 255, 255, 255);
+  //  pixels.show();
+
+  delay(1000);
 
   initApds();
   Serial.println(">> Color sensor calibration successful!");
@@ -42,10 +49,6 @@ void setup() {
 
   //  calibrate_sensor(qtr_front, "Front Sensors");
   //  calibrateAllSensors();
-
-  // light for color sensor
-  pixels.setPixelColor(0, 255, 255, 255);
-  pixels.show();
 
   //  taskSeven();
 

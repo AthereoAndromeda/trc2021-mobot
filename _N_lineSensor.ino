@@ -1,8 +1,7 @@
 //const uint8_t SensorCount = 4;
 //uint16_t sensorValues[SensorCount];
 
-void setupLineSensors()
-{
+void setupLineSensors() {
   const uint16_t def_timeout = 1000;
   Serial.println("initializing line sensors . . .");
 
@@ -151,37 +150,7 @@ void calibrateAllSensors() {
     qtr_right.calibrate();
   }
 
-  //  for (uint16_t i = 0; i < 400; i++) {
-  //    qtr_front.calibrate();
-  //  }
-  //
-  //  Serial.println("back");
-  //  for (uint16_t i = 0; i < 400; i++) {
-  //    qtr_back.calibrate();
-  //  }
-  //
-  //  Serial.println("left");
-  //  for (uint16_t i = 0; i < 400; i++) {
-  //    qtr_left.calibrate();
-  //  }
-  //
-  //  Serial.println("right");
-  //  for (uint16_t i = 0; i < 400; i++) {
-  //    qtr_right.calibrate();
-  //  }
   Serial.println();
-
-  //  ssd.println(sensorName);
-  //  for (uint8_t i = 0; i < SensorCount; i++) {
-  //    ssd.print("Sensor ");
-  //    ssd.print(i + 1);
-  //    ssd.print(": ");
-  //    ssd.print(lineSensor.calibrationOn.minimum[i]);
-  //    ssd.print(" ");
-  //    ssd.print(lineSensor.calibrationOn.maximum[i]);
-  //    ssd.println();
-  //  }
-
   const int delayTime = 5000;
 
   _printSensorValues(qtr_front, "Front Sensors");
