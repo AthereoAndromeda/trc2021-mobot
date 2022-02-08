@@ -137,7 +137,14 @@ void calibrateAllSensors() {
   // 2.5 ms RC read timeout (default) * 10 reads per calibrate() call
   // = ~25 ms per calibrate() call.
   // Call calibrate() 400 times to make calibration take about 10 seconds.
-  for (uint16_t i = 0; i < 400; i++) {
+  //  for (uint16_t i = 0; i < 400; i++) {
+  //    qtr_front.calibrate();
+  //    qtr_back.calibrate();
+  //    qtr_left.calibrate();
+  //    qtr_right.calibrate();
+  //  }
+
+  for (uint16_t i = 0; i < 100; i++) {
     qtr_front.calibrate();
     qtr_back.calibrate();
     qtr_left.calibrate();

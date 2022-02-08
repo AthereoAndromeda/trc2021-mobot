@@ -15,18 +15,23 @@ void setup() {
   }
 
   //  initRotary();
-  //  initLed();
+  initLed();
   //  setupMecanum();
 
   //  initLifter();
+  //  lifterDown();
   //  delay(1000);
 
   //  motorMove(Forward, 2000);
+  //  taskOne();
+  //  lifterUp();
+
+  //  taskTwo();
   //  lifterDown();
 
-  //  initApds();
-  //  Serial.println(">> Color sensor calibration successful!");
-  setupLineSensors();
+  initApds();
+  Serial.println(">> Color sensor calibration successful!");
+  //  setupLineSensors();
 
   initSsd();
 
@@ -36,7 +41,11 @@ void setup() {
   delay(1000);
 
   //  calibrate_sensor(qtr_front, "Front Sensors");
-  calibrateAllSensors();
+  //  calibrateAllSensors();
+
+  // light for color sensor
+  pixels.setPixelColor(0, 255, 255, 255);
+  pixels.show();
 
   //  taskSeven();
 

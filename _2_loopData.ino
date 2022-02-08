@@ -1,6 +1,87 @@
 uint16_t sensorValues[SensorCount];
 
 void loop() {
+  // COLOR SENSOR READINGS
+  apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
+
+  redCalib = constrain(map(redVal, redMin, redMax, 0, 255), 0, 255);
+  greenCalib = constrain(map(greenVal, greenMin, greenMax, 0, 255), 0, 255);
+  blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
+  clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
+
+  Serial.print("redVal: ");
+  Serial.print(redVal);
+  Serial.print(" ");
+  Serial.print(redMin);
+  Serial.print(" ");
+  Serial.print(redMax);
+  Serial.print(" ");
+  Serial.println();
+
+  Serial.print("blueVal: ");
+  Serial.print(" ");
+  Serial.print(blueVal);
+  Serial.print(" ");
+  Serial.print(blueMin);
+  Serial.print(" ");
+  Serial.print(blueMax);
+  Serial.println();
+
+  Serial.print("greenVal: ");
+  Serial.print(" ");
+  Serial.print(greenVal);
+  Serial.print(" ");
+  Serial.print(greenMin);
+  Serial.print(" ");
+  Serial.print(greenMax);
+  Serial.println();
+
+  Serial.print("clearVal: ");
+  Serial.print(" ");
+  Serial.print(clearVal);
+  Serial.print(" ");
+  Serial.print(clearMin);
+  Serial.print(" ");
+  Serial.print(clearMax);
+  Serial.println();
+
+  Serial.println(redCalib);
+  Serial.println(greenCalib);
+  Serial.println(blueCalib);
+  Serial.println(clearCalib);
+
+  // If an object is detected
+  //  if ((clearCalib > redCalib) && (clearCalib > blueCalib) && (clearCalib > greenCalib)) {
+  float clearMax80percent = clearMax * 0.80;
+
+  // If clearCalib is 80% or above of clearmax, then it counts as an object being detected
+  if (clearCalib > clearMax80percent) {
+    Serial.println("Object detected!");
+
+    if ((redCalib > greenCalib) && (redCalib > blueCalib) /*&& (redCalib > clearCalib)*/) {
+      apdsColor = "red";
+      Serial.println(">> Red-colored pallet detected!");
+    }
+    else if ((greenCalib > redCalib) && (greenCalib > blueCalib) /*&& (greenCalib > clearCalib)*/) {
+      apdsColor = "green";
+      Serial.println(">> Green-colored pallet detected!");
+    }
+    else if ((blueCalib > redCalib) && (blueCalib > greenCalib) /*&& (blueCalib > clearCalib)*/) {
+      apdsColor = "blue";
+      Serial.println(">> Blue-colored pallet detected!");
+    }
+    else {
+      apdsColor = "none";
+      Serial.println(">> Non-existent pallet detected!");
+    }
+  }
+
+
+  delay(500);
+
+  return;
+
+
   // read raw sensor values
   qtr_front.read(sensorValues);
 
@@ -97,28 +178,4 @@ void loop() {
 
   delay(1);
 
-  // COLOR SENSOR READINGS
-  //  apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
-  //
-  //  redCalib = constrain(map(redVal, redMin, redMax, 0, 255), 0, 255);
-  //  greenCalib = constrain(map(greenVal, greenMin, greenMax, 0, 255), 0, 255);
-  //  blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
-  //  clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
-  //
-  //  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > clearCalib)) {
-  //    apdsColor = "red";
-  //    Serial.println(">> Red-colored pallet detected!");
-  //  }
-  //  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > clearCalib)) {
-  //    apdsColor = "green";
-  //    Serial.println(">> Green-colored pallet detected!");
-  //  }
-  //  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > clearCalib)) {
-  //    apdsColor = "blue";
-  //    Serial.println(">> Blue-colored pallet detected!");
-  //  }
-  //  else {
-  //    apdsColor = "none";
-  //    Serial.println(">> Non-existent pallet detected!");
-  //  }
 }
