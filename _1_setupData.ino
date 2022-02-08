@@ -15,10 +15,11 @@ void setup() {
   }
 
   //  initRotary();
-  initLed();
-  //  setupMecanum();
+  //  initLed();
+  setupMecanum();
 
   //  initLifter();
+
   //  lifterDown();
   //  delay(1000);
 
@@ -42,8 +43,8 @@ void setup() {
 
   initSsd();
 
-  //  taskThree();
-  //  taskFour();
+  taskOne();
+  taskTwo();
 
   delay(1000);
 

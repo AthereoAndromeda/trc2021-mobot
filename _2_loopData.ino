@@ -1,4 +1,5 @@
 uint16_t sensorValues[SensorCount];
+boolean isLifterUp = false;
 
 void loop() {
   // COLOR SENSOR READINGS
@@ -50,29 +51,44 @@ void loop() {
   Serial.println(blueCalib);
   Serial.println(clearCalib);
 
-  // If an object is detected
-  //  if ((clearCalib > redCalib) && (clearCalib > blueCalib) && (clearCalib > greenCalib)) {
-
-  //  if (clearCalib >= 255) {
- 
-
-  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > clearCalib)) {
+  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
     apdsColor = "red";
     Serial.println(">> Red-colored pallet detected!");
+    pixels.setPixelColor(0, 255, 0, 0);
+    pixels.show();
+
+    if (!isLifterUp) {
+      delay(1000);
+      lifterUp();
+      isLifterUp = true;
+    }
   }
-  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > clearCalib)) {
+  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib >= clearCalib)) {
     apdsColor = "green";
+    pixels.setPixelColor(0, 0, 255, 0);
+    pixels.show();
     Serial.println(">> Green-colored pallet detected!");
   }
-  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > clearCalib)) {
+  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib >= clearCalib)) {
     apdsColor = "blue";
+    pixels.setPixelColor(0, 0, 0, 255);
+    pixels.show();
     Serial.println(">> Blue-colored pallet detected!");
   }
   else {
     apdsColor = "none";
     Serial.println(">> Non-existent pallet detected!");
+    pixels.setPixelColor(0, 0, 0, 0);
+    pixels.clear();
+    pixels.show();
+
+    if (isLifterUp) {
+      delay(1000);
+      lifterDown();
+      isLifterUp = false;
+    }
   }
-  
+
 
 
   delay(500);
