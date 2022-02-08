@@ -1,5 +1,4 @@
-//const uint8_t SensorCount = 4;
-//uint16_t sensorValues[SensorCount];
+#define DELAY_TIME 5000
 
 void setupLineSensors() {
   const uint16_t def_timeout = 1000;
@@ -151,16 +150,15 @@ void calibrateAllSensors() {
   }
 
   Serial.println();
-  const int delayTime = 5000;
 
   _printSensorValues(qtr_front, "Front Sensors");
-  delay(delayTime);
+  delay(DELAY_TIME);
   _printSensorValues(qtr_back, "Back Sensors");
-  delay(delayTime);
+  delay(DELAY_TIME);
   _printSensorValues(qtr_left, "Left Sensors");
-  delay(delayTime);
+  delay(DELAY_TIME);
   _printSensorValues(qtr_right, "Right Sensors");
-  delay(delayTime);
+  delay(DELAY_TIME);
   //  ssd.display();
 
   Serial.println("Done calibrating!");
@@ -169,20 +167,3 @@ void calibrateAllSensors() {
   delay(1000);
   Serial.println();
 }
-
-//void loop()
-//{
-//  // read raw sensor values
-//  qtr_front.read(sensorValues);
-//
-//  // print the sensor values as numbers from 0 to 2500, where 0 means maximum
-//  // reflectance and 2500 means minimum reflectance
-//  for (uint8_t i = 0; i < SensorCount; i++)
-//  {
-//    Serial.print(sensorValues[i]);
-//    Serial.print('\t');
-//  }
-//  Serial.println();
-//
-//  delay(250);
-//}

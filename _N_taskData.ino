@@ -29,12 +29,12 @@ void taskSeven() {
 }
 
 void taskNine() {
-  for (int i = 1; i <= 21; i++) {
+  for (uint8_t i = 1; i <= 21; i++) {
     ssd.clearDisplay();
     ssd.setCursor(0, 0);
     int trailingInt = i - 8;
 
-    for (int j = trailingInt; j < i; j++) {
+    for (uint8_t j = trailingInt; j < i; j++) {
       if (j <= 0) {
         ssd.println("");
       } else {
@@ -66,6 +66,9 @@ void executeCheckOne() {
 void executeCheckTwo() {
   // Cycle LED
   taskSeven();
+
+  // Rotary Encoder
+  // Is skipped
 
   // Scroll 1-20 LCD
   taskNine();

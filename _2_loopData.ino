@@ -89,10 +89,7 @@ void loop() {
     }
   }
 
-
-
   delay(500);
-
   return;
 
 
@@ -191,5 +188,4 @@ void loop() {
   }
 
   delay(1);
-
 }

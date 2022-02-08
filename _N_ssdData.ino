@@ -5,11 +5,7 @@ void initSsd() {
   ssd.setTextColor(SSD1306_WHITE);
   ssd.cp437(true);
 
-  //  ssd.println("kaoridean owo");
   displayIdentifier();
-  ssd.setTextSize(1);
-
-  //  testInt();
   ssd.display();
 
   Serial.println(">> Lcd screen configuration successful!");
@@ -32,7 +28,7 @@ void testchar() {
 }
 
 void testInt() {
-  for (int i = 1; i <= 20; i++) {
+  for (uint8_t i = 1; i <= 20; i++) {
     ssd.println(i);
     ssd.display();
   }
