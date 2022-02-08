@@ -9,6 +9,7 @@ void initApds() {
     greenArr[i] = greenVal;
     blueArr[i] = blueVal;
     clearArr[i] = clearVal;
+    delay(100);
   }
 
   redMin, redMax = redArr[0];
