@@ -25,4 +25,5 @@ void cycleLed(int delayValue) {
   delay(delayValue);
 
   pixels.clear();
+  pixels.show();
 }

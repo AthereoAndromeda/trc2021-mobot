@@ -7,11 +7,11 @@ void taskTwo() {
 }
 
 void taskThree() {
-  motorMove(CCW_Center_Center, MOTOR_DELAY * 2);
+  motorMove(CCW_Center_Center, ROTATE_MOTOR_DELAY * 2);
 }
 
 void taskFour() {
-  motorMove(CW_Center_Center, MOTOR_DELAY * 2);
+  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2);
 }
 
 void taskFive() {
@@ -46,9 +46,14 @@ void taskNine() {
 }
 
 void taskTen() {
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+  ssd.println("Calibrating Line");
+  ssd.println("Sensors...");
+  ssd.display();
+
   calibrateAllSensors();
 }
-
 
 uint16_t sensorValues[SensorCount];
 boolean isLifterUp = false;
@@ -103,9 +108,9 @@ void taskEleven() {
   Serial.println(blueCalib);
   Serial.println(clearCalib);
 
-  int clearCalibThreshold = 10;
-  int maxRange = clearCalib + clearCalibThreshold;
-  int minRange = clearCalib - clearCalibThreshold;
+  const uint8_t clearCalibThreshold = 10;
+  uint8_t maxRange = clearCalib + clearCalibThreshold;
+  int8_t minRange = clearCalib - clearCalibThreshold; // Keep this signed
 
   if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
     apdsColor = "red";

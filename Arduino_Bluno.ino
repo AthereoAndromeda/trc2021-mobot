@@ -18,9 +18,10 @@
 #define LIFTER_MAX 2500
 
 // MOTOR_DELAY represents 1 block
-#define MOTOR_DELAY 3970
-#define SIDEWAYS_MOTOR_DELAY 4200
-#define SET_PWM 60
+#define MOTOR_DELAY 3000 // 3970
+#define ROTATE_MOTOR_DELAY 3000
+#define SIDEWAYS_MOTOR_DELAY 3230 // 4200
+#define SET_PWM 80 // 60
 
 #define STNDBY1 36
 #define STNDBY2 37

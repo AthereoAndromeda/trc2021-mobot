@@ -15,12 +15,23 @@ void setup() {
   }
 
   //  initRotary();
-  initLed();
   initLifter();
   lifterDown();
-  initApds();
-  //  setupLineSensors();
 
+  initLed();
+  initApds();
+  setupLineSensors();
   initSsd();
+
+  setupMecanum();
+
+  //  taskNine();
+
   delay(1000);
+
+  //  executeCheckTwo();
+  //  taskTen();
+  //  delay(15000);
+
+  //  executeCheckTwo();
 }

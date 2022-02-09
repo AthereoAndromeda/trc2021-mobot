@@ -1,5 +1,5 @@
 void loop() {
-  taskEleven();
+  //  taskEleven();
   delay(100);
 
   // ENCODER KNOB READINGS
