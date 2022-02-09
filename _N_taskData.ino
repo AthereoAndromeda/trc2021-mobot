@@ -67,47 +67,6 @@ void taskEleven() {
   blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
   clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
 
-  Serial.print("redVal: ");
-  Serial.print(redVal);
-  Serial.print(" ");
-  Serial.print(redMin);
-  Serial.print(" ");
-  Serial.print(redMax);
-  Serial.print(" ");
-  Serial.println();
-
-  Serial.print("blueVal: ");
-  Serial.print(" ");
-  Serial.print(blueVal);
-  Serial.print(" ");
-  Serial.print(blueMin);
-  Serial.print(" ");
-  Serial.print(blueMax);
-  Serial.println();
-
-  Serial.print("greenVal: ");
-  Serial.print(" ");
-  Serial.print(greenVal);
-  Serial.print(" ");
-  Serial.print(greenMin);
-  Serial.print(" ");
-  Serial.print(greenMax);
-  Serial.println();
-
-  Serial.print("clearVal: ");
-  Serial.print(" ");
-  Serial.print(clearVal);
-  Serial.print(" ");
-  Serial.print(clearMin);
-  Serial.print(" ");
-  Serial.print(clearMax);
-  Serial.println();
-
-  Serial.println(redCalib);
-  Serial.println(greenCalib);
-  Serial.println(blueCalib);
-  Serial.println(clearCalib);
-
   const uint8_t clearCalibThreshold = 10;
   uint8_t maxRange = clearCalib + clearCalibThreshold;
   int8_t minRange = clearCalib - clearCalibThreshold; // Keep this signed
@@ -183,4 +142,11 @@ void executeCheckTwo() {
 
   // Scroll 1-20 LCD
   taskNine();
+}
+
+void executeCheckThree() {
+  // Task Ten
+  calibrateAllSensors();
+
+  // Tasks Eleven and Twelve are executed in the loop function
 }

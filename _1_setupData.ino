@@ -25,13 +25,9 @@ void setup() {
 
   setupMecanum();
 
-  //  taskNine();
-
   delay(1000);
 
-  //  executeCheckTwo();
-  //  taskTen();
-  //  delay(15000);
-
-  //  executeCheckTwo();
+  executeCheckTwo();
+  delay(5000);
+  executeCheckTwo();
 }
