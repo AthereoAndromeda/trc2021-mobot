@@ -1,43 +1,43 @@
 #define DELAY_TIME 5000
+#define DEF_TIMEOUT 1000
 
-void setupLineSensors() {
-  const uint16_t def_timeout = 1000;
+void initLineSensors() {
   Serial.println("initializing line sensors . . .");
 
   //front line sensor
-  qtr_front.setTimeout(def_timeout);
-  qtr_front.setTypeRC();
-  qtr_front.setSensorPins((const uint8_t[]) {
+  QTR_Front.setTimeout(DEF_TIMEOUT);
+  QTR_Front.setTypeRC();
+  QTR_Front.setSensorPins((const uint8_t[]) {
     A0, A1, A2, A3
-  }, SensorCount);
-  qtr_front.setEmitterPin(33);
+  }, SENSOR_COUNT);
+  QTR_Front.setEmitterPin(33);
 
   //back line sensor
-  qtr_back.setTimeout(def_timeout);
-  qtr_back.setTypeRC();
-  qtr_back.setSensorPins((const uint8_t[]) {
+  QTR_Back.setTimeout(DEF_TIMEOUT);
+  QTR_Back.setTypeRC();
+  QTR_Back.setSensorPins((const uint8_t[]) {
     A15, A14, A13, A12
-  }, SensorCount);
-  qtr_back.setEmitterPin(32);
+  }, SENSOR_COUNT);
+  QTR_Back.setEmitterPin(32);
 
   //left line sensor
-  qtr_left.setTimeout(def_timeout);
-  qtr_left.setTypeRC();
-  qtr_left.setSensorPins((const uint8_t[]) {
+  QTR_Left.setTimeout(DEF_TIMEOUT);
+  QTR_Left.setTypeRC();
+  QTR_Left.setSensorPins((const uint8_t[]) {
     A7, A6, A5, A4
-  }, SensorCount);
-  qtr_left.setEmitterPin(30);
+  }, SENSOR_COUNT);
+  QTR_Left.setEmitterPin(30);
 
   //right line sensor
-  qtr_right.setTimeout(def_timeout);
-  qtr_right.setTypeRC();
-  qtr_right.setSensorPins((const uint8_t[]) {
+  QTR_Right.setTimeout(DEF_TIMEOUT);
+  QTR_Right.setTypeRC();
+  QTR_Right.setSensorPins((const uint8_t[]) {
     A8, A9, A10, A11
-  }, SensorCount);
-  qtr_right.setEmitterPin(31);
+  }, SENSOR_COUNT);
+  QTR_Right.setEmitterPin(31);
 }
 
-void calibrate_sensor(QTRSensors &lineSensor, String sensorName) {
+void calibrateSensor(QTRSensors &lineSensor, String sensorName) {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
 
@@ -52,7 +52,7 @@ void calibrate_sensor(QTRSensors &lineSensor, String sensorName) {
   Serial.println();
 
   ssd.println(sensorName);
-  for (uint8_t i = 0; i < SensorCount; i++) {
+  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
     ssd.print("Sensor ");
     ssd.print(i + 1);
     ssd.print(": ");
@@ -63,7 +63,6 @@ void calibrate_sensor(QTRSensors &lineSensor, String sensorName) {
   }
 
   ssd.display();
-
   Serial.println("Done calibrating!");
   ssd.display();
 
@@ -77,7 +76,7 @@ void _printSensorValues(QTRSensors &lineSensor, String sensorName) {
 
   ssd.println(sensorName);
   ssd.println();
-  for (uint8_t i = 0; i < SensorCount; i++) {
+  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
     ssd.print("Sensor ");
     ssd.print(i + 1);
     ssd.print(": ");
@@ -101,21 +100,21 @@ void calibrateAllSensors() {
   // = ~25 ms per calibrate() call.
   // Call calibrate() 100 times to make calibration take about 10 seconds.
   for (uint8_t i = 0; i < 100; i++) {
-    qtr_front.calibrate();
-    qtr_back.calibrate();
-    qtr_left.calibrate();
-    qtr_right.calibrate();
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
   }
 
   Serial.println();
 
-  _printSensorValues(qtr_front, "Front Sensors");
+  _printSensorValues(QTR_Front, "Front Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(qtr_back, "Back Sensors");
+  _printSensorValues(QTR_Back, "Back Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(qtr_left, "Left Sensors");
+  _printSensorValues(QTR_Left, "Left Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(qtr_right, "Right Sensors");
+  _printSensorValues(QTR_Right, "Right Sensors");
   delay(DELAY_TIME);
 
   Serial.println("Done calibrating!");

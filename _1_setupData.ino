@@ -14,20 +14,25 @@ void setup() {
     Serial.println(">> LCD screen init successful!");
   }
 
-  //  initRotary();
+  // Initialize Components
+  // initRotary();
   initLifter();
-  lifterDown();
-
   initLed();
-  initApds();
-  setupLineSensors();
   initSsd();
+  initApds();
+  initLineSensors();
+  initMecanumWheels();
 
-  setupMecanum();
-
+  Serial.println("Executing Tasks");
   delay(1000);
 
-  executeCheckTwo();
-  delay(5000);
-  executeCheckTwo();
+  //  executeCheckOne();  
+  //
+  //  taskSeven();
+  //
+  //  taskNine();
+  //
+  //  taskTen();
+
+  // task 11 & 12 is in loop data
 }

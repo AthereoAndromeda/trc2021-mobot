@@ -1,11 +1,15 @@
 void initLifter() {
   lifter.attach(LIFTER_PIN);
-  Serial.println(">> Lifter servo configuration successful!");
+  lifterDown();
+  Serial.println(">> lifter servo configuration successful!");
 }
 
-void lifterMove(LifterState liftState, int liftAngle, int liftSpeed) {
-  if (liftAngle < 0) liftAngle = 0;
-  else if (liftAngle > 270) liftAngle = 270;
+void lifterMove(LifterState liftState, uint16_t liftAngle, int liftSpeed) {
+  if (liftAngle < 0) {
+    liftAngle = 0;
+  } else if (liftAngle > 270) {
+    liftAngle = 270;
+  }
 
   liftPwm = map(liftAngle, 0, 270, LIFTER_MIN, LIFTER_MAX);
 
@@ -14,8 +18,7 @@ void lifterMove(LifterState liftState, int liftAngle, int liftSpeed) {
       lifter.writeMicroseconds(liftPosition);
       delay(liftSpeed);
     }
-  }
-  else if (liftState == Down) {
+  } else if (liftState == Down) {
     for (liftPosition = liftPwm; liftPosition >= LIFTER_MIN; liftPosition -= 1) {
       lifter.writeMicroseconds(liftPosition);
       delay(liftSpeed);

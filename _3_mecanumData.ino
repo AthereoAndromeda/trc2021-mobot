@@ -1,4 +1,4 @@
-void setupMecanum() {
+void initMecanumWheels() {
   pinMode(STNDBY1, OUTPUT);
   pinMode(STNDBY2, OUTPUT);
 
@@ -13,13 +13,13 @@ void setupMecanum() {
   Serial.println(">> Mecanum Wheels setup successful!");
 }
 
-void initMotorPwm(void) {
+void initMotorPwm() {
   Timer1.initialize(100);
-  Timer1.attachInterrupt(MotorPwmHandler);
+  Timer1.attachInterrupt(motorPwmHandler);
   Timer1.stop();
 }
 
-void prepMotors(void) {
+void prepMotors() {
   stopmotor = false;
 
   PORTL |= 0x0F;
@@ -33,7 +33,7 @@ void prepMotors(void) {
   digitalWrite(STNDBY2, HIGH);
 }
 
-void stopMotors(void) {
+void stopMotors() {
   Timer1.stop();
   setMotorDir(Stop);
   delay(200);
@@ -41,18 +41,18 @@ void stopMotors(void) {
   digitalWrite(STNDBY2, LOW);
 }
 
-void runMotors(void) {
+void runMotors() {
   pwmcounter = 0;
   digitalWrite(STNDBY1, HIGH);
   digitalWrite(STNDBY2, HIGH);
   Timer1.start();
 }
 
-void MotorPwmHandler(void) {
-
+void motorPwmHandler() {
   if (pwmcounter > _pwmvalue) {
     PORTL &= ~0x0F;
   }
+
   pwmcounter++;
 
   if (pwmcounter >= 100) {
@@ -76,8 +76,8 @@ void motorMove(Direction direction, int duration) {
   }
 }
 
-void setMotorDir(Direction dir) {
-  switch (dir) {
+void setMotorDir(Direction direction) {
+  switch (direction) {
     case Forward:
       PORTA = 0xAA;
       break;

@@ -26,6 +26,60 @@ void taskSeven() {
   cycleLed(500);
 }
 
+void taskEight() {
+  // ENCODER KNOB READINGS
+  crotState = digitalRead(ROTARY_CLK);
+
+  if (crotState != lrotState && crotState == 0) {
+    if (digitalRead(ROTARY_DTP) != crotState) {
+      rotaryVal++;
+      rotaryDir = "CW";
+    }
+    else {
+      rotaryVal--;
+      rotaryDir = "CCW";
+    }
+  }
+  lrotState = crotState;
+
+  // ENCODER BUTTON READINGS
+  buttonState = digitalRead(ROTARY_SWP);
+  cbutPress = millis();
+
+  Serial.println(buttonState);
+  Serial.println(cbutPress);
+
+  if (buttonState == LOW) {
+    Serial.println("Button Pressed!");
+    delay(1000);
+    if (cbutPress - lbutPress > 50) {
+      if (rotaryVal >= 0 && rotaryVal <= 42) {
+        //        taskOne();
+      }
+      else if (rotaryVal >= 43 && rotaryVal <= 84) {
+        //        taskTwo();
+      }
+      else if (rotaryVal >= 85 && rotaryVal <= 127) {
+        //        taskThree();
+      }
+      else if (rotaryVal >= 128 && rotaryVal <= 170) {
+        //        taskFour();
+      }
+      else if (rotaryVal >= 171 && rotaryVal <= 213) {
+        //        taskFive();
+      }
+      else if (rotaryVal >= 214 && rotaryVal <= 255) {
+        //        taskSix();
+      }
+      Serial.println("Executing commands for selected task!");
+      delay(2000);
+    }
+    lbutPress = cbutPress;
+  }
+
+  delay(1);
+}
+
 void taskNine() {
   for (uint8_t i = 1; i <= 21; i++) {
     ssd.clearDisplay();
@@ -55,9 +109,8 @@ void taskTen() {
   calibrateAllSensors();
 }
 
-uint16_t sensorValues[SensorCount];
-boolean isLifterUp = false;
 
+// isLifterUp = false;
 void taskEleven() {
   // COLOR SENSOR READINGS
   apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
@@ -101,13 +154,13 @@ void taskEleven() {
       lifterUp();
       isLifterUp = true;
     }
-  }
-  else {
+  } else {
     apdsColor = "none";
     Serial.println(">> Non-existent pallet detected!");
     pixels.setPixelColor(0, 0, 0, 0);
     pixels.clear();
     pixels.show();
+    Serial.println(isLifterUp);
 
     if (isLifterUp) {
       delay(1000);
