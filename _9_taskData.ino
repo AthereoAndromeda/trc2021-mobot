@@ -11,7 +11,7 @@ void taskThree() {
 }
 
 void taskFour() {
-  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2);
+  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2 - 100);
 }
 
 void taskFive() {
@@ -109,8 +109,6 @@ void taskTen() {
   calibrateAllSensors();
 }
 
-
-// isLifterUp = false;
 void taskEleven() {
   // COLOR SENSOR READINGS
   apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);

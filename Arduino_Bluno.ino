@@ -23,7 +23,7 @@
 
 // MOTOR_DELAY represents 1 block
 #define MOTOR_DELAY 3000 // 3970
-#define ROTATE_MOTOR_DELAY 2950
+#define ROTATE_MOTOR_DELAY 3000
 #define SIDEWAYS_MOTOR_DELAY 3230 // 4200
 #define SET_PWM 80 // 60
 
@@ -92,7 +92,7 @@ uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
 uint16_t sensorValues[SENSOR_COUNT];
-boolean isLifterUp;
+boolean isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, int liftSpeed);
 void setMotorDir(Direction direction);
