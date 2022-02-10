@@ -109,7 +109,7 @@ void taskTen() {
   calibrateAllSensors();
 }
 
-void taskEleven() {
+void taskElevenTwelve(boolean enableEleven, boolean enableTwelve) {
   // COLOR SENSOR READINGS
   apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
 
@@ -125,10 +125,13 @@ void taskEleven() {
   if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
     apdsColor = "red";
     Serial.println(">> Red-colored pallet detected!");
-    pixels.setPixelColor(0, 255, 0, 0);
-    pixels.show();
 
-    if (!isLifterUp) {
+    if (enableEleven) {
+      pixels.setPixelColor(0, 255, 0, 0);
+      pixels.show();
+    }
+
+    if (enableTwelve && !isLifterUp) {
       delay(1000);
       lifterUp();
       isLifterUp = true;
@@ -140,14 +143,16 @@ void taskEleven() {
     pixels.show();
     Serial.println(">> Green-colored pallet detected!");
   }
-  //  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib >= clearCalib)) {
   else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib >= minRange && blueCalib <= maxRange)) {
     apdsColor = "blue";
-    pixels.setPixelColor(0, 0, 0, 255);
-    pixels.show();
     Serial.println(">> Blue-colored pallet detected!");
 
-    if (!isLifterUp) {
+    if (enableEleven) {
+      pixels.setPixelColor(0, 0, 0, 255);
+      pixels.show();
+    }
+
+    if (enableTwelve && !isLifterUp) {
       delay(1000);
       lifterUp();
       isLifterUp = true;
@@ -155,12 +160,14 @@ void taskEleven() {
   } else {
     apdsColor = "none";
     Serial.println(">> Non-existent pallet detected!");
-    pixels.setPixelColor(0, 0, 0, 0);
-    pixels.clear();
-    pixels.show();
-    Serial.println(isLifterUp);
 
-    if (isLifterUp) {
+    if (enableEleven) {
+      pixels.setPixelColor(0, 0, 0, 0);
+      pixels.clear();
+      pixels.show();
+    }
+
+    if (enableTwelve && isLifterUp) {
       delay(1000);
       lifterDown();
       isLifterUp = false;
