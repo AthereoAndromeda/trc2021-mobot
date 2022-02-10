@@ -30,7 +30,6 @@
 #define STNDBY1 36
 #define STNDBY2 37
 
-#include <Preset.h>
 #include <Wire.h>
 #include <Servo.h>
 #include <TimerOne.h>
@@ -92,7 +91,7 @@ uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
 uint16_t sensorValues[SENSOR_COUNT];
-boolean isLifterUp = false;
+static boolean isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, int liftSpeed);
 void setMotorDir(Direction direction);

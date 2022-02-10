@@ -26,13 +26,11 @@ void setup() {
   Serial.println("Executing Tasks");
   delay(1000);
 
-  //  executeCheckOne();
-  //
-  //  taskSeven();
-  //
-  //  taskNine();
-  //
-  //  taskTen();
+  executeCheckOne();
+  delay(5000);
+  executeCheckTwo();
+  delay(5000);
+  executeCheckThree();
 
-  // task 11 & 12 is in loop data
+  // task 8, 11 & 12 is in loop data
 }
