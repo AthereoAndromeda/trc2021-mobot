@@ -26,11 +26,12 @@ void setup() {
   Serial.println("Executing Tasks");
   delay(1000);
 
-  executeCheckOne();
-  delay(5000);
-  executeCheckTwo();
-  delay(5000);
-  executeCheckThree();
+  motorMove(CW_Center_Left, MOTOR_DELAY);
+  //  executeCheckOne();
+  //  delay(5000);
+  //  executeCheckTwo();
+  //  delay(5000);
+  //  executeCheckThree();
 
   // task 8, 11 & 12 is in loop data
 }

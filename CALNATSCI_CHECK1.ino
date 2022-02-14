@@ -11,7 +11,7 @@ void taskThree() {
 }
 
 void taskFour() {
-  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2 - 100);
+  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2);
 }
 
 void taskFive() {

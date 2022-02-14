@@ -1,8 +1,8 @@
 void taskSeven() {
-  cycleLed(500);
+  cycleLed();
 }
 
-uint8_t ledCounter = 0;
+int8_t ledCounter = 0;
 void taskEight() {
   // ENCODER KNOB READINGS
   crotState = digitalRead(ROTARY_CLK);
@@ -17,12 +17,12 @@ void taskEight() {
     if (digitalRead(ROTARY_DTP) != crotState) {
       rotaryVal++;
       ledCounter++;
-      rotaryDir = "CW";
+      rotaryDir = CW;
     }
     else {
       rotaryVal--;
       ledCounter--;
-      rotaryDir = "CCW";
+      rotaryDir = CCW;
     }
   }
   lrotState = crotState;
@@ -33,7 +33,7 @@ void taskEight() {
     ledCounter = 3;
   }
 
-  if (rotaryDir == "CW") {
+  if (rotaryDir == CW) {
     if (ledCounter == 0) {
       pixels.setPixelColor(0, 255, 0, 0);
     } else if (ledCounter == 1) {
@@ -62,11 +62,11 @@ void taskNine() {
   for (uint8_t i = 1; i <= 21; i++) {
     ssd.clearDisplay();
     ssd.setCursor(0, 0);
-    int trailingInt = i - 8;
+    int8_t trailingInt = i - 8;
 
-    for (uint8_t j = trailingInt; j < i; j++) {
+    for (int8_t j = trailingInt; j < i; j++) {
       if (j <= 0) {
-        ssd.println("");
+        ssd.println(" ");
       } else {
         ssd.println(j);
       }
@@ -82,7 +82,7 @@ void executeCheckTwo() {
   // Cycle LED
   taskSeven();
 
-  delay(1000);
+  delay(5000);
 
   // Rotary Encoder
   // is in loopData

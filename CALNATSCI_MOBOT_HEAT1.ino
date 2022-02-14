@@ -73,8 +73,9 @@ enum Direction {
   Stop
 };
 
+enum RotaryDirection { CW, CCW };
 int rotaryVal = 0;
-String rotaryDir;
+RotaryDirection rotaryDir;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
 unsigned int _pwmvalue = 0;
@@ -86,14 +87,14 @@ int liftPwm, liftPosition;
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
-uint16_t redArr[5], greenArr[5], blueArr[5], clearArr[5];
+uint16_t redArr[APDS_ACCURACY], greenArr[APDS_ACCURACY], blueArr[APDS_ACCURACY], clearArr[APDS_ACCURACY];
 uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
 uint16_t sensorValues[SENSOR_COUNT];
-static boolean isLifterUp = false;
+static bool isLifterUp = false;
 
-void lifterMove(LifterState liftState, uint16_t liftAngle, int liftSpeed);
+void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed);
 void setMotorDir(Direction direction);
 void motorMove(Direction direction, int duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);

@@ -4,7 +4,7 @@ void initLifter() {
   Serial.println(">> lifter servo configuration successful!");
 }
 
-void lifterMove(LifterState liftState, uint16_t liftAngle, int liftSpeed) {
+void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed) {
   if (liftAngle < 0) {
     liftAngle = 0;
   } else if (liftAngle > 270) {
