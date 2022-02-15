@@ -15,17 +15,18 @@ void initMecanumWheels() {
 
 /**
    Handles interrupt every 10% duty cycle
+   Also handles PWM
 */
 void motorPwmHandler() {
   if (motorCounter > motorPWM) {
-    PORTL &= ~0x0F;
+    PORTL &= ~0x0F; // Sets digital low of PWM
   }
 
   motorCounter++;
 
   if (motorCounter >= 100) {
-    motorCounter = 0;
-    PORTL |= 0x0F;
+    motorCounter = 0; // Resets on overflow
+    PORTL |= 0x0F; // Sets digital high of PWM
   }
 }
 
@@ -77,7 +78,7 @@ void setMotorDir(Direction direction) {
     // 10 -> Move Rotor Forward (or Clockwise)
     // 01 -> Move Rotor Backward (or Counterclockwise)
     // 00 -> Do nothing
-    // 11 -> ?
+    // 11 -> ? (I think same as 00)
 
     case Forward:
       PORTA = 0xAA; // 10 10 10 10
@@ -136,11 +137,6 @@ void setMotorDir(Direction direction) {
 
     case Stop:
       PORTA = 0xFF; // 11 11 11 11
-      break;
-
-    default:
-      Serial.println("Unknown Direction!");
-      while (true);
       break;
   }
 }

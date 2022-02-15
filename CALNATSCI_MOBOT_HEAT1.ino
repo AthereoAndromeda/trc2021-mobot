@@ -22,9 +22,10 @@
 #define SENSOR_COUNT 4
 
 // MOTOR_DELAY represents 1 block
-#define MOTOR_DELAY 3000 // 3970
-#define MOTOR_DELAY_SIDEWAYS 3230 // 4200
-#define MOTOR_PWM 80 // 60
+#define MOTOR_DELAY 3000
+#define MOTOR_DELAY_SIDEWAYS 3230
+// MOTOR_PWM sets % of duty cycle
+#define MOTOR_PWM 80
 
 #define STNDBY1 36
 #define STNDBY2 37
