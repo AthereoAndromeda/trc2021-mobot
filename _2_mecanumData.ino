@@ -7,30 +7,36 @@ void initMecanumWheels() {
 
   PORTA = 0b00000000;
   PORTL &= ~0x0F;
+  
   initMotorPwm();
-
-  setMotorPWM(SET_PWM);
+  motorPWM = MOTOR_PWM;
   Serial.println(">> Mecanum Wheels setup successful!");
 }
 
+/**
+   Handles interrupt every 10% duty cycle
+   Also handles PWM
+*/
+void motorPwmHandler() {
+  if (motorCounter > motorPWM) {
+    PORTL &= ~0x0F; // Sets digital low of PWM
+  }
+
+  motorCounter++;
+
+  if (motorCounter >= 100) {
+    motorCounter = 0; // Resets on overflow
+    PORTL |= 0x0F; // Sets digital high of PWM
+  }
+}
+
+/**
+  Attaches Interrupt every 1000us for each % of duty cycle
+*/
 void initMotorPwm() {
   Timer1.initialize(100);
   Timer1.attachInterrupt(motorPwmHandler);
   Timer1.stop();
-}
-
-void prepMotors() {
-  stopmotor = false;
-
-  PORTL |= 0x0F;
-
-  pwmcounter = 0;
-  stopmotor = false;
-
-  initMotorPwm();
-
-  digitalWrite(STNDBY1, HIGH);
-  digitalWrite(STNDBY2, HIGH);
 }
 
 void stopMotors() {
@@ -42,59 +48,55 @@ void stopMotors() {
 }
 
 void runMotors() {
-  pwmcounter = 0;
+  motorCounter = 0;
   digitalWrite(STNDBY1, HIGH);
   digitalWrite(STNDBY2, HIGH);
   Timer1.start();
 }
 
-void motorPwmHandler() {
-  if (pwmcounter > _pwmvalue) {
-    PORTL &= ~0x0F;
-  }
-
-  pwmcounter++;
-
-  if (pwmcounter >= 100) {
-    pwmcounter = 0;
-    PORTL |= 0x0F;
-  }
-}
-
-void setMotorPWM(int pwm) {
-  _pwmvalue = pwm;
-}
-
-void motorMove(Direction direction, int duration) {
+void motorMove(Direction direction, uint16_t duration) {
   setMotorDir(direction);
-
   runMotors();
 
-  if (duration > 0) {
-    delay(duration);
-    stopMotors();
-  }
+  delay(duration);
+  stopMotors();
+}
+
+void motorMoveCustom(uint8_t direction, uint16_t duration) {
+  PORTA = direction;
+  runMotors();
+
+  delay(duration);
+  stopMotors();
 }
 
 void setMotorDir(Direction direction) {
   switch (direction) {
+    // Format:
+    // Top_Right Top_Left Bottom_Left Bottom_Right
+    //
+    // 10 -> Move Rotor Forward (or Clockwise)
+    // 01 -> Move Rotor Backward (or Counterclockwise)
+    // 00 -> Do nothing
+    // 11 -> ? (I think same as 00)
+
     case Forward:
-      PORTA = 0xAA;
+      PORTA = 0xAA; // 10 10 10 10
       break;
     case Backward:
-      PORTA = 0x55;
+      PORTA = 0x55; // 01 01 01 01
       break;
     case Left:
-      PORTA = 0x99;
+      PORTA = 0x99; // 10 01 10 01
       break;
     case Right:
-      PORTA = 0x66;
+      PORTA = 0x66; // 01 10 01 10
       break;
     case Forward_Left:
       PORTA = 0x88;
       break;
     case Forward_Right:
-      PORTA = 0x22;
+      PORTA = 0x22; // 00 10 00 10
       break;
     case Backward_Left:
       PORTA = 0x44;
@@ -103,7 +105,7 @@ void setMotorDir(Direction direction) {
       PORTA = 0x11;
       break;
     case CW_Center_Center:
-      PORTA = 0x69;
+      PORTA = 0x69; // 01 10 10 01
       break;
     case CCW_Center_Center:
       PORTA = 0x96;
@@ -134,12 +136,7 @@ void setMotorDir(Direction direction) {
       break;
 
     case Stop:
-      PORTA = 0xFF;
-      break;
-
-    default:
-      Serial.println("Unknown Direction!");
-      while (true);
+      PORTA = 0xFF; // 11 11 11 11
       break;
   }
 }

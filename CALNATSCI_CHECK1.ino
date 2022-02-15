@@ -7,19 +7,19 @@ void taskTwo() {
 }
 
 void taskThree() {
-  motorMove(CCW_Center_Center, ROTATE_MOTOR_DELAY * 2);
+  motorMove(CCW_Center_Center, MOTOR_DELAY * 2);
 }
 
 void taskFour() {
-  motorMove(CW_Center_Center, ROTATE_MOTOR_DELAY * 2);
+  motorMove(CW_Center_Center, MOTOR_DELAY * 2);
 }
 
 void taskFive() {
-  motorMove(Left, SIDEWAYS_MOTOR_DELAY * 2);
+  motorMove(Left, MOTOR_DELAY_SIDEWAYS * 2);
 }
 
 void taskSix() {
-  motorMove(Right, SIDEWAYS_MOTOR_DELAY * 2);
+  motorMove(Right, MOTOR_DELAY_SIDEWAYS * 2);
 }
 
 
