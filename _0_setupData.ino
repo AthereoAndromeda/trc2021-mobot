@@ -15,7 +15,7 @@ void setup() {
   }
 
   // Initialize Components
-  // initRotary();
+  initRotary();
   initLifter();
   initLed();
   initSsd();
@@ -26,7 +26,6 @@ void setup() {
   Serial.println("Executing Tasks");
   delay(1000);
 
-  motorMove(CW_Center_Left, MOTOR_DELAY);
   //  executeCheckOne();
   //  delay(5000);
   //  executeCheckTwo();

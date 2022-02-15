@@ -1,7 +1,6 @@
 void loop() {
-  //  taskEight();
+  taskEight();
 
-  // Color Sensor
+  //  Color Sensor
   //  taskElevenTwelve(true, true);
-  delay(100);
 }
