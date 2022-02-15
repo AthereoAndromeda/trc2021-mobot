@@ -1,3 +1,5 @@
+#define TIMES_COUNTED_TO_PASS 5
+
 void taskTen() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
@@ -14,10 +16,28 @@ void resetValues(uint8_t* a, uint8_t* b, uint8_t* c) {
   *c = 0;
 }
 
-void displayColor(bool isEnabled, String color) {
-  if (isEnabled) {
-    ssd.println(color);
+void detectColor(
+  String colorName,
+  uint8_t* colorCounted,
+  uint8_t* color1,
+  uint8_t* color2,
+  uint8_t* color3,
+  bool* lifterBool,
+  bool enableEleven,
+  bool enableTwelve
+) {
+  *colorCounted = *colorCounted + 1;
+
+  if (enableEleven) {
+    ssd.println(colorName);
     ssd.display();
+  }
+
+  if (enableTwelve && *colorCounted > TIMES_COUNTED_TO_PASS && !(*lifterBool)) {
+    resetValues(color1, color2, color3);
+    delay(1000);
+    lifterUp();
+    *lifterBool = true;
   }
 }
 
@@ -36,7 +56,7 @@ void taskElevenTwelve(bool enableEleven, bool enableTwelve) {
   clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
 
   // Allow unsigned ints to overflow, it is fine
-  const uint8_t timesCountedToPass = 5;
+  const uint8_t timesCountedToPass = TIMES_COUNTED_TO_PASS;
   static uint8_t redCounted = 0;
   static uint8_t greenCounted = 0;
   static uint8_t blueCounted = 0;
@@ -47,43 +67,22 @@ void taskElevenTwelve(bool enableEleven, bool enableTwelve) {
   int8_t minRange = clearCalib - clearCalibThreshold; // Keep this signed
 
   if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
-    apdsColor = "RED";
-    redCounted++;
     Serial.println(">> Red-colored pallet detected!");
+    detectColor("RED", &redCounted, &greenCounted, &blueCounted, &noneCounted, &isLifterUp, enableEleven, enableTwelve);
 
-    displayColor(enableEleven, apdsColor);
-
-    if (enableTwelve && redCounted > timesCountedToPass && !isLifterUp) {
-      resetValues(&noneCounted, &blueCounted, &greenCounted);
-      delay(1000);
-      lifterUp();
-      isLifterUp = true;
-    }
   }
   else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib >= clearCalib)) {
-    apdsColor = "GREEN";
-    greenCounted++;
     Serial.println(">> Green-colored pallet detected!");
 
-    displayColor(enableEleven, apdsColor);
-
-    if (greenCounted > timesCountedToPass) {
-      resetValues(&redCounted, &blueCounted, &noneCounted);
+    if (enableEleven) {
+      ssd.println("GREEN");
+      ssd.display();
     }
   }
   else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib >= minRange && blueCalib <= maxRange)) {
-    apdsColor = "BLUE";
-    blueCounted++;
     Serial.println(">> Blue-colored pallet detected!");
+    detectColor("BLUE", &blueCounted, &greenCounted, &redCounted, &noneCounted, &isLifterUp, enableEleven, enableTwelve);
 
-    displayColor(enableEleven, apdsColor);
-
-    if (enableTwelve && blueCounted > timesCountedToPass && !isLifterUp) {
-      resetValues(&redCounted, &greenCounted, &noneCounted);
-      delay(1000);
-      lifterUp();
-      isLifterUp = true;
-    }
   } else {
     apdsColor = "NONE";
     noneCounted++;
@@ -94,7 +93,10 @@ void taskElevenTwelve(bool enableEleven, bool enableTwelve) {
       noneCounted = 0;
     }
 
-    displayColor(enableEleven, apdsColor);
+    if (enableEleven) {
+      ssd.println("NONE");
+      ssd.display();
+    }
 
     if (enableTwelve && isLifterUp) {
       delay(1000);

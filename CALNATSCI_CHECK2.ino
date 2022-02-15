@@ -4,6 +4,7 @@ void taskSeven() {
 
 int8_t ledCounter = 0;
 RotaryDirection lastDir;
+
 void taskEight() {
   // ENCODER KNOB READINGS
   crotState = digitalRead(ROTARY_CLK);
@@ -21,6 +22,8 @@ void taskEight() {
     ledCounter++;
   }
 
+  // If direction chages, reset ledCounter so cycle
+  // always restarts with first color (red)
   if (lastDir != rotaryDir) {
     ledCounter = 0;
   }
