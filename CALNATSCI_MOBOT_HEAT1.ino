@@ -23,9 +23,8 @@
 
 // MOTOR_DELAY represents 1 block
 #define MOTOR_DELAY 3000 // 3970
-#define ROTATE_MOTOR_DELAY 3000
-#define SIDEWAYS_MOTOR_DELAY 3230 // 4200
-#define SET_PWM 80 // 60
+#define MOTOR_DELAY_SIDEWAYS 3230 // 4200
+#define MOTOR_PWM 80 // 60
 
 #define STNDBY1 36
 #define STNDBY2 37
@@ -78,9 +77,8 @@ int rotaryVal = 0;
 RotaryDirection rotaryDir;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
-unsigned int _pwmvalue = 0;
-static bool stopmotor = true;
-static int pwmcounter = 0;
+unsigned int motorPWM = 0;
+static int motorCounter = 0;
 
 enum LifterState { Up, Down };
 int liftPwm, liftPosition;
@@ -96,6 +94,6 @@ static bool isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed);
 void setMotorDir(Direction direction);
-void motorMove(Direction direction, int duration);
+void motorMove(Direction direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void _printSensorValues(QTRSensors &lineSensor, String sensorName);
