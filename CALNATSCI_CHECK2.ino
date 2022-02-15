@@ -3,29 +3,30 @@ void taskSeven() {
 }
 
 int8_t ledCounter = 0;
+RotaryDirection lastDir;
 void taskEight() {
   // ENCODER KNOB READINGS
   crotState = digitalRead(ROTARY_CLK);
-
-  if (ledCounter > 3) {
-    ledCounter = 0;
-  } else if (ledCounter < 0) {
-    ledCounter = 3;
-  }
+  Serial.println(ledCounter);
 
   if (crotState != lrotState && crotState == 0) {
     if (digitalRead(ROTARY_DTP) != crotState) {
       rotaryVal++;
-      ledCounter++;
       rotaryDir = CW;
-    }
-    else {
+    } else {
       rotaryVal--;
-      ledCounter--;
       rotaryDir = CCW;
     }
+
+    ledCounter++;
   }
+
+  if (lastDir != rotaryDir) {
+    ledCounter = 0;
+  }
+
   lrotState = crotState;
+  lastDir = rotaryDir;
 
   if (ledCounter > 3) {
     ledCounter = 0;
@@ -44,13 +45,13 @@ void taskEight() {
       pixels.setPixelColor(0, 255, 255, 255);
     }
   } else {
-    if (ledCounter == 3) {
+    if (ledCounter == 0) {
       pixels.setPixelColor(0, 255, 0, 0);
-    } else if (ledCounter == 2) {
-      pixels.setPixelColor(0, 255, 255, 255);
     } else if (ledCounter == 1) {
+      pixels.setPixelColor(0, 255, 255, 255);
+    } else if (ledCounter == 2) {
       pixels.setPixelColor(0, 0, 0, 255);
-    } else if (ledCounter == 0) {
+    } else if (ledCounter == 3) {
       pixels.setPixelColor(0, 0, 255, 0);
     }
   }
