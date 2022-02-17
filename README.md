@@ -48,9 +48,10 @@ dateFormat YYY-MM-DD
 title TRC2021 Timeline
 
 section Heat 1
+
 Preparation             : des1, 2022-01-01,2022-02-06
 Bubble                  : des2, 2022-02-07, 2022-02-11
-Present Mobot           : des3, 2022-02-10, 1d
+Present Mobot           : milestone, des3, 2022-02-10, 1d
 Fix Rotary Encoder      : des4, after des2, 5d
-Re-present Task 8       : des5, after des4, 1d
+Re-present Task 8       : milestone, des5, after des4, 1d
 ```
