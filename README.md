@@ -41,3 +41,24 @@ Code for TRC2021 Mobot
 
 **Download the dependencies of these libraries as well**
 
+## Timeline
+```mermaid
+gantt
+dateFormat YYY-MM-DD
+title TRC2021 Timeline
+
+section Pre-Heats
+
+Mobot Received          : done, milestone, 2021-12-17, 1d
+Rotary Encoder breaks   : crit, milestone, 2022-01-21, 1d
+
+
+section Heat 1
+
+Preparation             : des1, 2022-01-01, 2022-02-06
+Qualifying Heat Tasks given : done, milestone, 2022-01-11, 1d
+Bubble                  : des2, 2022-02-07, 2022-02-11
+Present Mobot           : done, milestone, 2022-02-10, 1d
+Fix Rotary Encoder      : done, milestone, 2022-02-15, 1d
+Re-present Task 8       : done, milestone, des5, 2022-02-17, 1d
+```
