@@ -1,15 +1,13 @@
 void initMecanumWheels() {
-  pinMode(STNDBY1, OUTPUT);
-  pinMode(STNDBY2, OUTPUT);
+  // Set Outputs/Input pins
+  DDRC |= 0b11;   // Standby Pins
+  DDRA |= 0xFF;   // Direction Pins
+  DDRL |= 0x0F;   // PWM Pins
 
-  DDRA = DDRA | 0b11111111;
-  DDRL = DDRL | 0x0F;
+  PORTA = 0x00;   // Set to STOP
+  PORTL &= ~0x0F; // Sets PWM to low
 
-  PORTA = 0b00000000;
-  PORTL &= ~0x0F;
-  
   initMotorPwm();
-  motorPWM = MOTOR_PWM;
   Serial.println(">> Mecanum Wheels setup successful!");
 }
 
@@ -18,7 +16,7 @@ void initMecanumWheels() {
    Also handles PWM
 */
 void motorPwmHandler() {
-  if (motorCounter > motorPWM) {
+  if (motorCounter > MOTOR_PWM) {
     PORTL &= ~0x0F; // Sets digital low of PWM
   }
 
@@ -42,19 +40,21 @@ void initMotorPwm() {
 void stopMotors() {
   Timer1.stop();
   setMotorDir(Stop);
-  delay(200);
-  digitalWrite(STNDBY1, LOW);
-  digitalWrite(STNDBY2, LOW);
+
+  delay(100);     // Keep this delay, otherwise motor doesn't have enough time to stop, and direction bleeds into other `motorMove` calls
+  PORTC &= ~0b11; // Set STANDBY Pins to LOW
 }
 
 void runMotors() {
   motorCounter = 0;
-  digitalWrite(STNDBY1, HIGH);
-  digitalWrite(STNDBY2, HIGH);
+  PORTC |= 0b11;  // Set STANDBY Pins to HIGH
+
   Timer1.start();
 }
 
-void motorMove(Direction direction, uint16_t duration) {
+// Use type casting to use custom directions
+// ex: motorMove((motorDirection)0x55, 1000);
+void motorMove(MotorDirection direction, uint16_t duration) {
   setMotorDir(direction);
   runMotors();
 
@@ -62,81 +62,6 @@ void motorMove(Direction direction, uint16_t duration) {
   stopMotors();
 }
 
-void motorMoveCustom(uint8_t direction, uint16_t duration) {
+inline void setMotorDir(MotorDirection direction) {
   PORTA = direction;
-  runMotors();
-
-  delay(duration);
-  stopMotors();
-}
-
-void setMotorDir(Direction direction) {
-  switch (direction) {
-    // Format:
-    // Top_Right Top_Left Bottom_Left Bottom_Right
-    //
-    // 10 -> Move Rotor Forward (or Clockwise)
-    // 01 -> Move Rotor Backward (or Counterclockwise)
-    // 00 -> Do nothing
-    // 11 -> ? (I think same as 00)
-
-    case Forward:
-      PORTA = 0xAA; // 10 10 10 10
-      break;
-    case Backward:
-      PORTA = 0x55; // 01 01 01 01
-      break;
-    case Left:
-      PORTA = 0x99; // 10 01 10 01
-      break;
-    case Right:
-      PORTA = 0x66; // 01 10 01 10
-      break;
-    case Forward_Left:
-      PORTA = 0x88;
-      break;
-    case Forward_Right:
-      PORTA = 0x22; // 00 10 00 10
-      break;
-    case Backward_Left:
-      PORTA = 0x44;
-      break;
-    case Backward_Right:
-      PORTA = 0x11;
-      break;
-    case CW_Center_Center:
-      PORTA = 0x69; // 01 10 10 01
-      break;
-    case CCW_Center_Center:
-      PORTA = 0x96;
-      break;
-    case CW_Back_Center:
-      PORTA = 0x5F;
-      break;
-    case CCW_Back_Center:
-      PORTA = 0xAF;
-      break;
-    case CW_Front_Center:
-      PORTA = 0xF5;
-      break;
-    case CCW_Front_Center:
-      PORTA = 0xFA;
-      break;
-    case CW_Center_Left:
-      PORTA = 0x7D;
-      break;
-    case CCW_Center_Left:
-      PORTA = 0xBE;
-      break;
-    case CW_Center_Right:
-      PORTA = 0xEB;
-      break;
-    case CCW_Center_Right:
-      PORTA = 0xD7;
-      break;
-
-    case Stop:
-      PORTA = 0xFF; // 11 11 11 11
-      break;
-  }
 }

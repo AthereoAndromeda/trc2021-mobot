@@ -25,10 +25,11 @@
 #define MOTOR_DELAY 3000
 #define MOTOR_DELAY_SIDEWAYS 3230
 // MOTOR_PWM sets % of duty cycle
-#define MOTOR_PWM 80
+#define MOTOR_PWM 100 // 80
 
-#define STNDBY1 36
-#define STNDBY2 37
+// PORTC
+#define MOTOR_STANDBY_1 36
+#define MOTOR_STANDBY_2 37
 
 #include <Wire.h>
 #include <Servo.h>
@@ -51,38 +52,47 @@ Adafruit_APDS9960 apds;
 Adafruit_SSD1306 ssd(SSD_WIDTH, SSD_HEIGHT, &Wire, -1);
 Adafruit_NeoPixel pixels(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
-enum Direction {
-  Forward,
-  Backward,
-  Left,
-  Right,
-  Forward_Left,
-  Forward_Right,
-  Backward_Left,
-  Backward_Right,
-  CW_Center_Center,
-  CCW_Center_Center,
-  CW_Back_Center,
-  CCW_Back_Center,
-  CW_Front_Center,
-  CCW_Front_Center,
-  CW_Center_Left,
-  CCW_Center_Left,
-  CW_Center_Right,
-  CCW_Center_Right,
-  Stop
+// Format:
+// Top_Right Top_Left Bottom_Left Bottom_Right
+//
+// 10 -> Move Rotor Forward (or Clockwise)
+// 01 -> Move Rotor Backward (or Counterclockwise)
+// 00 -> Do nothing
+// 11 -> ? (I think same as 00)
+enum MotorDirection {
+  Forward = 0xAA,       // 10 10 10 10
+  Backward = 0x55,      // 01 01 01 01
+  Left = 0x99,
+  Right = 0x66,
+  Forward_Left = 0x88,
+  Forward_Right = 0x22,
+  Backward_Left = 0x44,
+  Backward_Right = 0x11,
+  CW_Center_Center = 0x69,
+  CCW_Center_Center = 0x96,
+  CW_Back_Center = 0x5F,
+  CCW_Back_Center = 0xAF,
+  CW_Front_Center = 0xF5,
+  CCW_Front_Center = 0xFA,
+  CW_Center_Left = 0x7D,
+  CCW_Center_Left = 0xBE,
+  CW_Center_Right = 0xEB,
+  CCW_Center_Right = 0xD7,
+  Stop = 0xFF
 };
 
 enum RotaryDirection { CW, CCW };
-int rotaryVal = 0;
 RotaryDirection rotaryDir;
+int rotaryVal = 0;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
-unsigned int motorPWM = 0;
-static int motorCounter = 0;
+
+static uint8_t motorCounter = 0;
 
 enum LifterState { Up, Down };
 int liftPwm, liftPosition;
+
+uint16_t sensorValues[SENSOR_COUNT];
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
@@ -90,11 +100,10 @@ uint16_t redArr[APDS_ACCURACY], greenArr[APDS_ACCURACY], blueArr[APDS_ACCURACY],
 uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
-uint16_t sensorValues[SENSOR_COUNT];
 static bool isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed);
-void setMotorDir(Direction direction);
-void motorMove(Direction direction, uint16_t duration);
+void setMotorDir(MotorDirection direction);
+void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void _printSensorValues(QTRSensors &lineSensor, String sensorName);
