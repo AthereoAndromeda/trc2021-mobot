@@ -111,7 +111,7 @@ PORTA = 0b10010110; // Top_Right and Bottom_Right rotate clockwise, Top_Left and
 The above code would work normally. So the next question is why hexadecimal then?  
 Well it's quite simple. It's just shorter to write than binary. Seriously, that's it.
 
-With hexadecimal, you can represent 1 byte, or 8 bits, with only 2 characters. To convert bewtween hexadecimal and binary,
+With hexadecimal, you can represent 1 byte, or 8 bits, with only 2 characters. To convert between hexadecimal and binary,
 just use some online calculator. Wait, didn't you say it was easy to convert from hexadecimal to binary and vice-versa?
 
 Yes. Easy for computers which operate on base-2. Not so much for us humans who are used to a base-10 system. Also the Arduino runs at like
@@ -129,5 +129,101 @@ PORTA = 0x55; // Rotates all rotors counterclockwise    (Causes mobot to move Ba
 
 PORTA = 0x96; // Top_Right and Bottom_Right rotate clockwise, Top_Left and Bottom_Left rotate counterclockwise (Causes mobot to move counterclockwise)
 ```
+As you can see, it's much shorter than Binary. only 2 digits.
 
-And that's how Direction is set in Mecanum Wheels.
+Of course, it's still hard to remember which set of bits corresponds to which Direction or movement. Humans are much more adept at recognizing
+strings, or names rather than a meaningless collection of numbers.
+
+### Enum
+This is where Enums help! Enums (short for Enumeration) are a date type that contains integral constants. You can think of these
+as a sort of "multiple choice" data type.
+```cpp
+enum MotorDirection {
+  Forward,
+  Backward,
+  Left,
+  Right,
+  Stop
+};
+```
+
+By default, these choices are actually just integers but with a name so we can more easily remember them and know their purporse.
+For example, `Forward` is actually just 0, `Backward` is 1, and so on. We can change the default value, but we won't talk about it here.
+
+This means you can also do this
+```cpp
+MotorDirection direction = Forward;
+
+if (direction == Forward) {
+  // Preferred method
+}
+
+if (direction == 0) {
+  // This also works!
+}
+```
+
+So anyways that's a short overview of Enum. Now how we map directions with Enums
+
+### Setting Directions with Enum
+A switch case is used to match an enum, and that sets the direction
+
+```cpp
+void setMotorDir(Direction dir) {
+  switch (dir) {
+    case Forward:
+      PORTA = 0xAA;
+      break;
+    
+    case Backward:
+      PORTA = 0x55;
+      break;
+      
+    case Left:
+      PORTA = 0x99;
+      break;
+
+    case Right:
+      PORTA = 0x66;
+      break;
+      
+    case Stop:
+      PORTA = 0xFF;
+      break;
+  }
+}
+```
+
+There are many more directions than this obviously, but this is the general gist of how we change direction. With the use of Enums, we can use
+easy-to-remember keywords like `Forward`, `Backward`, `Left`, etc. Whereas with direct port manipulation, we have to use numbers and unfamiliar digits
+that aren't immediately obvious what direction it's going without a comment.
+
+That's all for now folks, see ya
+
+## Footnotes
+While writing this, i realized `setMotorDir` might be redunant. It might be possible to just stick the values
+directly to the enum as such:
+```cpp
+enum MotorDirection {
+  Forward = 0xAA,
+  Backward = 0x55,
+  Left = 0x99,
+  Right = 0x66,
+  Stop = 0xFF
+};
+```
+
+Then within `runMotors()`, we could directly assign it to `PORTA` without calling a function.
+```cpp
+void motorMove(Direction direction, uint16_t duration) {
+  // setMotorDir(direction);
+  PORTA = direction;
+  runMotors();
+
+  delay(duration);
+  stopMotors();
+}
+```
+
+It would remove a redundant function, and maybe a slight performance boost since there is 1 less function to call.  
+Dunno still haven tested it yet
