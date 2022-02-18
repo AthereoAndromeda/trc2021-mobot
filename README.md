@@ -61,4 +61,7 @@ Bubble                  : des2, 2022-02-07, 2022-02-11
 Present Mobot           : done, milestone, 2022-02-10, 1d
 Fix Rotary Encoder      : done, milestone, 2022-02-15, 1d
 Re-present Task 8       : done, milestone, des5, 2022-02-17, 1d
+Heat 1 Score Given : active, milestone, 2022-02-18, 1d
 ```
+
+**Heat 1 Completed - 475/500**
