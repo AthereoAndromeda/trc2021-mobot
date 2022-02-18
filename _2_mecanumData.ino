@@ -8,7 +8,6 @@ void initMecanumWheels() {
   PORTL &= ~0x0F; // Sets PWM to low
 
   initMotorPwm();
-  motorPWM = MOTOR_PWM;
   Serial.println(">> Mecanum Wheels setup successful!");
 }
 
@@ -17,7 +16,7 @@ void initMecanumWheels() {
    Also handles PWM
 */
 void motorPwmHandler() {
-  if (motorCounter > motorPWM) {
+  if (motorCounter > MOTOR_PWM) {
     PORTL &= ~0x0F; // Sets digital low of PWM
   }
 
@@ -53,7 +52,7 @@ void runMotors() {
   Timer1.start();
 }
 
-void motorMove(Direction direction, uint16_t duration) {
+void motorMove(MotorDirection direction, uint16_t duration) {
   setMotorDir(direction);
   runMotors();
 
@@ -69,6 +68,6 @@ void motorMove(uint16_t direction, uint16_t duration) {
   stopMotors();
 }
 
-inline void setMotorDir(Direction direction) {
+inline void setMotorDir(MotorDirection direction) {
   PORTA = direction;
 }

@@ -28,8 +28,8 @@
 #define MOTOR_PWM 100 // 80
 
 // PORTC
-#define STNDBY1 36
-#define STNDBY2 37
+#define MOTOR_STANDBY_1 36
+#define MOTOR_STANDBY_2 37
 
 #include <Wire.h>
 #include <Servo.h>
@@ -59,7 +59,7 @@ Adafruit_NeoPixel pixels(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 // 01 -> Move Rotor Backward (or Counterclockwise)
 // 00 -> Do nothing
 // 11 -> ? (I think same as 00)
-enum Direction {
+enum MotorDirection {
   Forward = 0xAA,       // 10 10 10 10
   Backward = 0x55,      // 01 01 01 01
   Left = 0x99,
@@ -82,15 +82,17 @@ enum Direction {
 };
 
 enum RotaryDirection { CW, CCW };
-int rotaryVal = 0;
 RotaryDirection rotaryDir;
+int rotaryVal = 0;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
-unsigned int motorPWM = 0;
-static int motorCounter = 0;
+
+static uint8_t motorCounter = 0;
 
 enum LifterState { Up, Down };
 int liftPwm, liftPosition;
+
+uint16_t sensorValues[SENSOR_COUNT];
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
@@ -98,11 +100,10 @@ uint16_t redArr[APDS_ACCURACY], greenArr[APDS_ACCURACY], blueArr[APDS_ACCURACY],
 uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
-uint16_t sensorValues[SENSOR_COUNT];
 static bool isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed);
-void setMotorDir(Direction direction);
-void motorMove(Direction direction, uint16_t duration);
+void setMotorDir(MotorDirection direction);
+void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void _printSensorValues(QTRSensors &lineSensor, String sensorName);
