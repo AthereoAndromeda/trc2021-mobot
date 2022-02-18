@@ -52,16 +52,10 @@ void runMotors() {
   Timer1.start();
 }
 
+// Use type casting to use custom directions
+// ex: motorMove((motorDirection)0x55, 1000);
 void motorMove(MotorDirection direction, uint16_t duration) {
   setMotorDir(direction);
-  runMotors();
-
-  delay(duration);
-  stopMotors();
-}
-
-void motorMove(uint16_t direction, uint16_t duration) {
-  PORTA = direction;
   runMotors();
 
   delay(duration);
