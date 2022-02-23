@@ -48,3 +48,12 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName) {
 
 ## Detecting Lines
 **TODO**
+
+## Intersection Detection
+Now how do we detect intersections? We can do this with the 4 modules actually.
+
+If all our sensors are detecting black, it means it is sitting at an intersection.
+
+Whereas if only `FRONT` and `BACK` sensors are detecting, then it means it is on a normal line.
+
+When it suddenly detects that `LEFT` and `RIGHT` are now black, then it means the mobot has reached the intersection.
