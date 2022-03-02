@@ -105,4 +105,3 @@ void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpee
 void setMotorDir(MotorDirection direction);
 void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
-void _printSensorValues(QTRSensors &lineSensor, String sensorName);

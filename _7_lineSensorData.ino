@@ -1,4 +1,4 @@
-#define DELAY_TIME 5000
+#define DELAY_TIME 3000
 #define DEF_TIMEOUT 1000
 
 void initLineSensors() {
@@ -70,7 +70,7 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName) {
   Serial.println();
 }
 
-void _printSensorValues(QTRSensors &lineSensor, String sensorName) {
+void _printSensorValues(uint16_t minValues[SENSOR_COUNT], uint16_t maxValues[SENSOR_COUNT], String sensorName) {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
 
@@ -80,9 +80,9 @@ void _printSensorValues(QTRSensors &lineSensor, String sensorName) {
     ssd.print("Sensor ");
     ssd.print(i + 1);
     ssd.print(": ");
-    ssd.print(lineSensor.calibrationOn.minimum[i]);
+    ssd.print(minValues[i]);
     ssd.print(" ");
-    ssd.print(lineSensor.calibrationOn.maximum[i]);
+    ssd.print(maxValues[i]);
     ssd.println();
   }
 
@@ -110,13 +110,13 @@ void calibrateAllSensors() {
 
   Serial.println();
 
-  _printSensorValues(QTR_Front, "Front Sensors");
+  _printSensorValues(QTR_Front.calibrationOn.minimum, QTR_Front.calibrationOn.maximum, "Front Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(QTR_Back, "Back Sensors");
+  _printSensorValues(QTR_Back.calibrationOn.minimum, QTR_Back.calibrationOn.maximum, "Back Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(QTR_Left, "Left Sensors");
+  _printSensorValues(QTR_Left.calibrationOn.minimum, QTR_Left.calibrationOn.maximum, "Left Sensors");
   delay(DELAY_TIME);
-  _printSensorValues(QTR_Right, "Right Sensors");
+  _printSensorValues(QTR_Right.calibrationOn.minimum, QTR_Right.calibrationOn.maximum, "Right Sensors");
   delay(DELAY_TIME);
 
   Serial.println("Done calibrating!");
