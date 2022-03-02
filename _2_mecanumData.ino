@@ -58,8 +58,11 @@ void motorMove(MotorDirection direction, uint16_t duration) {
   setMotorDir(direction);
   runMotors();
 
-  delay(duration);
-  stopMotors();
+  // If duration is 0 or negative, run infinitely
+  if (duration < 0) {
+    delay(duration);
+    stopMotors();
+  }
 }
 
 inline void setMotorDir(MotorDirection direction) {

@@ -15,7 +15,6 @@
 
 #define LIFTER_ANGLE 100
 #define LIFTER_SPEED 1
-#define LIFTER_DELAY 3000
 #define LIFTER_MIN 500
 #define LIFTER_MAX 2500
 

@@ -13,6 +13,14 @@ void taskHandler(uint8_t task) {
     case 1:
       cycleLed();
       break;
+
+    case 2:
+      lifterUp();
+      break;
+
+    case 3:
+      lifterDown();
+      break;
   }
 }
 
@@ -21,13 +29,6 @@ void button() {
 
   // ENCODER KNOB READINGS
   crotState = digitalRead(ROTARY_CLK);
-
-//  Serial.print("crot: ");
-//  Serial.println(crotState);
-//  Serial.print("lrot: ");
-//  Serial.println(lrotState);
-//  Serial.print("DTP: ");
-//  Serial.println(digitalRead(ROTARY_DTP));
 
   if (crotState != lrotState && crotState == 0) {
     if (digitalRead(ROTARY_DTP) != crotState) {
@@ -41,13 +42,6 @@ void button() {
     }
   }
   lrotState = crotState;
-
-//  Serial.print("TC: ");
-//  Serial.println(taskCounter);
-//  Serial.print("rotVal: ");
-//  Serial.println(rotaryVal);
-//
-//  Serial.println(rotaryDir);
 
   if (taskCounter > MAX_TASKS) {
     taskCounter = 0;
@@ -65,11 +59,11 @@ void button() {
       break;
 
     case 2:
-      ssd.println("Task 2");
+      ssd.println("Raise Lifter");
       break;
 
     case 3:
-      ssd.println("Task 3");
+      ssd.println("Lower Lifter");
       break;
   }
 
@@ -105,6 +99,8 @@ void loop() {
   for (int i = 0; i < SENSOR_COUNT; i++) {
     Serial.println(lineValues[2][i]);
   }
+
+  
 
   delay(100);
 }
