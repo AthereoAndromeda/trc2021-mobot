@@ -93,6 +93,8 @@ void calibrateAllSensors() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
 
+  ssd.println("Calibrating Line Sensors");
+  ssd.display();
   Serial.println("Calibrating . . .");
   Serial.println("Slowly move the sensor across the electrical tape");
 

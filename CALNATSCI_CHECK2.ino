@@ -3,7 +3,6 @@ void taskSeven() {
 }
 
 int8_t ledCounter = 0;
-RotaryDirection lastDir;
 
 void taskEight() {
   // ENCODER KNOB READINGS

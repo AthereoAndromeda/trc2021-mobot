@@ -82,7 +82,7 @@ enum MotorDirection {
 };
 
 enum RotaryDirection { CW, CCW };
-RotaryDirection rotaryDir;
+RotaryDirection rotaryDir, lastDir;
 int rotaryVal = 0;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
@@ -92,7 +92,7 @@ static uint8_t motorCounter = 0;
 enum LifterState { Up, Down };
 int liftPwm, liftPosition;
 
-uint16_t sensorValues[SENSOR_COUNT];
+//uint16_t sensorValues[SENSOR_COUNT];
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
