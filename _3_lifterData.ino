@@ -1,7 +1,7 @@
 void initLifter() {
-  lifter.attach(LIFTER_PIN);
-  lifterDown();
-  Serial.println(">> lifter servo configuration successful!");
+  lifter.attach(LIFTER_PIN, LIFTER_MIN, LIFTER_MAX);
+  lifter.write(0);
+  Serial.println(">> Lifter servo configuration successful!");
 }
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed) {
