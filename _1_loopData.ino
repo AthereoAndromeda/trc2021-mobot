@@ -2,7 +2,44 @@
 uint16_t lineValues[SENSOR_COUNT][SENSOR_COUNT];
 
 int8_t taskCounter;
-#define MAX_TASKS 3
+#define MAX_TASKS 5
+
+// WIP
+void followLine() {
+  delay(3000);
+  Serial.println("followLine called");
+  uint16_t *frontValues = lineValues[0];
+
+  uint16_t val = 0;
+  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
+    Serial.println(frontValues[i]);
+    val += frontValues[i];
+  }
+
+  Serial.println(val);
+
+  uint16_t avg = val / 4;
+  Serial.print("avg: ");
+  Serial.println(avg);
+
+  motorMove(Forward, 0);
+  while (avg > 300) {
+    QTR_Front.readCalibrated(frontValues);
+
+    val = 0;
+    for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
+      val += frontValues[i];
+      Serial.println(frontValues[i]);
+    }
+
+    avg = val / 4;
+    Serial.print("new avg: ");
+    Serial.println(avg);
+    delay(100);
+  }
+
+  stopMotors();
+}
 
 void taskHandler(uint8_t task) {
   switch (task) {
@@ -20,6 +57,10 @@ void taskHandler(uint8_t task) {
 
     case 3:
       lifterDown();
+      break;
+
+    case 4:
+      followLine();
       break;
   }
 }
@@ -65,6 +106,10 @@ void button() {
     case 3:
       ssd.println("Lower Lifter");
       break;
+
+    case 4:
+      ssd.println("Follow Line");
+      break;
   }
 
   int buttonState = digitalRead(ROTARY_SWP);
@@ -96,11 +141,9 @@ void loop() {
   QTR_Back.readCalibrated(lineValues[2]);
   QTR_Left.readCalibrated(lineValues[3]);
 
-  for (int i = 0; i < SENSOR_COUNT; i++) {
+  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
     Serial.println(lineValues[2][i]);
   }
-
-  
 
   delay(100);
 }
