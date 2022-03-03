@@ -9,6 +9,7 @@ void followLine() {
   delay(3000);
   Serial.println("followLine called");
   uint16_t *frontValues = lineValues[0];
+  uint16_t *backValues = lineValues[2];
   uint16_t val;
   uint16_t avg;
 
@@ -17,6 +18,7 @@ void followLine() {
   // Just uses average to detect a line
   do {
     QTR_Front.readCalibrated(frontValues);
+    QTR_Back.readCalibrated(backValues);
 
     val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
@@ -29,9 +31,9 @@ void followLine() {
     Serial.println(avg);
 
     // Very Basic Line Correcting
-    if (frontValues[0] < 100) {
+    if (frontValues[0] < 200) {
       setMotorDir(Forward_Right);
-    } else if (frontValues[3] < 100) {
+    } else if (frontValues[3] < 200) {
       setMotorDir(Forward_Left);
     } else {
       setMotorDir(Forward);
