@@ -25,6 +25,5 @@ void setup() {
 
   Serial.println("Executing Tasks");
   delay(1000);
-
   //  calibrateAllSensors();
 }

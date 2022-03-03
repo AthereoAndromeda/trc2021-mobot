@@ -4,26 +4,18 @@ uint16_t lineValues[SENSOR_COUNT][SENSOR_COUNT];
 int8_t taskCounter;
 #define MAX_TASKS 5
 
-// WIP
+// Just moves forward when line is detected
 void followLine() {
   delay(3000);
   Serial.println("followLine called");
   uint16_t *frontValues = lineValues[0];
-
-  uint16_t val = 0;
-  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
-    Serial.println(frontValues[i]);
-    val += frontValues[i];
-  }
-
-  Serial.println(val);
-
-  uint16_t avg = val / 4;
-  Serial.print("avg: ");
-  Serial.println(avg);
+  uint16_t val;
+  uint16_t avg;
 
   motorMove(Forward, 0);
-  while (avg > 300) {
+
+  // Just uses average to detect a line
+  do {
     QTR_Front.readCalibrated(frontValues);
 
     val = 0;
@@ -35,8 +27,18 @@ void followLine() {
     avg = val / 4;
     Serial.print("new avg: ");
     Serial.println(avg);
-    delay(100);
-  }
+
+    // Very Basic Line Correcting
+    if (frontValues[0] < 100) {
+      setMotorDir(Forward_Right);
+    } else if (frontValues[3] < 100) {
+      setMotorDir(Forward_Left);
+    } else {
+      setMotorDir(Forward);
+    }
+
+    delay(10);
+  } while (avg > 100);
 
   stopMotors();
 }
