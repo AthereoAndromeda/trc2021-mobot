@@ -92,6 +92,16 @@ enum LifterState { Up, Down };
 int liftPwm, liftPosition;
 
 //uint16_t sensorValues[SENSOR_COUNT];
+// Sensors are arranged clockwise
+uint16_t lineValues[SENSOR_COUNT][SENSOR_COUNT];
+enum MobotOrientation {
+  North,
+  South,
+  East,
+  West  
+};
+MobotOrientation mobotOrientation;
+
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;

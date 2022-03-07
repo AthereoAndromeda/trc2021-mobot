@@ -1,4 +1,4 @@
-#define DELAY_TIME 3000
+#define DELAY_TIME 1000
 #define DEF_TIMEOUT 1000
 
 void initLineSensors() {

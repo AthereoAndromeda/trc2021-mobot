@@ -1,6 +1,3 @@
-// Sensors are arranged clockwise
-uint16_t lineValues[SENSOR_COUNT][SENSOR_COUNT];
-
 int8_t taskCounter;
 #define MAX_TASKS 5
 
@@ -9,7 +6,9 @@ void followLine() {
   delay(3000);
   Serial.println("followLine called");
   uint16_t *frontValues = lineValues[0];
+  uint16_t *rightValues = lineValues[1];
   uint16_t *backValues = lineValues[2];
+  uint16_t *leftValues = lineValues[3];
   uint16_t val;
   uint16_t avg;
 
@@ -19,6 +18,8 @@ void followLine() {
   do {
     QTR_Front.readCalibrated(frontValues);
     QTR_Back.readCalibrated(backValues);
+    QTR_Right.readCalibrated(rightValues);
+    QTR_Left.readCalibrated(leftValues);
 
     val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
@@ -30,10 +31,24 @@ void followLine() {
     Serial.print("new avg: ");
     Serial.println(avg);
 
+    // Intersection detecting
+    if (rightValues[0] > 200 & leftValues[0] > 200) {
+      pixels.setPixelColor(0, 255, 0, 0);
+
+      //      setMotorDir(CW_Center_Center);
+      //      delay(1000);
+      //      setMotorDir(Forward);
+      //      delay(100);
+    } else {
+      pixels.clear();
+    }
+
+    pixels.show();
+
     // Very Basic Line Correcting
-    if (frontValues[0] < 200) {
+    if (frontValues[0] < 200 && frontValues[3] > 200) {
       setMotorDir(Forward_Right);
-    } else if (frontValues[3] < 200) {
+    } else if (frontValues[3] < 200 && frontValues[0] > 200) {
       setMotorDir(Forward_Left);
     } else {
       setMotorDir(Forward);
