@@ -41,6 +41,17 @@
 
 #include <QTRSensors.h>
 
+#include <AceRoutine.h>
+using namespace ace_routine;
+
+COROUTINE(detectColors) {
+  COROUTINE_LOOP() {
+    taskElevenTwelve(true, true);
+    COROUTINE_DELAY(300);
+  }
+}
+
+
 QTRSensors QTR_Front;
 QTRSensors QTR_Back;
 QTRSensors QTR_Left;
@@ -65,8 +76,8 @@ enum MotorDirection {
   Right = 0x66,
   Forward_Left = 0x88,
   Forward_Right = 0x22,
-  Backward_Left = 0x44,
-  Backward_Right = 0x11,
+  Backward_Right = 0x44,
+  Backward_Left = 0x11,
   CW_Center_Center = 0x69,
   CCW_Center_Center = 0x96,
   CW_Back_Center = 0x5F,
@@ -94,13 +105,12 @@ int liftPwm, liftPosition;
 //uint16_t sensorValues[SENSOR_COUNT];
 // Sensors are arranged clockwise
 uint16_t lineValues[SENSOR_COUNT][SENSOR_COUNT];
-enum MobotOrientation {
+enum LineDirection {
   North,
   South,
   East,
-  West  
+  West
 };
-MobotOrientation mobotOrientation;
 
 
 String apdsColor;
@@ -115,3 +125,4 @@ void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpee
 void setMotorDir(MotorDirection direction);
 void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
+void followLine(LineDirection direction);

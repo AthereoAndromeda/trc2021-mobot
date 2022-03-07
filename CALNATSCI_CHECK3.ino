@@ -105,12 +105,15 @@ void taskElevenTwelve(bool enableEleven, bool enableTwelve) {
     }
   }
 
+  if (isLifterUp) {
+    lifterDown();
+  }
   Serial.println(redCounted);
   Serial.println(greenCounted);
   Serial.println(blueCounted);
   Serial.println(noneCounted);
 
-  delay(50);
+  //  delay(50);
 }
 
 void executeCheckThree() {

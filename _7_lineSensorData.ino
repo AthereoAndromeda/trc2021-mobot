@@ -101,13 +101,37 @@ void calibrateAllSensors() {
   // 2.5 ms RC read timeout (default) * 10 reads per calibrate() call
   // = ~25 ms per calibrate() call.
   // Call calibrate() 100 times to make calibration take about 10 seconds.
-  for (uint8_t i = 0; i < 100; i++) {
+  motorMove(Forward_Right, 0);
+  for (uint8_t i = 0; i < 25; i++) {
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
+  }
+  stopMotors();
+  //  delay(100);
+  for (uint8_t i = 0; i < 25; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
     QTR_Right.calibrate();
   }
 
+  motorMove(Backward_Left, 0);
+  for (uint8_t i = 0; i < 25; i++) {
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
+  }
+  stopMotors();
+
+  for (uint8_t i = 0; i < 25; i++) {
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
+  }
   Serial.println();
 
   _printSensorValues(QTR_Front.calibrationOn.minimum, QTR_Front.calibrationOn.maximum, "Front Sensors");
