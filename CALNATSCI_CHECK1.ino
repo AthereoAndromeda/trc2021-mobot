@@ -7,10 +7,10 @@ void colorHandler(ColorData *data) {
 
   if (Mobot.colorData.name != "NONE") {
     ssd.println("PALLET: TRUE");
-    ssd.print("COLOR: ");
-    ssd.println(*colorName);
 
     if (*colorName == "BLUE") {
+      ssd.print("COLOR: ");
+      ssd.println(*colorName);
       pixels.setPixelColor(0, 0, 0, 255);
     } else {
       pixels.setPixelColor(0, 0, 255, 0);
