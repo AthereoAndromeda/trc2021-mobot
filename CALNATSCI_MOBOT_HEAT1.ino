@@ -119,7 +119,7 @@ void setMotorDir(MotorDirection direction);
 void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void followLine(LineDirection direction);
-void detectCol(ColorData *data);
+void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
 
 class MobotClass {
@@ -131,11 +131,13 @@ class MobotClass {
       motorMove(dir, duration);
     }
 
-    MobotClass() {
+    MobotClass(uint8_t initX, uint8_t initY) {
       Serial.println(">> MobotClass instance constructed!");
+      x = initX;
+      y = initY;
     }
 
     ~MobotClass() {}
 };
 
-MobotClass Mobot;
+MobotClass Mobot(1, 0);

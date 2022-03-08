@@ -2,7 +2,7 @@ void colorHandler(ColorData *data) {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
 
-  detectCol(&Mobot.colorData);
+  detectColor(&Mobot.colorData);
   String *colorName = &Mobot.colorData.name;
 
   if (Mobot.colorData.name != "NONE") {
@@ -10,7 +10,9 @@ void colorHandler(ColorData *data) {
     ssd.print("COLOR: ");
     ssd.println(*colorName);
 
-    if (*colorName == "BLUE" || *colorName == "RED") {
+    if (*colorName == "BLUE") {
+      pixels.setPixelColor(0, 0, 0, 255);
+    } else {
       pixels.setPixelColor(0, 0, 255, 0);
     }
   } else {
@@ -20,7 +22,6 @@ void colorHandler(ColorData *data) {
 
   ssd.display();
   pixels.show();
-
 
   delay(1000);
   pixels.clear();
