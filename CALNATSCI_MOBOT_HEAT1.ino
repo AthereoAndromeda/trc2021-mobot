@@ -41,17 +41,6 @@
 
 #include <QTRSensors.h>
 
-#include <AceRoutine.h>
-using namespace ace_routine;
-
-COROUTINE(detectColors) {
-  COROUTINE_LOOP() {
-    taskElevenTwelve(true, true);
-    COROUTINE_DELAY(300);
-  }
-}
-
-
 QTRSensors QTR_Front;
 QTRSensors QTR_Back;
 QTRSensors QTR_Left;
@@ -112,6 +101,10 @@ enum LineDirection {
   West
 };
 
+struct ColorData {
+  String name;
+} colorData;
+
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
@@ -126,3 +119,23 @@ void setMotorDir(MotorDirection direction);
 void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void followLine(LineDirection direction);
+void detectCol(ColorData *data);
+void colorHandler(ColorData *data);
+
+class MobotClass {
+  public:
+    uint8_t x, y;
+    ColorData colorData;
+
+    void move(MotorDirection dir, uint16_t duration) {
+      motorMove(dir, duration);
+    }
+
+    MobotClass() {
+      Serial.println(">> MobotClass instance constructed!");
+    }
+
+    ~MobotClass() {}
+};
+
+MobotClass Mobot;

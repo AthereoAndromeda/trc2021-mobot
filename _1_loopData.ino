@@ -1,8 +1,38 @@
 int8_t taskCounter;
 #define MAX_TASKS 5
 
-uint8_t intersectionsPassed;
-bool intGuard = false;
+void detectCol(ColorData *data) {
+  Serial.println(data->name);
+
+  // COLOR SENSOR READINGS
+  apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
+
+  // Put values between 0-255
+  redCalib = constrain(map(redVal, redMin, redMax, 0, 255), 0, 255);
+  greenCalib = constrain(map(greenVal, greenMin, greenMax, 0, 255), 0, 255);
+  blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
+  clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
+
+  const uint8_t clearCalibThreshold = 20;
+  uint8_t maxRange = clearCalib + clearCalibThreshold;
+  int8_t minRange = clearCalib - clearCalibThreshold; // Keep this signed
+
+  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
+    Serial.println(">> Red-colored pallet detected!");
+    data->name = "RED";
+  }
+  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib >= clearCalib)) {
+    Serial.println(">> Green-colored pallet detected!");
+    data->name = "GREEN";
+  }
+  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib >= minRange && blueCalib <= maxRange)) {
+    Serial.println(">> Blue-colored pallet detected!");
+    data->name = "BLUE";
+  } else {
+    Serial.println(">> Non-existent pallet detected!");
+    data->name = "NONE";
+  }
+}
 
 void correctMobotOrientation() {
   uint16_t *frontValues = lineValues[0];
@@ -34,34 +64,6 @@ void correctMobotOrientation() {
   } while (avg < 250);
 
   stopMotors();
-}
-
-void taskOne_2() {
-  correctMobotOrientation();
-  followLine(East);
-  delay(2000);
-  followLine(East);
-  delay(2000);
-  followLine(North);
-  delay(2000);
-  followLine(North);
-  for (int i = 0; i > 20; i++) {
-    taskElevenTwelve(true, true);
-  }
-  delay(2000);
-
-  followLine(North);
-  delay(2000);
-
-  //  for (int i = 0; i > 10; i++) {
-  //    taskElevenTwelve(true, false);
-  //  }
-
-  followLine(West);
-  followLine(South);
-  followLine(South);
-  followLine(South);
-  followLine(West);
 }
 
 void runLineFollower(
@@ -174,7 +176,9 @@ void followLine(LineDirection direction) {
 void taskHandler(uint8_t task) {
   switch (task) {
     case 0:
+      delay(1000);
       calibrateAllSensors();
+      calibrateApds();
       break;
 
     case 1:
@@ -200,7 +204,10 @@ void taskHandler(uint8_t task) {
 }
 
 void loop() {
-  buttonHandler();
+  rotaryHandler();
+
+  detectCol(&colorData);
+  //  taskElevenTwelve(true, true);
   //  QTR_Front.readCalibrated(lineValues[0]);
   //  QTR_Right.readCalibrated(lineValues[1]);
   //  QTR_Back.readCalibrated(lineValues[2]);

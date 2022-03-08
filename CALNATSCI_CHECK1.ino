@@ -1,38 +1,66 @@
-void taskOne() {
-  motorMove(Forward, MOTOR_DELAY * 2);
+void colorHandler(ColorData *data) {
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+
+  detectCol(&Mobot.colorData);
+  String *colorName = &Mobot.colorData.name;
+
+  if (Mobot.colorData.name != "NONE") {
+    ssd.println("PALLET: TRUE");
+    ssd.print("COLOR: ");
+    ssd.println(*colorName);
+
+    if (*colorName == "BLUE" || *colorName == "RED") {
+      pixels.setPixelColor(0, 0, 255, 0);
+    }
+  } else {
+    ssd.println("PALLET: FALSE");
+    pixels.setPixelColor(0, 255, 255, 255);
+  }
+
+  ssd.display();
+  pixels.show();
+
+
+  delay(1000);
+  pixels.clear();
+  pixels.show();
 }
 
-void taskTwo() {
-  motorMove(Backward, MOTOR_DELAY * 2);
-}
 
-void taskThree() {
-  motorMove(CCW_Center_Center, MOTOR_DELAY * 2);
-}
+void taskOne_2() {
+  correctMobotOrientation();
+  // 2,0
+  followLine(East);
+  delay(2000);
 
-void taskFour() {
-  motorMove(CW_Center_Center, MOTOR_DELAY * 2);
-}
+  // 3,0
+  followLine(East);
 
-void taskFive() {
-  motorMove(Left, MOTOR_DELAY_SIDEWAYS * 2);
-}
+  // 3,1
+  followLine(North);
+  delay(2000);
 
-void taskSix() {
-  motorMove(Right, MOTOR_DELAY_SIDEWAYS * 2);
-}
+  // 3, 2
+  followLine(North);
+  colorHandler(&Mobot.colorData);
+  delay(2000);
 
+  // 3.3
+  followLine(North);
+  colorHandler(&Mobot.colorData);
+  delay(2000);
 
-void executeCheckOne() {
-  // Forward/Backwards
-  taskOne();
-  taskTwo();
+  // 2,3
+  followLine(West);
+  colorHandler(&Mobot.colorData);
+  delay(2000);
 
-  // Rotate Left/Right
-  taskThree();
-  taskFour();
+  followLine(South);
+  followLine(South);
+  followLine(South);
+  followLine(West);
 
-  // Shift Left/Right
-  taskFive();
-  taskSix();
+  pixels.clear();
+  pixels.show();
 }

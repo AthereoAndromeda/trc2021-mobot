@@ -10,7 +10,7 @@ void initRotary() {
 }
 
 
-void buttonHandler() {
+void rotaryHandler() {
   ssd.setTextSize(2);
 
   // ENCODER KNOB READINGS
