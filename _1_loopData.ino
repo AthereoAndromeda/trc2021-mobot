@@ -1,7 +1,7 @@
 int8_t taskCounter;
 #define MAX_TASKS 5
 
-void detectCol(ColorData *data) {
+void detectColor(ColorData *data) {
   Serial.println(data->name);
 
   // COLOR SENSOR READINGS
@@ -61,7 +61,7 @@ void correctMobotOrientation() {
     } else {
       setMotorDir(CCW_Center_Center);
     }
-  } while (avg < 250);
+  } while (frontValues[1] < 200 && backValues[2] < 200);
 
   stopMotors();
 }
@@ -89,12 +89,9 @@ void runLineFollower(
     int val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
       val += arr[i];
-      //      Serial.println(frontValues[i]);
     }
 
     avg = val / SENSOR_COUNT;
-    Serial.print("new avg: ");
-    Serial.println(avg);
 
     // Intersection detecting
     if (intersectionValues_One[1] > 200 & intersectionValues_Two[1] > 200) {
@@ -118,59 +115,109 @@ void followLine(LineDirection direction) {
   uint16_t *rightValues = lineValues[1];
   uint16_t *backValues = lineValues[2];
   uint16_t *leftValues = lineValues[3];
-  uint16_t val;
-  uint16_t avg;
-  uint16_t eastVal;
-  uint16_t eastAvg;
 
-  if (direction == North) {
-    motorMove(Forward, 0);
-    runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
-      if (arr[0] < 200 && arr[3] > 200) {
-        setMotorDir(Forward_Right);
-      } else if (arr[3] < 200 && arr[0] > 200) {
-        setMotorDir(Forward_Left);
-      } else {
-        setMotorDir(Forward);
-      }
-    });
-  } else if (direction == East) {
-    motorMove(Right, 0);
-    runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
-      if (arr[0] < 200 && arr[3] > 200) {
-        setMotorDir(Backward_Left);
-      } else if (arr[3] < 200 && arr[0] > 200) {
-        setMotorDir(Forward_Right);
-      } else {
-        setMotorDir(Right);
-      }
-    });
-  } else if (direction == West) {
-    motorMove(Left, 0);
-    runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
-      if (arr[0] < 200 && arr[3] > 200) {
-        setMotorDir(Backward_Left);
-      } else if (arr[3] < 200 && arr[0] > 200) {
-        setMotorDir(Forward_Left);
-      } else {
-        setMotorDir(Left);
-      }
-    });
-  } else {
-    motorMove(Backward, 0);
-    runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
-      if (arr[0] < 200 && arr[3] > 200) {
-        setMotorDir(Backward_Right);
-      } else if (arr[3] < 200 && arr[0] > 200) {
-        setMotorDir(Backward_Left);
-      } else {
-        setMotorDir(Backward);
-      }
-    });
+  switch (direction) {
+    case North:
+      motorMove(Forward, 0);
+      runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Forward_Right);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Left);
+        } else {
+          setMotorDir(Forward);
+        }
+      });
+      break;
+
+    case East:
+      motorMove(Right, 0);
+      runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Left);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Right);
+        } else {
+          setMotorDir(Right);
+        }
+      });
+      break;
+
+    case West:
+      motorMove(Left, 0);
+      runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Left);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Left);
+        } else {
+          setMotorDir(Left);
+        }
+      });
+      break;
+
+    case South:
+      motorMove(Backward, 0);
+      runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Right);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Backward_Left);
+        } else {
+          setMotorDir(Backward);
+        }
+      });
+      break;
   }
 
+  //  if (direction == North) {
+  //    motorMove(Forward, 0);
+  //    runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
+  //      if (arr[0] < 200 && arr[3] > 200) {
+  //        setMotorDir(Forward_Right);
+  //      } else if (arr[3] < 200 && arr[0] > 200) {
+  //        setMotorDir(Forward_Left);
+  //      } else {
+  //        setMotorDir(Forward);
+  //      }
+  //    });
+  //  } else if (direction == East) {
+  //    motorMove(Right, 0);
+  //    runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
+  //      if (arr[0] < 200 && arr[3] > 200) {
+  //        setMotorDir(Backward_Left);
+  //      } else if (arr[3] < 200 && arr[0] > 200) {
+  //        setMotorDir(Forward_Right);
+  //      } else {
+  //        setMotorDir(Right);
+  //      }
+  //    });
+  //  } else if (direction == West) {
+  //    motorMove(Left, 0);
+  //    runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
+  //      if (arr[0] < 200 && arr[3] > 200) {
+  //        setMotorDir(Backward_Left);
+  //      } else if (arr[3] < 200 && arr[0] > 200) {
+  //        setMotorDir(Forward_Left);
+  //      } else {
+  //        setMotorDir(Left);
+  //      }
+  //    });
+  //  } else {
+  //    motorMove(Backward, 0);
+  //    runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
+  //      if (arr[0] < 200 && arr[3] > 200) {
+  //        setMotorDir(Backward_Right);
+  //      } else if (arr[3] < 200 && arr[0] > 200) {
+  //        setMotorDir(Backward_Left);
+  //      } else {
+  //        setMotorDir(Backward);
+  //      }
+  //    });
+  //  }
+
   stopMotors();
-  delay(10);
+  delay(50);
 }
 
 void taskHandler(uint8_t task) {
@@ -182,7 +229,7 @@ void taskHandler(uint8_t task) {
       break;
 
     case 1:
-      cycleLed();
+      correctMobotOrientation();
       break;
 
     case 2:
@@ -206,7 +253,7 @@ void taskHandler(uint8_t task) {
 void loop() {
   rotaryHandler();
 
-  detectCol(&colorData);
+  //  detectColor(&colorData);
   //  taskElevenTwelve(true, true);
   //  QTR_Front.readCalibrated(lineValues[0]);
   //  QTR_Right.readCalibrated(lineValues[1]);
