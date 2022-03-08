@@ -2,6 +2,12 @@ void initApds() {
   apds.enableColor(true);
   while (!apds.colorDataReady()) delay(100);
 
+  calibrateApds();
+
+  Serial.println(">> Color sensor calibration successful!");
+}
+
+void calibrateApds() {
   for (uint8_t i = 0; i < APDS_ACCURACY; i++) {
     apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
 
@@ -29,6 +35,4 @@ void initApds() {
     clearMin = min(clearArr[i], clearMin);
     clearMax = max(clearArr[i], clearMax);
   }
-
-  Serial.println(">> Color sensor calibration successful!");
 }
