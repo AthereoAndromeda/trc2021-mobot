@@ -45,7 +45,7 @@ void rotaryHandler() {
       break;
 
     case 2:
-      ssd.println("Raise Lifter");
+      ssd.println("Check Two");
       break;
 
     case 3:
