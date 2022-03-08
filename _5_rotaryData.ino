@@ -41,7 +41,7 @@ void rotaryHandler() {
       break;
 
     case 1:
-      ssd.println("Cycle LED");
+      ssd.println("Correct Orientation");
       break;
 
     case 2:
