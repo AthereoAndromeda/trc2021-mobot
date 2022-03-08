@@ -40,6 +40,8 @@ void correctMobotOrientation() {
   uint16_t *backValues = lineValues[2];
   uint16_t *leftValues = lineValues[3];
   uint16_t avg;
+  unsigned long int timeStarted = millis();
+  uint8_t timesMoved;
 
   motorMove(Stop, 0);
   do {
@@ -47,6 +49,9 @@ void correctMobotOrientation() {
     QTR_Back.readCalibrated(backValues);
     QTR_Right.readCalibrated(rightValues);
     QTR_Left.readCalibrated(leftValues);
+
+    Serial.println(frontValues[1]);
+    Serial.println(backValues[2]);
 
     int val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
@@ -56,12 +61,45 @@ void correctMobotOrientation() {
 
     avg = val / 8;
     Serial.println(avg);
+
+    unsigned long int timeNow = millis();
+    //    if (timeNow - timeStarted >= 1000) {
+    //      timesMoved++;
+    //
+    //      if (timesMoved == 0) {
+    //        setMotorDir(Backward_Left);
+    //        delay(10);
+    //        setMotorDir(Stop);
+    //      } else if (timesMoved == 1) {
+    //        setMotorDir(Forward_Left);
+    //        delay(10);
+    //        setMotorDir(Stop);
+    //      } else if (timesMoved == 2) {
+    //        setMotorDir(Backward_Right);
+    //        delay(10);
+    //        setMotorDir(Stop);
+    //      } else {
+    //        timesMoved = 0;
+    //      }
+    //    }
+
     if (frontValues[0] < 200 && backValues[3] < 200) {
       setMotorDir(CW_Center_Center);
+      delay(100);
+      setMotorDir(Stop);
     } else {
       setMotorDir(CCW_Center_Center);
+      delay(100);
+      setMotorDir(Stop);
     }
-  } while (frontValues[1] < 200 && backValues[2] < 200);
+    //    delay(100);
+  } while (
+    (frontValues[1] < 300 && frontValues[2] < 300)
+    || (backValues[1] < 300 && backValues[2] < 300)
+    || (leftValues[1] < 300 && leftValues[2] < 300)
+    || (rightValues[1] < 300 && rightValues[2] < 300)
+    //    || (rightValues[3] < leftValues[1])
+  );
 
   stopMotors();
 }
@@ -170,52 +208,6 @@ void followLine(LineDirection direction) {
       break;
   }
 
-  //  if (direction == North) {
-  //    motorMove(Forward, 0);
-  //    runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
-  //      if (arr[0] < 200 && arr[3] > 200) {
-  //        setMotorDir(Forward_Right);
-  //      } else if (arr[3] < 200 && arr[0] > 200) {
-  //        setMotorDir(Forward_Left);
-  //      } else {
-  //        setMotorDir(Forward);
-  //      }
-  //    });
-  //  } else if (direction == East) {
-  //    motorMove(Right, 0);
-  //    runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
-  //      if (arr[0] < 200 && arr[3] > 200) {
-  //        setMotorDir(Backward_Left);
-  //      } else if (arr[3] < 200 && arr[0] > 200) {
-  //        setMotorDir(Forward_Right);
-  //      } else {
-  //        setMotorDir(Right);
-  //      }
-  //    });
-  //  } else if (direction == West) {
-  //    motorMove(Left, 0);
-  //    runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
-  //      if (arr[0] < 200 && arr[3] > 200) {
-  //        setMotorDir(Backward_Left);
-  //      } else if (arr[3] < 200 && arr[0] > 200) {
-  //        setMotorDir(Forward_Left);
-  //      } else {
-  //        setMotorDir(Left);
-  //      }
-  //    });
-  //  } else {
-  //    motorMove(Backward, 0);
-  //    runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
-  //      if (arr[0] < 200 && arr[3] > 200) {
-  //        setMotorDir(Backward_Right);
-  //      } else if (arr[3] < 200 && arr[0] > 200) {
-  //        setMotorDir(Backward_Left);
-  //      } else {
-  //        setMotorDir(Backward);
-  //      }
-  //    });
-  //  }
-
   stopMotors();
   delay(50);
 }
@@ -233,7 +225,7 @@ void taskHandler(uint8_t task) {
       break;
 
     case 2:
-      lifterUp();
+      executeCheckTwo();
       break;
 
     case 3:

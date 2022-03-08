@@ -125,19 +125,100 @@ void colorHandler(ColorData *data);
 class MobotClass {
   public:
     uint8_t x, y;
+    LineDirection orientation;
     ColorData colorData;
 
     void move(MotorDirection dir, uint16_t duration) {
       motorMove(dir, duration);
     }
 
-    MobotClass(uint8_t initX, uint8_t initY) {
+    MobotClass(uint8_t initX, uint8_t initY, LineDirection initOrient) {
       Serial.println(">> MobotClass instance constructed!");
       x = initX;
       y = initY;
+      orientation = initOrient;
+    }
+
+    void _followLine(LineDirection dir) {
+      if (orientation == North) {
+        switch (dir) {
+          case North:
+            y++;
+            break;
+
+          case South:
+            y--;
+            break;
+
+          case East:
+            x++;
+            break;
+
+          case West:
+            x--;
+            break;
+        }
+      } else if (orientation == South) {
+        switch (dir) {
+          case North:
+            y--;
+            break;
+
+          case South:
+            y++;
+            break;
+
+          case East:
+            x--;
+            break;
+
+          case West:
+            x++;
+            break;
+        }
+      } else if (orientation == East) {
+        switch (dir) {
+          case North:
+            x++;
+            break;
+
+          case South:
+            x--;
+            break;
+
+          case East:
+            y--;
+            break;
+
+          case West:
+            y++;
+            break;
+        }
+      } else {
+        switch (dir) {
+          case North:
+            x--;
+            break;
+
+          case South:
+            x++;
+            break;
+
+          case East:
+            y++;
+            break;
+
+          case West:
+            y--;
+            break;
+        }
+      }
+
+
+      followLine(dir);
     }
 
     ~MobotClass() {}
 };
 
-MobotClass Mobot(1, 0);
+MobotClass Mobot(1, 0, North);
