@@ -13,6 +13,7 @@ void initLineSensors() {
   QTR_Front.setEmitterPin(33);
 
   //back line sensor
+  
   QTR_Back.setTimeout(DEF_TIMEOUT);
   QTR_Back.setTypeRC();
   QTR_Back.setSensorPins((const uint8_t[]) {
@@ -102,7 +103,7 @@ void calibrateAllSensors() {
   // = ~25 ms per calibrate() call.
   // Call calibrate() 100 times to make calibration take about 10 seconds.
   motorMove(Forward_Right, 0);
-  for (uint8_t i = 0; i < 25; i++) {
+  for (uint8_t i = 0; i < 15; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
@@ -110,7 +111,7 @@ void calibrateAllSensors() {
   }
   stopMotors();
   //  delay(100);
-  for (uint8_t i = 0; i < 25; i++) {
+  for (uint8_t i = 0; i < 45; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
@@ -118,7 +119,7 @@ void calibrateAllSensors() {
   }
 
   motorMove(Backward_Left, 0);
-  for (uint8_t i = 0; i < 25; i++) {
+  for (uint8_t i = 0; i < 15; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
@@ -126,7 +127,7 @@ void calibrateAllSensors() {
   }
   stopMotors();
 
-  for (uint8_t i = 0; i < 25; i++) {
+  for (uint8_t i = 0; i < 45; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
