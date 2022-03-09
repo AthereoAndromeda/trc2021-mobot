@@ -34,11 +34,15 @@ void taskTwoColorHandler() {
 }
 
 void executeCheckTwo() {
+  // Set Init position
   Mobot.orientation = South;
+  Mobot.x = 1;
+  Mobot.y = 0;
 
-  correctMobotOrientation();
-  correctMobotOrientation();
+  //  correctMobotOrientation();
+  //  correctMobotOrientation();
 
+  delay(2000);
   taskTwoColorHandler();
   delay(2000);
 
@@ -52,5 +56,5 @@ void executeCheckTwo() {
 
   Mobot._followLine(South);
   taskTwoColorHandler();
-  delay(2000)
+  delay(2000);
 }

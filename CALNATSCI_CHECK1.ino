@@ -29,8 +29,13 @@ void colorHandler(ColorData *data) {
 }
 
 
-void taskOne_2() {
-  correctMobotOrientation();
+void executeCheckOne() {
+  Mobot.orientation = North;
+  Mobot.x = 1;
+  Mobot.y = 0;
+
+  //  correctMobotOrientation();
+
   // 2,0
   followLine(East);
   delay(2000);

@@ -50,8 +50,11 @@ void correctMobotOrientation() {
     QTR_Right.readCalibrated(rightValues);
     QTR_Left.readCalibrated(leftValues);
 
+    Serial.println("AAAA");
     Serial.println(frontValues[1]);
     Serial.println(backValues[2]);
+    Serial.println(leftValues[2]);
+    Serial.println(rightValues[2]);
 
     int val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
@@ -92,12 +95,11 @@ void correctMobotOrientation() {
       delay(100);
       setMotorDir(Stop);
     }
-    //    delay(100);
   } while (
     (frontValues[1] < 300 && frontValues[2] < 300)
     || (backValues[1] < 300 && backValues[2] < 300)
-    || (leftValues[1] < 300 && leftValues[2] < 300)
-    || (rightValues[1] < 300 && rightValues[2] < 300)
+    || (leftValues[1] < 400 && leftValues[2] < 300)
+    || (rightValues[1] < 400 && rightValues[2] < 300)
     //    || (rightValues[3] < leftValues[1])
   );
 
@@ -229,7 +231,7 @@ void taskHandler(uint8_t task) {
       break;
 
     case 3:
-      lifterDown();
+      executeChallengeOne();
       break;
 
     case 4:
@@ -237,13 +239,14 @@ void taskHandler(uint8_t task) {
       break;
 
     case 5:
-      taskOne_2();
+      executeCheckOne();
       break;
   }
 }
 
 void loop() {
   rotaryHandler();
+  CoroutineScheduler::loop();
 
   //  detectColor(&colorData);
   //  taskElevenTwelve(true, true);

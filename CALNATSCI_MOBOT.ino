@@ -41,6 +41,9 @@
 
 #include <QTRSensors.h>
 
+#include <AceRoutine.h>
+using namespace ace_routine;
+
 QTRSensors QTR_Front;
 QTRSensors QTR_Back;
 QTRSensors QTR_Left;
@@ -121,6 +124,16 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void followLine(LineDirection direction);
 void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
+static bool cleartt = false;
+
+COROUTINE(clearPixels) {
+  COROUTINE_LOOP() {
+    COROUTINE_AWAIT(cleartt);
+    pixels.clear();
+    pixels.show();
+    cleartt = false;
+  }
+}
 
 class MobotClass {
   public:
