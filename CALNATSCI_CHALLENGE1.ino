@@ -34,12 +34,9 @@ void challengeOneColorHandler() {
     lifterDown();
   }
 
-  cleartt = true;
-
-  //
-  //  delay(100);
-  //  pixels.clear();
-  //  pixels.show();
+    delay(100);
+    pixels.clear();
+    pixels.show();
 }
 void executeChallengeOne() {
   Mobot.orientation = North;
