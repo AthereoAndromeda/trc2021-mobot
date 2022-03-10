@@ -29,43 +29,18 @@ void rotaryHandler() {
   }
   lrotState = crotState;
 
-  if (taskCounter > MAX_TASKS) {
+  if (taskCounter > TASK_COUNT) {
     taskCounter = 0;
   } else if (taskCounter < 0) {
-    taskCounter = MAX_TASKS;
+    taskCounter = TASK_COUNT;
   }
 
-  switch (taskCounter) {
-    case 0:
-      ssd.println("Calibrate Sensors");
-      break;
-
-    case 1:
-      ssd.println("Correct Orientation");
-      break;
-
-    case 2:
-      ssd.println("Check Two");
-      break;
-
-    case 3:
-      ssd.println("Challenge 1");
-      break;
-
-    case 4:
-      ssd.println("Follow Line");
-      break;
-
-    case 5:
-      ssd.println("Check One");
-      break;
-  }
-
+  String *displayTextPtr = &taskData[taskCounter].displayText;
+  ssd.println(*displayTextPtr);
+  
   int buttonState = digitalRead(ROTARY_SWP);
-
   if (buttonState == LOW) {
     if (millis() - lbutPress > 50) {
-      Serial.println("Pressed!");
       ssd.println("Executing!");
       ssd.display();
 
@@ -80,4 +55,5 @@ void rotaryHandler() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
   ssd.setTextSize(1);
+  delay(100);
 }

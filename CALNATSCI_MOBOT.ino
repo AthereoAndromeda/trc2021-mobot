@@ -20,6 +20,8 @@
 
 #define SENSOR_COUNT 4
 
+#define TASK_COUNT 4
+
 // MOTOR_DELAY represents 1 block
 #define MOTOR_DELAY 3000
 #define MOTOR_DELAY_SIDEWAYS 3230
@@ -40,10 +42,6 @@
 #include <Adafruit_SSD1306.h>
 
 #include <QTRSensors.h>
-
-#include <AceRoutine.h>
-using namespace ace_routine;
-
 QTRSensors QTR_Front;
 QTRSensors QTR_Back;
 QTRSensors QTR_Left;
@@ -108,6 +106,29 @@ struct ColorData {
   String name;
 } colorData;
 
+struct TaskData {
+  String displayText;
+  void (*execute)(void);
+};
+
+TaskData taskData[TASK_COUNT] = {
+  {
+    "Calibrate Sensors",
+    calibrateAllSensors
+  },
+  {
+    "Check One",
+    executeCheckOne
+  },
+  {
+    "Check Two",
+    executeCheckTwo
+  },
+  {
+    "Challenge One",
+    executeChallengeOne
+  }
+};
 
 String apdsColor;
 uint16_t redVal, greenVal, blueVal, clearVal;
@@ -124,26 +145,12 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void followLine(LineDirection direction);
 void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
-static bool cleartt = false;
-
-COROUTINE(clearPixels) {
-  COROUTINE_LOOP() {
-    COROUTINE_AWAIT(cleartt);
-    pixels.clear();
-    pixels.show();
-    cleartt = false;
-  }
-}
 
 class MobotClass {
   public:
     uint8_t x, y;
     LineDirection orientation;
     ColorData colorData;
-
-    void move(MotorDirection dir, uint16_t duration) {
-      motorMove(dir, duration);
-    }
 
     MobotClass(uint8_t initX, uint8_t initY, LineDirection initOrient) {
       Serial.println(">> MobotClass instance constructed!");
@@ -152,7 +159,20 @@ class MobotClass {
       orientation = initOrient;
     }
 
+    ~MobotClass() {}
+
     void _followLine(LineDirection dir) {
+      determineXY(dir);
+
+      followLine(dir);
+    }
+
+    void move(MotorDirection dir, uint16_t duration) {
+      motorMove(dir, duration);
+    }
+
+  private:
+    void determineXY(LineDirection dir) {
       if (orientation == North) {
         switch (dir) {
           case North:
@@ -226,12 +246,7 @@ class MobotClass {
             break;
         }
       }
-
-
-      followLine(dir);
     }
-
-    ~MobotClass() {}
 };
 
 MobotClass Mobot(1, 0, North);

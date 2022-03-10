@@ -1,5 +1,4 @@
 int8_t taskCounter;
-#define MAX_TASKS 5
 
 void detectColor(ColorData *data) {
   Serial.println(data->name);
@@ -100,7 +99,6 @@ void correctMobotOrientation() {
     || (backValues[1] < 300 && backValues[2] < 300)
     || (leftValues[1] < 400 && leftValues[2] < 300)
     || (rightValues[1] < 400 && rightValues[2] < 300)
-    //    || (rightValues[3] < leftValues[1])
   );
 
   stopMotors();
@@ -215,49 +213,9 @@ void followLine(LineDirection direction) {
 }
 
 void taskHandler(uint8_t task) {
-  switch (task) {
-    case 0:
-      delay(1000);
-      calibrateAllSensors();
-      calibrateApds();
-      break;
-
-    case 1:
-      correctMobotOrientation();
-      break;
-
-    case 2:
-      executeCheckTwo();
-      break;
-
-    case 3:
-      executeChallengeOne();
-      break;
-
-    case 4:
-      followLine(South);
-      break;
-
-    case 5:
-      executeCheckOne();
-      break;
-  }
+  taskData[task].execute();
 }
 
 void loop() {
   rotaryHandler();
-  CoroutineScheduler::loop();
-
-  //  detectColor(&colorData);
-  //  taskElevenTwelve(true, true);
-  //  QTR_Front.readCalibrated(lineValues[0]);
-  //  QTR_Right.readCalibrated(lineValues[1]);
-  //  QTR_Back.readCalibrated(lineValues[2]);
-  //  QTR_Left.readCalibrated(lineValues[3]);
-  //
-  //  for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
-  //    Serial.println(lineValues[2][i]);
-  //  }
-
-  delay(100);
 }
