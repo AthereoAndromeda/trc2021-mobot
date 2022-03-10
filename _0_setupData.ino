@@ -2,8 +2,6 @@ void setup() {
   Serial.begin(SERIAL_BAUD);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  CoroutineScheduler::setup();
-
   while (!Serial) {
     delay(100);
   } Serial.println(">> Serial monitor initialization successful!");
