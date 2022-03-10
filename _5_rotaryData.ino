@@ -9,6 +9,9 @@ void initRotary() {
   Serial.println(">> Rotary encoder configuration successful!");
 }
 
+inline void taskHandler(uint8_t task) {
+  taskData[task].execute();
+}
 
 void rotaryHandler() {
   ssd.setTextSize(2);
@@ -29,15 +32,15 @@ void rotaryHandler() {
   }
   lrotState = crotState;
 
-  if (taskCounter > TASK_COUNT) {
+  if (taskCounter > TASK_COUNT - 1) {
     taskCounter = 0;
   } else if (taskCounter < 0) {
-    taskCounter = TASK_COUNT;
+    taskCounter = TASK_COUNT - 1;
   }
 
   String *displayTextPtr = &taskData[taskCounter].displayText;
   ssd.println(*displayTextPtr);
-  
+
   int buttonState = digitalRead(ROTARY_SWP);
   if (buttonState == LOW) {
     if (millis() - lbutPress > 50) {

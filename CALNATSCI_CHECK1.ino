@@ -28,44 +28,39 @@ void colorHandler(ColorData *data) {
   pixels.show();
 }
 
-
 void executeCheckOne() {
-  Mobot.orientation = North;
-  Mobot.x = 1;
-  Mobot.y = 0;
-
-  //  correctMobotOrientation();
+  Mobot.setPosition(1, 0, North);
 
   // 2,0
-  followLine(East);
+  Mobot.followLine(East);
   delay(2000);
 
   // 3,0
-  followLine(East);
+  Mobot.followLine(East);
 
   // 3,1
-  followLine(North);
+  Mobot.followLine(North);
   delay(2000);
 
   // 3, 2
-  followLine(North);
+  Mobot.followLine(North);
   colorHandler(&Mobot.colorData);
   delay(2000);
 
   // 3.3
-  followLine(North);
+  Mobot.followLine(North);
   colorHandler(&Mobot.colorData);
   delay(2000);
 
   // 2,3
-  followLine(West);
+  Mobot.followLine(West);
   colorHandler(&Mobot.colorData);
   delay(2000);
 
-  followLine(South);
-  followLine(South);
-  followLine(South);
-  followLine(West);
+  Mobot.followLine(South);
+  Mobot.followLine(South);
+  Mobot.followLine(South);
+  Mobot.followLine(West);
 
   pixels.clear();
   pixels.show();

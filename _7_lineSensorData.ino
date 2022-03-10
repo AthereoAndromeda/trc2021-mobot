@@ -13,7 +13,7 @@ void initLineSensors() {
   QTR_Front.setEmitterPin(33);
 
   //back line sensor
-  
+
   QTR_Back.setTimeout(DEF_TIMEOUT);
   QTR_Back.setTypeRC();
   QTR_Back.setSensorPins((const uint8_t[]) {
@@ -146,4 +146,111 @@ void calibrateAllSensors() {
 
   Serial.println("Done calibrating!");
   ssd.display();
+}
+
+void runLineFollower(
+  uint16_t intersectionValues_One[SENSOR_COUNT],
+  uint16_t intersectionValues_Two[SENSOR_COUNT],
+  uint16_t arr[SENSOR_COUNT],
+  void (*cb)(uint16_t[4])
+) {
+  uint16_t *frontValues = lineValues[0];
+  uint16_t *rightValues = lineValues[1];
+  uint16_t *backValues = lineValues[2];
+  uint16_t *leftValues = lineValues[3];
+  long int timeElapsed = millis();
+  uint16_t avg;
+
+  // Just uses average to detect a line
+  do {
+    QTR_Front.readCalibrated(frontValues);
+    QTR_Back.readCalibrated(backValues);
+    QTR_Right.readCalibrated(rightValues);
+    QTR_Left.readCalibrated(leftValues);
+
+    int val = 0;
+    for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
+      val += arr[i];
+    }
+
+    avg = val / SENSOR_COUNT;
+
+    // Intersection detecting
+    if (intersectionValues_One[1] > 200 & intersectionValues_Two[1] > 200) {
+      long int timeDetected = millis();
+
+      // So it doesn't detect while on initial intersection
+      if (timeDetected - timeElapsed > 1000) {
+        break;
+      }
+    }
+
+    // Very Basic Line Correcting
+    cb(arr);
+  } while (avg > 100);
+}
+
+void runFollowLine(LineDirection direction) {
+  Serial.println("followLine called");
+  uint16_t *frontValues = lineValues[0];
+  uint16_t *rightValues = lineValues[1];
+  uint16_t *backValues = lineValues[2];
+  uint16_t *leftValues = lineValues[3];
+
+  switch (direction) {
+    case North:
+      motorMove(Forward, 0);
+      runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Forward_Right);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Left);
+        } else {
+          setMotorDir(Forward);
+        }
+      });
+      break;
+
+    case East:
+      motorMove(Right, 0);
+      runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Left);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Right);
+        } else {
+          setMotorDir(Right);
+        }
+      });
+      break;
+
+    case West:
+      motorMove(Left, 0);
+      runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Left);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Forward_Left);
+        } else {
+          setMotorDir(Left);
+        }
+      });
+      break;
+
+    case South:
+      motorMove(Backward, 0);
+      runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
+        if (arr[0] < 200 && arr[3] > 200) {
+          setMotorDir(Backward_Right);
+        } else if (arr[3] < 200 && arr[0] > 200) {
+          setMotorDir(Backward_Left);
+        } else {
+          setMotorDir(Backward);
+        }
+      });
+      break;
+  }
+
+  stopMotors();
+  delay(50);
 }

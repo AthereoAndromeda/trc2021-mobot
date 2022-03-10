@@ -14,15 +14,8 @@ void setup() {
     Serial.println(">> LCD screen init successful!");
   }
 
-  // Initialize Components
-  initRotary();
-  initLifter();
-  initLed();
-  initSsd();
-  initApds();
-  initLineSensors();
-  initMecanumWheels();
+  Mobot.init();
+  Serial.println(">> Mobot Fully Initialized");
 
-  Serial.println("Executing Tasks");
   delay(1000);
 }

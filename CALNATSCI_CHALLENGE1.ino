@@ -38,27 +38,23 @@ void challengeOneColorHandler() {
     pixels.clear();
     pixels.show();
 }
+
 void executeChallengeOne() {
-  Mobot.orientation = North;
-  Mobot.x = 1;
-  Mobot.y = 0;
+  Mobot.setPosition(1, 0, North);
 
-  //  correctMobotOrientation();
-  //  correctMobotOrientation();
-
-  Mobot._followLine(North);
+  Mobot.followLine(North);
   challengeOneColorHandler();
   delay(100);
 
-  Mobot._followLine(North);
+  Mobot.followLine(North);
   challengeOneColorHandler();
   delay(100);
 
-  Mobot._followLine(East);
+  Mobot.followLine(East);
   challengeOneColorHandler();
   delay(100);
 
-  Mobot._followLine(South);
+  Mobot.followLine(South);
   challengeOneColorHandler();
   delay(100);
 

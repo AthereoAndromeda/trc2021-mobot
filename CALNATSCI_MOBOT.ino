@@ -142,7 +142,7 @@ void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpee
 void setMotorDir(MotorDirection direction);
 void motorMove(MotorDirection direction, uint16_t duration);
 void calibrateSensor(QTRSensors &lineSensor, String sensorName);
-void followLine(LineDirection direction);
+void runFollowLine(LineDirection direction);
 void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
 
@@ -161,15 +161,32 @@ class MobotClass {
 
     ~MobotClass() {}
 
-    void _followLine(LineDirection dir) {
+    // \brief Initializes components
+    void init() {
+      initRotary();
+      initLifter();
+      initLed();
+      initSsd();
+      initApds();
+      initLineSensors();
+      initMecanumWheels();
+    }
+
+    void followLine(LineDirection dir) {
       determineXY(dir);
 
-      followLine(dir);
+      runFollowLine(dir);
     }
 
     void move(MotorDirection dir, uint16_t duration) {
       motorMove(dir, duration);
     }
+
+    void setPosition(uint8_t _x, uint8_t _y, LineDirection _orientation) {
+      x = _x;
+      y = _y;
+      orientation = _orientation;
+    };
 
   private:
     void determineXY(LineDirection dir) {
