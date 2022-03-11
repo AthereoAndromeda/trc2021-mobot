@@ -1,4 +1,6 @@
 void challengeOneColorHandler() {
+  pixels.clear();
+  pixels.show();
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
 
@@ -34,9 +36,9 @@ void challengeOneColorHandler() {
     lifterDown();
   }
 
-    delay(100);
-    pixels.clear();
-    pixels.show();
+  delay(100);
+  pixels.clear();
+  pixels.show();
 }
 
 void executeChallengeOne() {
@@ -58,6 +60,9 @@ void executeChallengeOne() {
   challengeOneColorHandler();
   delay(100);
 
-  pixels.clear();
+  pixels.setPixelColor(0, 0, 255, 0);
   pixels.show();
+  //  delay(2000);
+  //  pixels.clear();
+  //  pixels.show();
 }

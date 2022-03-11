@@ -20,8 +20,6 @@
 
 #define SENSOR_COUNT 4
 
-#define TASK_COUNT 4
-
 // MOTOR_DELAY represents 1 block
 #define MOTOR_DELAY 3000
 #define MOTOR_DELAY_SIDEWAYS 3230
@@ -110,6 +108,8 @@ struct TaskData {
   String displayText;
   void (*execute)(void);
 };
+
+#define TASK_COUNT 4
 
 TaskData taskData[TASK_COUNT] = {
   {

@@ -34,21 +34,21 @@ void taskTwoColorHandler() {
 }
 
 void executeCheckTwo() {
-  Mobot.setPosition(1, 0, South);
+  Mobot.setPosition(1, 0, North);
 
   delay(2000);
   taskTwoColorHandler();
   delay(2000);
 
-  Mobot.followLine(South);
+  Mobot.followLine(North);
   taskTwoColorHandler();
   delay(2000);
 
-  Mobot.followLine(South);
+  Mobot.followLine(North);
   taskTwoColorHandler();
   delay(2000);
 
-  Mobot.followLine(South);
+  Mobot.followLine(North);
   taskTwoColorHandler();
   delay(2000);
 }
