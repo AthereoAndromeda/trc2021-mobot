@@ -42,6 +42,12 @@ void challengeOneColorHandler() {
 }
 
 void executeChallengeOne() {
+  if (isGreenLedOn) {
+    pixels.clear();
+    pixels.show();
+    isGreenLedOn = false;
+  }
+
   Mobot.setPosition(1, 0, North);
 
   Mobot.followLine(North);
@@ -62,7 +68,5 @@ void executeChallengeOne() {
 
   pixels.setPixelColor(0, 0, 255, 0);
   pixels.show();
-  //  delay(2000);
-  //  pixels.clear();
-  //  pixels.show();
+  isGreenLedOn = true;
 }

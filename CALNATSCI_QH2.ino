@@ -136,6 +136,7 @@ uint16_t redArr[APDS_ACCURACY], greenArr[APDS_ACCURACY], blueArr[APDS_ACCURACY],
 uint16_t redMin, greenMin, blueMin, clearMin;
 uint16_t redMax, greenMax, blueMax, clearMax;
 uint8_t redCalib, greenCalib, blueCalib, clearCalib;
+static bool isGreenLedOn = false;
 static bool isLifterUp = false;
 
 void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpeed);

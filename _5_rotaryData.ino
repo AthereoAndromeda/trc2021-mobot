@@ -29,6 +29,12 @@ void rotaryHandler() {
       taskCounter--;
       rotaryDir = CCW;
     }
+
+    if (isGreenLedOn) {
+      pixels.clear();
+      pixels.show();
+      isGreenLedOn = false;
+    }
   }
   lrotState = crotState;
 
