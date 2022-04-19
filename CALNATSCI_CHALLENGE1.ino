@@ -1,72 +1,95 @@
-void challengeOneColorHandler() {
-  pixels.clear();
-  pixels.show();
-  ssd.clearDisplay();
-  ssd.setCursor(0, 0);
+//void challengeOneColorHandler() {
+//  detectColor(&Mobot.colorData);
+//  String *colorName = &Mobot.colorData.name;
+//
+//  ssd.print("<");
+//  ssd.print(Mobot.x);
+//  ssd.print(",");
+//  ssd.print(Mobot.y);
+//  ssd.print(">: ");
+//
+//  if (Mobot.colorData.name != "NONE") {
+//    ssd.print("1, ");
+//    ssd.println(*colorName);
+//
+//    if (*colorName == "BLUE") {
+//      pixels.setPixelColor(0, 0, 0, 255);
+//    } else {
+//      pixels.setPixelColor(0, 255, 0, 0);
+//    }
+//  } else {
+//    ssd.print("0, 0");
+//    pixels.setPixelColor(0, 255, 255, 255);
+//  }
+//
+//  ssd.display();
+//  pixels.show();
+//
+//  if (Mobot.colorData.name == "BLUE") {
+//    lifterUp();
+//    delay(100);
+//    lifterDown();
+//  }
+//
+//  delay(100);
+//  pixels.clear();
+//  pixels.show();
+//}
 
-  detectColor(&Mobot.colorData);
-  String *colorName = &Mobot.colorData.name;
+void moveToLocation() {
+  lifterUp();
+  String *color = &Mobot.colorData.name;
 
-  ssd.print("<");
-  ssd.print(Mobot.x);
-  ssd.print(",");
-  ssd.print(Mobot.y);
-  ssd.print(">: ");
+  if (*color == "BLUE") {
+    Mobot.followLine(East);
+    Mobot.followLine(South);
+    Mobot.followLine(South);
 
-  if (Mobot.colorData.name != "NONE") {
-    ssd.print("1, ");
-    ssd.println(*colorName);
-
-    if (*colorName == "BLUE") {
-      pixels.setPixelColor(0, 0, 0, 255);
-    } else {
-      pixels.setPixelColor(0, 255, 0, 0);
-    }
-  } else {
-    ssd.print("0, 0");
-    pixels.setPixelColor(0, 255, 255, 255);
-  }
-
-  ssd.display();
-  pixels.show();
-
-  if (Mobot.colorData.name == "BLUE") {
-    lifterUp();
-    delay(100);
     lifterDown();
-  }
 
-  delay(100);
-  pixels.clear();
-  pixels.show();
+    // Return to init
+    Mobot.followLine(West);
+    Mobot.followLine(West);
+  } else {
+    Mobot.followLine(North);
+    Mobot.followLine(West);
+    Mobot.followLine(West);
+
+    lifterDown();
+
+    // return
+    Mobot.followLine(South);
+    Mobot.followLine(South);
+    Mobot.followLine(South);
+    Mobot.followLine(East);
+  }
 }
 
 void executeChallengeOne() {
-  if (isGreenLedOn) {
-    pixels.clear();
-    pixels.show();
-    isGreenLedOn = false;
-  }
+  pixels.clear();
+  pixels.show();
 
   Mobot.setPosition(1, 0, North);
+  delay(2000);
 
+  //  colorHandler();
   Mobot.followLine(North);
-  challengeOneColorHandler();
-  delay(100);
 
+  //  colorHandler();
   Mobot.followLine(North);
-  challengeOneColorHandler();
-  delay(100);
 
+  //  colorHandler();
   Mobot.followLine(East);
-  challengeOneColorHandler();
-  delay(100);
-
-  Mobot.followLine(South);
-  challengeOneColorHandler();
-  delay(100);
-
-  pixels.setPixelColor(0, 0, 255, 0);
+  pixels.clear();
   pixels.show();
-  isGreenLedOn = true;
+  delay(100);
+
+  //  colorHandler();
+  moveToLocation();
+
+
+
+  pixels.clear();
+  pixels.show();
+  //  isGreenLedOn = true;
 }

@@ -98,6 +98,7 @@ void calibrateAllSensors() {
   ssd.display();
   Serial.println("Calibrating . . .");
   Serial.println("Slowly move the sensor across the electrical tape");
+  delay(2000);
 
   // 2.5 ms RC read timeout (default) * 10 reads per calibrate() call
   // = ~25 ms per calibrate() call.
