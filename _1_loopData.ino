@@ -82,7 +82,7 @@ uint16_t realignHorizontally() {
 
 SensorStatus getSensorStatus(uint16_t sensor_pos) {
   const uint16_t center = 1500;
-  const uint16_t tolerance = 200;
+  const uint16_t tolerance = 700;
   const uint16_t upperLimit = center + tolerance;
   const uint16_t lowerLimit = center - tolerance;
 
@@ -95,13 +95,13 @@ SensorStatus getSensorStatus(uint16_t sensor_pos) {
 }
 
 uint16_t sensorValues[4];
-uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, MotorDirection adjDirs[][3]) {
+uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection adjDirs[][3]) {
 
   uint16_t retry = 1;
   const uint8_t motorPwm = 20;
   const uint16_t runDuration = 100;
   uint16_t last_change = millis();
-  uint16_t _pwm = 30;
+  uint16_t _pwm = 70;
 
   uint16_t sensorA_pos = 0;
   uint16_t sensorB_pos = 0;
@@ -123,7 +123,7 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, MotorDirection adjDir
     cur_statusA = getSensorStatus(sensorA_pos);
     cur_statusB = getSensorStatus(sensorB_pos);
 
-    Serial.println(sensorStatusStr[statusA] + delim + sensorStatusStr[statusB]);
+    Serial.println(cur_statusA + delim + cur_statusB);
 
 
     if (adjDirs[cur_statusA + 1][cur_statusB + 1] == Stop)

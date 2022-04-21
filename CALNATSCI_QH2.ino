@@ -148,7 +148,7 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void runFollowLine(LineDirection direction);
 void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
-uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, MotorDirection adjDirs[][3]);
+uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection adjDirs[][3]);
 SensorStatus getSensorStatus(uint16_t sensor_pos);
 
 class MobotClass {

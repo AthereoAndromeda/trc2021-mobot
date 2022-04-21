@@ -44,6 +44,7 @@ void moveToLocation() {
     Mobot.followLine(East);
     Mobot.followLine(South);
     Mobot.followLine(South);
+    test_realign();
 
     lifterDown();
 
@@ -54,6 +55,7 @@ void moveToLocation() {
     Mobot.followLine(North);
     Mobot.followLine(West);
     Mobot.followLine(West);
+    test_realign();
 
     lifterDown();
 
@@ -70,6 +72,7 @@ void executeChallengeOne() {
   pixels.show();
 
   Mobot.setPosition(1, 0, North);
+  test_realign();
   delay(2000);
 
   //  colorHandler();
@@ -77,6 +80,7 @@ void executeChallengeOne() {
 
   //  colorHandler();
   Mobot.followLine(North);
+  test_realign();
 
   //  colorHandler();
   Mobot.followLine(East);
