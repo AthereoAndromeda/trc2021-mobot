@@ -52,17 +52,20 @@ void moveToLocation() {
     Mobot.followLine(West);
     Mobot.followLine(West);
   } else {
-    Mobot.followLine(North);
     Mobot.followLine(West);
     Mobot.followLine(West);
     test_realign();
+
+    Mobot.followLine(North);
 
     lifterDown();
 
     // return
     Mobot.followLine(South);
+    test_realign();
     Mobot.followLine(South);
     Mobot.followLine(South);
+    test_realign();
     Mobot.followLine(East);
   }
 }
@@ -72,11 +75,14 @@ void executeChallengeOne() {
   pixels.show();
 
   Mobot.setPosition(1, 0, North);
-  test_realign();
+  colorHandler();
   delay(2000);
+  test_realign();
+
 
   //  colorHandler();
   Mobot.followLine(North);
+  test_realign();
 
   //  colorHandler();
   Mobot.followLine(North);
@@ -84,14 +90,14 @@ void executeChallengeOne() {
 
   //  colorHandler();
   Mobot.followLine(East);
+  test_realign();
+
   pixels.clear();
   pixels.show();
   delay(100);
 
-  //  colorHandler();
+  colorHandler();
   moveToLocation();
-
-
 
   pixels.clear();
   pixels.show();

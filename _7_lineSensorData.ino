@@ -168,6 +168,7 @@ void runLineFollower(
     QTR_Back.readCalibrated(backValues);
     QTR_Right.readCalibrated(rightValues);
     QTR_Left.readCalibrated(leftValues);
+    colorHandler();
 
     int val = 0;
     for (uint8_t i = 0; i < SENSOR_COUNT; i++) {
@@ -216,7 +217,7 @@ void runFollowLine(LineDirection direction) {
       motorMove(Right, 0);
       runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
         if (arr[0] < 200 && arr[3] > 200) {
-          setMotorDir(Backward_Left);
+          setMotorDir(Backward_Right);
         } else if (arr[3] < 200 && arr[0] > 200) {
           setMotorDir(Forward_Right);
         } else {

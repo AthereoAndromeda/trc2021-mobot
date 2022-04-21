@@ -182,13 +182,13 @@ class MobotClass {
 
       runFollowLine(dir);
 
-      ssd.clearDisplay();
-      ssd.setCursor(0, 0);
-      ssd.print(x);
-      ssd.print(",");
-      ssd.print(y);
-      ssd.print(" : ");
-      colorHandler();
+      //      ssd.clearDisplay();
+      //      ssd.setCursor(0, 0);
+      //      ssd.print(x);
+      //      ssd.print(",");
+      //      ssd.print(y);
+      //      ssd.print(" : ");
+      //      colorHandler();
     }
 
     void move(MotorDirection dir, uint16_t duration) {

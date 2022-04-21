@@ -1,14 +1,14 @@
 void colorHandler() {
-  //  ssd.clearDisplay();
-  //  ssd.setCursor(0, 0);
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
 
   detectColor(&Mobot.colorData);
   String *colorName = &Mobot.colorData.name;
 
-  //  ssd.print(Mobot.x);
-  //  ssd.print(",");
-  //  ssd.print(Mobot.y);
-  //  ssd.print(" : ");
+  ssd.print(Mobot.x);
+  ssd.print(",");
+  ssd.print(Mobot.y);
+  ssd.print(" : ");
 
   if (Mobot.colorData.name != "NONE") {
     ssd.print("1,");
@@ -26,19 +26,17 @@ void colorHandler() {
 
   ssd.display();
   pixels.show();
-
-  //    delay(1000);
-  //    pixels.clear();
-  //    pixels.show();
 }
 
 void executeCheckOne() {
   pixels.clear();
   pixels.show();
-  delay(2000);
 
   Mobot.setPosition(1, 0, North);
-  //  colorHandler();
+  colorHandler();
+  delay(2000);
+
+  test_realign();
 
   Mobot.followLine(North);
   pixels.clear();
@@ -46,40 +44,43 @@ void executeCheckOne() {
   delay(2000);
 
   //  colorHandler();
+  test_realign();
   delay(2000);
 
   lifterUp();
   delay(2000);
 
   Mobot.followLine(West);
+  test_realign();
   lifterDown();
   delay(2000);
 
   Mobot.followLine(South);
-  pixels.clear();
-  pixels.show();
-  delay(100);
-
-  //  colorHandler();
+  test_realign();
   delay(2000);
 
   // Task 5
   Mobot.followLine(East);
-  delay(500);
+  test_realign();
 
   //  colorHandler();
   delay(2000);
 
   // Task 6
   Mobot.followLine(East);
+  test_realign();
+
   Mobot.followLine(North);
+  test_realign();
   Mobot.followLine(North);
-  pixels.clear();
-  pixels.show();
+  test_realign();
   delay(2000);
 
   // Task 7
-  //  colorHandler();
+  pixels.clear();
+  pixels.show();
+  delay(100);
+  colorHandler();
   delay(2000);
 
   // Task 8
@@ -88,12 +89,15 @@ void executeCheckOne() {
 
   // Task 9
   Mobot.followLine(North);
+  test_realign();
   Mobot.followLine(East);
+  test_realign();
   lifterDown();
   delay(2000);
 
   // Task 10
   Mobot.followLine(South);
+  test_realign();
   pixels.clear();
   pixels.show();
   delay(100);
@@ -101,8 +105,10 @@ void executeCheckOne() {
   //  colorHandler();
   Mobot.followLine(South);
   Mobot.followLine(South);
+  test_realign();
   Mobot.followLine(West);
   Mobot.followLine(West);
+  test_realign();
 
   delay(2000);
   pixels.clear();

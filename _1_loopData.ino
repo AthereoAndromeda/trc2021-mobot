@@ -54,9 +54,15 @@ int8_t taskCounter;
 void test_realign() {
   uint16_t retryV = 0;
   uint16_t retryH = 0;
+
+  uint16_t timeStarted = millis();
+
   do {
     retryV = realignVertically();
     retryH = realignHorizontally();
+
+    // Stop after trying for 3 seconds
+    if (millis() - timeStarted > 3000) break;
   } while (retryV > 1 && retryH > 1);
 
   // waitForBtnPush();
@@ -81,8 +87,8 @@ uint16_t realignHorizontally() {
 }
 
 SensorStatus getSensorStatus(uint16_t sensor_pos) {
-  const uint16_t center = 1500;
-  const uint16_t tolerance = 700;
+  const uint16_t center = 1200;
+  const uint16_t tolerance = 500;
   const uint16_t upperLimit = center + tolerance;
   const uint16_t lowerLimit = center - tolerance;
 
@@ -99,9 +105,9 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
 
   uint16_t retry = 1;
   const uint8_t motorPwm = 20;
-  const uint16_t runDuration = 100;
+  const uint16_t runDuration = 5000;
   uint16_t last_change = millis();
-  uint16_t _pwm = 70;
+  const uint16_t _pwm = 70;
 
   uint16_t sensorA_pos = 0;
   uint16_t sensorB_pos = 0;
@@ -114,9 +120,17 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
   String delim = ":";
   setMotorPwm(_pwm);
 
+  bool isInitiated = false;
+  uint16_t initTime = 0;
+
   do {
     sensorA_pos = sensorA->readLineBlack(sensorValues);
     sensorB_pos = sensorB->readLineBlack(sensorValues);
+
+    if (!isInitiated) {
+      initTime = millis();
+      isInitiated = true;
+    }
 
     Serial.println(sensorA_pos + delim + sensorB_pos);
 
@@ -128,6 +142,8 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
 
     if (adjDirs[cur_statusA + 1][cur_statusB + 1] == Stop)
       break;
+
+    //    else if (millis() - last_change > runDuration) break;
     else {
       if (prev_statusA != cur_statusA || prev_statusB != cur_statusB) {
         // Serial.print("Running at ");
@@ -138,20 +154,14 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
 
         motorMove(adjDirs[cur_statusA + 1][cur_statusB + 1], 0);
 
-
         prev_statusA = cur_statusA;
         prev_statusB = cur_statusB;
       }
       else {
         delay(retry * 5);
       }
-      if (millis() - last_change > 100) {
-        last_change = millis();
-        if (_pwm <= 50) {
-          _pwm = _pwm + 10;
-          // setMotorPWM(_pwm);
-        }
-      }
+
+      last_change = millis();
     }
     // run(adjDirs[statusA][statusB],runDuration);
     // runToPwm(adjDirs[statusA][statusB],30);
