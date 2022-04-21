@@ -100,6 +100,12 @@ enum LineDirection {
   West
 };
 
+enum SensorStatus {
+  Under = -1,
+  Center = 0,
+  Over = 1
+};
+
 struct ColorData {
   String name;
 } colorData;
@@ -109,7 +115,7 @@ struct TaskData {
   void (*execute)(void);
 };
 
-#define TASK_COUNT 3
+#define TASK_COUNT 4
 
 TaskData taskData[TASK_COUNT] = {
   {
@@ -123,7 +129,7 @@ TaskData taskData[TASK_COUNT] = {
   {
     "Challenge One",
     executeChallengeOne
-  }
+  }, {"aa", test_realign}
 };
 
 String apdsColor;
@@ -142,6 +148,8 @@ void calibrateSensor(QTRSensors &lineSensor, String sensorName);
 void runFollowLine(LineDirection direction);
 void detectColor(ColorData *data);
 void colorHandler(ColorData *data);
+uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, MotorDirection adjDirs[][3]);
+SensorStatus getSensorStatus(uint16_t sensor_pos);
 
 class MobotClass {
   public:

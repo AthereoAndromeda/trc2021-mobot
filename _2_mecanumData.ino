@@ -1,3 +1,5 @@
+static uint8_t motorPwm;
+
 void initMecanumWheels() {
   // Set Outputs/Input pins
   DDRC |= 0b11;   // Standby Pins
@@ -7,8 +9,13 @@ void initMecanumWheels() {
   PORTA = 0x00;   // Set to STOP
   PORTL &= ~0x0F; // Sets PWM to low
 
+  setMotorPwm(MOTOR_PWM);
   initMotorPwm();
   Serial.println(">> Mecanum Wheels setup successful!");
+}
+
+void setMotorPwm(uint8_t _pwm) {
+  motorPwm = _pwm;
 }
 
 /**
@@ -16,7 +23,7 @@ void initMecanumWheels() {
    Also handles PWM
 */
 void motorPwmHandler() {
-  if (motorCounter > MOTOR_PWM) {
+  if (motorCounter > motorPwm) {
     PORTL &= ~0x0F; // Sets digital low of PWM
   }
 
