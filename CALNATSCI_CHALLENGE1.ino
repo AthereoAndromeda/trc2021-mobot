@@ -39,20 +39,20 @@ void executeChallengeOne() {
   Mobot.setPosition(1, 0, North);
   colorHandler();
   delay(2000);
-  test_realign();
+  Mobot.realign();
 
 
   //  colorHandler();
   Mobot.followLine(North);
-  test_realign();
+  Mobot.realign();
 
   //  colorHandler();
   Mobot.followLine(North);
-  test_realign();
+  Mobot.realign();
 
   //  colorHandler();
   Mobot.followLine(East);
-  test_realign();
+  Mobot.realign();
 
   pixels.clear();
   pixels.show();

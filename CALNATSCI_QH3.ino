@@ -188,6 +188,10 @@ class MobotClass {
       motorMove(dir, duration);
     }
 
+    void realign() {
+      test_realign();
+    }
+
     void setPosition(uint8_t _x, uint8_t _y, LineDirection _orientation) {
       x = _x;
       y = _y;

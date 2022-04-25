@@ -41,9 +41,9 @@ void executeCheckOne() {
   Mobot.followLine(North);
   pixels.clear();
   pixels.show();
-  delay(2000);
+  delay(100);
 
-  //  colorHandler();
+  colorHandler();
   test_realign();
   delay(2000);
 
