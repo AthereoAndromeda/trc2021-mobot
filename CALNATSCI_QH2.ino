@@ -84,6 +84,7 @@ RotaryDirection rotaryDir, lastDir;
 int rotaryVal = 0;
 int crotState, lrotState, buttonState;
 unsigned long lbutPress, cbutPress = 0;
+int8_t taskCounter;
 
 static uint8_t motorCounter = 0;
 
@@ -115,7 +116,7 @@ struct TaskData {
   void (*execute)(void);
 };
 
-#define TASK_COUNT 4
+#define TASK_COUNT 3
 
 TaskData taskData[TASK_COUNT] = {
   {
@@ -129,7 +130,7 @@ TaskData taskData[TASK_COUNT] = {
   {
     "Challenge One",
     executeChallengeOne
-  }, {"aa", test_realign}
+  }
 };
 
 String apdsColor;
@@ -181,14 +182,6 @@ class MobotClass {
       determineXY(dir);
 
       runFollowLine(dir);
-
-      //      ssd.clearDisplay();
-      //      ssd.setCursor(0, 0);
-      //      ssd.print(x);
-      //      ssd.print(",");
-      //      ssd.print(y);
-      //      ssd.print(" : ");
-      //      colorHandler();
     }
 
     void move(MotorDirection dir, uint16_t duration) {
