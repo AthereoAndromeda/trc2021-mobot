@@ -8,6 +8,9 @@ void initApds() {
 }
 
 void calibrateApds() {
+  pixels.clear();
+  pixels.show();
+
   for (uint8_t i = 0; i < APDS_ACCURACY; i++) {
     apds.getColorData(&redVal, &greenVal, &blueVal, &clearVal);
 

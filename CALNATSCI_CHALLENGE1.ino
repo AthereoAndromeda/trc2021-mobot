@@ -47,6 +47,7 @@ void handleFirstPallet() {
     Mobot.followLine(East);
   }
 
+  Mobot.realign();
   lifterDown();
 }
 
@@ -79,13 +80,13 @@ void handleSecondPallet() {
     Mobot.followLine(East);
   }
 
+  Mobot.realign();
   lifterDown();
 }
 
 void handleThirdPallet() {
-  Mobot.realign();
-
   if (*colorName == "RED") {
+    // From (0,0) to (1,3)
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(North);
@@ -93,6 +94,7 @@ void handleThirdPallet() {
     Mobot.realign();
     Mobot.followLine(East);
   } else {
+    // From (3,1) to (2,2)
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(West);
@@ -101,29 +103,105 @@ void handleThirdPallet() {
   Mobot.realign();
   lifterUp();
 
-  if (*colorName == "RED") {
-    if (Mobot.x == 1) {
+  if (Mobot.x == 1) {
+    if (*colorName == "RED") {
+      // From (1,3) to (0,3)
       Mobot.followLine(West);
     } else {
-      Mobot.followLine(West);
-      Mobot.followLine(West);
-    }
-
-  } else {
-    if (Mobot.x == 1) {
-      Mobot.followLine(North);
+      // From (1,3) to (3,3)
+      Mobot.followLine(East);
       Mobot.realign();
       Mobot.followLine(East);
-      Mobot.followLine(East);
+    }
+  } else {
+    if (*colorName == "RED") {
+      // From (2,2) to (0,1)
+      Mobot.followLine(West);
+      Mobot.realign();
+      Mobot.followLine(West);
     } else {
+      // From (2,2) to (3,2)
       Mobot.followLine(East);
     }
-
   }
 
+  Mobot.realign();
   lifterDown();
 }
 
+void handleFourthPallet() {
+  // Last pallet is blue
+  if (Mobot.x == 3) {
+    // Position
+    if (Mobot.y == 2) {
+      // From (3,2) to (1,3)
+      Mobot.followLine(North);
+      Mobot.realign();
+      Mobot.followLine(West);
+      Mobot.followLine(West);
+    } else {
+      // From (3,3) to (2,2)
+      Mobot.followLine(West);
+      Mobot.realign();
+      Mobot.followLine(South);
+    }
+  } else {
+    if (Mobot.y == 2) {
+      // From (0,2) to (1,3)
+      Mobot.followLine(North);
+      Mobot.realign();
+      Mobot.followLine(East);
+    } else {
+      // From (0,3) to (2,2)
+      Mobot.followLine(South);
+      Mobot.realign();
+      Mobot.followLine(East);
+      Mobot.followLine(East);
+    }
+  }
+
+  Mobot.realign();
+  lifterUp();
+
+  if (Mobot.x == 1) {
+    if (*colorName == "RED") {
+      // From (1,3) to (0,3)
+      Mobot.followLine(West);
+    } else {
+      // From (1,3) to (3,3)
+      Mobot.followLine(East);
+      Mobot.followLine(East);
+    }
+  } else {
+    if (*colorName == "RED") {
+      // From (2,2) to (0,2)
+      Mobot.followLine(West);
+      Mobot.followLine(West);
+    } else {
+      // From (2,2) to (3,2)
+      Mobot.followLine(East);
+    }
+  }
+
+  Mobot.realign();
+  lifterDown();
+}
+
+void returnToStart() {
+  while (Mobot.y != 0) {
+    Mobot.followLine(South);
+    Mobot.realign();
+  }
+
+  if (Mobot.x == 0) {
+    Mobot.followLine(East);
+  } else {
+    while (Mobot.x != 1) {
+      Mobot.followLine(West);
+      Mobot.realign();
+    }
+  }
+}
 
 void executeChallengeOne() {
   pixels.clear();
@@ -131,10 +209,15 @@ void executeChallengeOne() {
   pixels.show();
 
   Mobot.setPosition(1, 0, North);
-  delay(2000);
+  delay(500);
   Mobot.realign();
 
   handleFirstPallet();
   handleSecondPallet();
   handleThirdPallet();
+  handleFourthPallet();
+  returnToStart();
+
+  pixels.setPixelColor(0, 0, 255, 0);
+  pixels.show();
 }

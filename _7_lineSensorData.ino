@@ -178,7 +178,12 @@ void runLineFollower(
     avg = val / SENSOR_COUNT;
 
     // Intersection detecting
-    if (intersectionValues_One[1] > 200 & intersectionValues_Two[1] > 200) {
+    if (
+      (intersectionValues_One[1] > 300 & intersectionValues_Two[1] > 300) ||
+      (intersectionValues_One[2] > 300 && intersectionValues_Two[2] > 300) ||
+      (intersectionValues_One[1] > 300 && intersectionValues_Two[2] > 300) ||
+      (intersectionValues_One[2] > 300 && intersectionValues_Two[1] > 300)
+    ) {
       long int timeDetected = millis();
 
       // So it doesn't detect while on initial intersection
