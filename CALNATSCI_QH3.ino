@@ -116,7 +116,7 @@ struct TaskData {
   void (*execute)(void);
 };
 
-#define TASK_COUNT 3
+#define TASK_COUNT 2
 
 TaskData taskData[TASK_COUNT] = {
   {
@@ -124,11 +124,7 @@ TaskData taskData[TASK_COUNT] = {
     calibrateAllSensors
   },
   {
-    "Check One",
-    executeCheckOne
-  },
-  {
-    "Challenge One",
+    "Final     Delivery",
     executeChallengeOne
   }
 };

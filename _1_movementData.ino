@@ -8,11 +8,9 @@ void test_realign() {
     retryV = realignVertically();
     retryH = realignHorizontally();
 
-    // Stop after trying for 3 seconds
-    if (millis() - timeStarted > 3000) break;
+    // Stop after trying for 1.5 seconds
+    if (millis() - timeStarted > 2000) break;
   } while (retryV > 1 && retryH > 1);
-
-  // waitForBtnPush();
 }
 
 uint16_t realignVertically() {
@@ -34,8 +32,8 @@ uint16_t realignHorizontally() {
 }
 
 SensorStatus getSensorStatus(uint16_t sensor_pos) {
-  const uint16_t center = 1200;
-  const uint16_t tolerance = 500;
+  const uint16_t center = 1500;
+  const uint16_t tolerance = 300;
   const uint16_t upperLimit = center + tolerance;
   const uint16_t lowerLimit = center - tolerance;
 
@@ -51,10 +49,9 @@ uint16_t sensorValues[4];
 uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection adjDirs[][3]) {
 
   uint16_t retry = 1;
-  const uint8_t motorPwm = 20;
   const uint16_t runDuration = 5000;
   uint16_t last_change = millis();
-  const uint16_t _pwm = 70;
+  const uint8_t _pwm = 30;
 
   uint16_t sensorA_pos = 0;
   uint16_t sensorB_pos = 0;
@@ -63,8 +60,6 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
   SensorStatus cur_statusB = (SensorStatus)0;
   SensorStatus prev_statusA = (SensorStatus)0;
   SensorStatus prev_statusB = (SensorStatus)0;
-
-  String delim = ":";
   setMotorPwm(_pwm);
 
   bool isInitiated = false;
@@ -79,18 +74,12 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
       isInitiated = true;
     }
 
-    Serial.println(sensorA_pos + delim + sensorB_pos);
-
     cur_statusA = getSensorStatus(sensorA_pos);
     cur_statusB = getSensorStatus(sensorB_pos);
-
-    Serial.println(cur_statusA + delim + cur_statusB);
-
 
     if (adjDirs[cur_statusA + 1][cur_statusB + 1] == Stop)
       break;
 
-    //    else if (millis() - last_change > runDuration) break;
     else {
       if (prev_statusA != cur_statusA || prev_statusB != cur_statusB) {
         // Serial.print("Running at ");
@@ -105,7 +94,7 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
         prev_statusB = cur_statusB;
       }
       else {
-        delay(retry * 5);
+        delay(retry * 2);
       }
 
       last_change = millis();
