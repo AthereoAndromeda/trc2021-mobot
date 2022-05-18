@@ -93,12 +93,23 @@ void _printSensorValues(uint16_t minValues[SENSOR_COUNT], uint16_t maxValues[SEN
 void calibrateAllSensors() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
+  pixels.clear();
+  pixels.show();
 
   ssd.println("Calibrating Line Sensors");
   ssd.display();
   Serial.println("Calibrating . . .");
   Serial.println("Slowly move the sensor across the electrical tape");
-  delay(2000);
+  //  delay(2000);
+
+  for (uint8_t i = 0; i < 45; i++) {
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
+  }
+
+
 
   // 2.5 ms RC read timeout (default) * 10 reads per calibrate() call
   // = ~25 ms per calibrate() call.
@@ -120,7 +131,7 @@ void calibrateAllSensors() {
   }
 
   motorMove(Backward_Left, 0);
-  for (uint8_t i = 0; i < 15; i++) {
+  for (uint8_t i = 0; i < /*15*/30; i++) {
     QTR_Front.calibrate();
     QTR_Back.calibrate();
     QTR_Left.calibrate();
@@ -134,6 +145,16 @@ void calibrateAllSensors() {
     QTR_Left.calibrate();
     QTR_Right.calibrate();
   }
+
+  motorMove(Forward_Right, 0);
+  for (uint8_t i = 0; i < 15; i++) {
+    QTR_Front.calibrate();
+    QTR_Back.calibrate();
+    QTR_Left.calibrate();
+    QTR_Right.calibrate();
+  }
+  stopMotors();
+
   Serial.println();
 
   _printSensorValues(QTR_Front.calibrationOn.minimum, QTR_Front.calibrationOn.maximum, "Front Sensors");
@@ -145,8 +166,11 @@ void calibrateAllSensors() {
   _printSensorValues(QTR_Right.calibrationOn.minimum, QTR_Right.calibrationOn.maximum, "Right Sensors");
   delay(DELAY_TIME);
 
-  Serial.println("Done calibrating!");
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+  ssd.println("Calibrating Color Sensors");
   ssd.display();
+  calibrateApds();
 }
 
 void runLineFollower(
@@ -203,14 +227,15 @@ void runFollowLine(LineDirection direction) {
   uint16_t *rightValues = lineValues[1];
   uint16_t *backValues = lineValues[2];
   uint16_t *leftValues = lineValues[3];
+  const uint16_t intersectionThreshold = 250;
 
   switch (direction) {
     case North:
       motorMove(Forward, 0);
       runLineFollower(rightValues, leftValues, frontValues, [](uint16_t arr[4]) {
-        if (arr[0] < 200 && arr[3] > 200) {
+        if (arr[0] < intersectionThreshold && arr[3] > intersectionThreshold) {
           setMotorDir(Forward_Right);
-        } else if (arr[3] < 200 && arr[0] > 200) {
+        } else if (arr[3] < intersectionThreshold && arr[0] > intersectionThreshold) {
           setMotorDir(Forward_Left);
         } else {
           setMotorDir(Forward);
@@ -221,9 +246,9 @@ void runFollowLine(LineDirection direction) {
     case East:
       motorMove(Right, 0);
       runLineFollower(frontValues, backValues, rightValues, [](uint16_t arr[4]) {
-        if (arr[0] < 200 && arr[3] > 200) {
+        if (arr[0] < intersectionThreshold && arr[3] > intersectionThreshold) {
           setMotorDir(Backward_Right);
-        } else if (arr[3] < 200 && arr[0] > 200) {
+        } else if (arr[3] < intersectionThreshold && arr[0] > intersectionThreshold) {
           setMotorDir(Forward_Right);
         } else {
           setMotorDir(Right);
@@ -234,9 +259,9 @@ void runFollowLine(LineDirection direction) {
     case West:
       motorMove(Left, 0);
       runLineFollower(frontValues, backValues, leftValues, [](uint16_t arr[4]) {
-        if (arr[0] < 200 && arr[3] > 200) {
+        if (arr[0] < intersectionThreshold && arr[3] > intersectionThreshold) {
           setMotorDir(Backward_Left);
-        } else if (arr[3] < 200 && arr[0] > 200) {
+        } else if (arr[3] < intersectionThreshold && arr[0] > intersectionThreshold) {
           setMotorDir(Forward_Left);
         } else {
           setMotorDir(Left);
@@ -247,9 +272,9 @@ void runFollowLine(LineDirection direction) {
     case South:
       motorMove(Backward, 0);
       runLineFollower(leftValues, rightValues, backValues, [](uint16_t arr[4]) {
-        if (arr[0] < 200 && arr[3] > 200) {
+        if (arr[0] < intersectionThreshold && arr[3] > intersectionThreshold) {
           setMotorDir(Backward_Right);
-        } else if (arr[3] < 200 && arr[0] > 200) {
+        } else if (arr[3] < intersectionThreshold && arr[0] > intersectionThreshold) {
           setMotorDir(Backward_Left);
         } else {
           setMotorDir(Backward);
@@ -259,5 +284,5 @@ void runFollowLine(LineDirection direction) {
   }
 
   stopMotors();
-  delay(50);
+  //  delay(50);
 }

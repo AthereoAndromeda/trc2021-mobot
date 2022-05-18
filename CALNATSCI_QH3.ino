@@ -7,13 +7,13 @@
 #define LED_COUNT 1
 
 #define SERIAL_BAUD 115200
-#define APDS_ACCURACY 5
+#define APDS_ACCURACY 100
 
 #define SSD_WIDTH 128
 #define SSD_HEIGHT 64
 #define SSD_ADDR 0x3C
 
-#define LIFTER_ANGLE 100
+#define LIFTER_ANGLE 90
 #define LIFTER_SPEED 1
 #define LIFTER_MIN 500
 #define LIFTER_MAX 2500
@@ -107,8 +107,16 @@ enum SensorStatus {
   Over = 1
 };
 
+enum Color {
+  Red,
+  Blue,
+  Green,
+  None
+};
+
 struct ColorData {
   String name;
+  Color color;
 } colorData;
 
 struct TaskData {
@@ -116,7 +124,7 @@ struct TaskData {
   void (*execute)(void);
 };
 
-#define TASK_COUNT 2
+#define TASK_COUNT 3
 
 TaskData taskData[TASK_COUNT] = {
   {
@@ -126,7 +134,7 @@ TaskData taskData[TASK_COUNT] = {
   {
     "Final     Delivery",
     executeChallengeOne
-  }
+  }, {"benchmark", benchmark}
 };
 
 String apdsColor;

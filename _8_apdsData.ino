@@ -2,8 +2,6 @@ void initApds() {
   apds.enableColor(true);
   while (!apds.colorDataReady()) delay(100);
 
-  calibrateApds();
-
   Serial.println(">> Color sensor calibration successful!");
 }
 
@@ -52,23 +50,36 @@ void detectColor(ColorData *data) {
   blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
   clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
 
-  const uint8_t clearCalibThreshold = 20;
-  uint8_t maxRange = clearCalib + clearCalibThreshold;
-  int8_t minRange = clearCalib - clearCalibThreshold; // Keep this signed
+  const uint8_t threshold = 20;
+  uint8_t maxRange = clearCalib + threshold;
+  int8_t minRange = clearCalib - threshold; // Keep this signed
 
-  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib >= clearCalib)) {
+  Serial.println("a");
+  Serial.println(clearCalib);
+  Serial.println(redCalib);
+  Serial.println(greenCalib);
+  Serial.println(blueCalib);
+  Serial.println(redCalib);
+
+  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > minRange)) {
     Serial.println(">> Red-colored pallet detected!");
     data->name = "RED";
+    data->color = Red;
   }
-  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib >= clearCalib)) {
+  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > minRange)) {
     Serial.println(">> Green-colored pallet detected!");
     data->name = "GREEN";
+    data->color = Green;
   }
-  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > clearCalib)) {
+  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > minRange)) {
     Serial.println(">> Blue-colored pallet detected!");
     data->name = "BLUE";
-  } else {
+    data->color = Blue;
+  }
+
+  else {
     Serial.println(">> Non-existent pallet detected!");
     data->name = "NONE";
+    data->color = None;
   }
 }

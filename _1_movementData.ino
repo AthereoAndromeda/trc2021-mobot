@@ -8,8 +8,8 @@ void test_realign() {
     retryV = realignVertically();
     retryH = realignHorizontally();
 
-    // Stop after trying for 1.5 seconds
-    if (millis() - timeStarted > 2000) break;
+    // Stop after trying for 2 seconds
+    if (millis() - timeStarted > 1000) break;
   } while (retryV > 1 && retryH > 1);
 }
 
@@ -47,10 +47,7 @@ SensorStatus getSensorStatus(uint16_t sensor_pos) {
 
 uint16_t sensorValues[4];
 uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection adjDirs[][3]) {
-
   uint16_t retry = 1;
-  const uint16_t runDuration = 5000;
-  uint16_t last_change = millis();
   const uint8_t _pwm = 30;
 
   uint16_t sensorA_pos = 0;
@@ -62,17 +59,10 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
   SensorStatus prev_statusB = (SensorStatus)0;
   setMotorPwm(_pwm);
 
-  bool isInitiated = false;
-  uint16_t initTime = 0;
-
   do {
+    colorHandler();
     sensorA_pos = sensorA->readLineBlack(sensorValues);
     sensorB_pos = sensorB->readLineBlack(sensorValues);
-
-    if (!isInitiated) {
-      initTime = millis();
-      isInitiated = true;
-    }
 
     cur_statusA = getSensorStatus(sensorA_pos);
     cur_statusB = getSensorStatus(sensorB_pos);
@@ -82,11 +72,8 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
 
     else {
       if (prev_statusA != cur_statusA || prev_statusB != cur_statusB) {
-        // Serial.print("Running at ");
-        // Serial.println(p);
         stopMotors();
         // delay(100);
-
 
         motorMove(adjDirs[cur_statusA + 1][cur_statusB + 1], 0);
 
@@ -96,12 +83,7 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
       else {
         delay(retry * 2);
       }
-
-      last_change = millis();
     }
-    // run(adjDirs[statusA][statusB],runDuration);
-    // runToPwm(adjDirs[statusA][statusB],30);
-    // Serial.println(retry);
 
     retry++;
   } while (retry < 50);
@@ -110,4 +92,30 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
   setMotorPwm(MOTOR_PWM);
 
   return retry;
+}
+
+void benchmark() {
+  delay(1000);
+
+  uint16_t initTime = millis();
+  Mobot.followLine(North);
+  Mobot.realign();
+  lifterUp();
+
+  Mobot.followLine(East);
+  Mobot.realign();
+  Mobot.followLine(South);
+  Mobot.realign();
+  Mobot.followLine(West);
+
+  lifterDown();
+
+  uint16_t finishedTime = millis();
+  uint16_t duration = finishedTime - initTime;
+
+  ssd.clearDisplay();
+  ssd.setCursor(0, 0);
+  ssd.println(duration);
+  ssd.display();
+  delay(5000);
 }
