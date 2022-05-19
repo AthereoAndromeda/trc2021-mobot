@@ -22,6 +22,4 @@ void setup() {
 
 void loop() {
   rotaryHandler();
-  //  detectColor(&Mobot.colorData);
-  //  colorHandler();
 }

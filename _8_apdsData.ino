@@ -83,7 +83,7 @@ void detectColor(ColorData *data) {
     data->name = "GREEN";
     data->color = Green;
   }
-  else if ((blueCalib >= maxVal) && (blueCalib > redCalib - 15) && (blueCalib > greenCalib) && (blueCalib > minRange)) {
+  else if ((blueCalib >= maxVal) && (blueCalib > redCalib - 10) && (blueCalib > greenCalib) && (blueCalib > minRange)) {
     Serial.println(">> Blue-colored pallet detected!");
     data->name = "BLUE";
     data->color = Blue;
