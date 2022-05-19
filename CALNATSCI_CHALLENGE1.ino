@@ -4,7 +4,7 @@ Color *color = &Mobot.colorData.color;
 void colorHandler() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
-  ssd.setTextSize(1.5);
+  ssd.setTextSize(1);
 
   detectColor(&Mobot.colorData);
 
