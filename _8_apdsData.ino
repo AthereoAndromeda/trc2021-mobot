@@ -50,21 +50,40 @@ void detectColor(ColorData *data) {
   blueCalib = constrain(map(blueVal, blueMin, blueMax, 0, 255), 0, 255);
   clearCalib = constrain(map(clearVal, clearMin, clearMax, 0, 255), 0, 255);
 
-  const uint8_t threshold = 20;
+  Serial.println("Colors");
+  Serial.print("Red: ");
+  Serial.println(redCalib);
+  Serial.print("Green: ");
+  Serial.println(greenCalib);
+  Serial.print("Blue: ");
+  Serial.println(blueCalib);
+  Serial.print("Clear: ");
+  Serial.println(clearCalib);
+
+  const uint8_t threshold = 15;
   uint8_t maxRange = clearCalib + threshold;
   int8_t minRange = clearCalib - threshold; // Keep this signed
+  uint8_t maxVal = 250;
 
-  if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > minRange)) {
+
+  if ((redCalib >= maxVal) && (blueCalib >= maxVal) && (greenCalib >= maxVal) && (clearCalib >= maxVal)) {
+    Serial.println(">> Non-existent pallet detected!");
+    data->name = "NONE";
+    data->color = None;
+    return;
+  }
+
+  if ((redCalib >= maxVal) && (redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > minRange)) {
     Serial.println(">> Red-colored pallet detected!");
     data->name = "RED";
     data->color = Red;
   }
-  else if ((greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > minRange)) {
+  else if ((greenCalib >= maxVal) && (greenCalib > redCalib) && (greenCalib > blueCalib) && (greenCalib > minRange)) {
     Serial.println(">> Green-colored pallet detected!");
     data->name = "GREEN";
     data->color = Green;
   }
-  else if ((blueCalib > redCalib) && (blueCalib > greenCalib) && (blueCalib > minRange)) {
+  else if ((blueCalib >= maxVal) && (blueCalib > redCalib - 15) && (blueCalib > greenCalib) && (blueCalib > minRange)) {
     Serial.println(">> Blue-colored pallet detected!");
     data->name = "BLUE";
     data->color = Blue;
