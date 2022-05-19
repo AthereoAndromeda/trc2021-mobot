@@ -54,13 +54,6 @@ void detectColor(ColorData *data) {
   uint8_t maxRange = clearCalib + threshold;
   int8_t minRange = clearCalib - threshold; // Keep this signed
 
-  Serial.println("a");
-  Serial.println(clearCalib);
-  Serial.println(redCalib);
-  Serial.println(greenCalib);
-  Serial.println(blueCalib);
-  Serial.println(redCalib);
-
   if ((redCalib > greenCalib) && (redCalib > blueCalib) && (redCalib > minRange)) {
     Serial.println(">> Red-colored pallet detected!");
     data->name = "RED";
