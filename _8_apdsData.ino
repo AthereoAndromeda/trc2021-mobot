@@ -70,7 +70,7 @@ void detectColor(ColorData *data) {
   int8_t minRange = clearCalib - threshold; // Keep this signed
   uint8_t maxVal = 250;
 
-  if ((prox <= 8) /*&& (redCalib >= maxVal) && (blueCalib >= maxVal) && (greenCalib >= maxVal)*/ && (clearCalib >= 200)) {
+  if ((prox <= 8) /*&& (redCalib >= maxVal) && (blueCalib >= maxVal) && (greenCalib >= maxVal)*/ || (clearCalib >= 200)) {
     Serial.println(">> Non-existent pallet detected!");
     data->name = "NONE";
     data->color = None;

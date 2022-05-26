@@ -197,10 +197,10 @@ void returnToStart() {
     Mobot.followLine(South);
     timesMoved++;
 
-    //    if (timesMoved >= 2) {
-    //      Mobot.realign();
-    //      timesMoved = 0;
-    //    }
+    if (timesMoved >= 2) {
+      Mobot.realign();
+      timesMoved = 0;
+    }
   }
 
   Mobot.realign();

@@ -227,7 +227,7 @@ void runFollowLine(LineDirection direction) {
   uint16_t *rightValues = lineValues[1];
   uint16_t *backValues = lineValues[2];
   uint16_t *leftValues = lineValues[3];
-  const uint16_t intersectionThreshold = 250;
+  const uint16_t intersectionThreshold = 200;
 
   switch (direction) {
     case North:
