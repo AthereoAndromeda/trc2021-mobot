@@ -93,6 +93,7 @@ void handleThirdPallet() {
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(North);
+    Mobot.realign();
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(East);
