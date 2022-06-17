@@ -124,7 +124,7 @@ struct TaskData {
   void (*execute)(void);
 };
 
-#define TASK_COUNT 3
+#define TASK_COUNT 2
 
 TaskData taskData[TASK_COUNT] = {
   {
@@ -134,10 +134,11 @@ TaskData taskData[TASK_COUNT] = {
   {
     "Final     Delivery",
     executeChallengeOne
-  }, {"benchmark", benchmark}
+  }
 };
 
 String apdsColor;
+uint16_t proximity;
 uint16_t redVal, greenVal, blueVal, clearVal;
 uint16_t redArr[APDS_ACCURACY], greenArr[APDS_ACCURACY], blueArr[APDS_ACCURACY], clearArr[APDS_ACCURACY];
 uint16_t redMin, greenMin, blueMin, clearMin;

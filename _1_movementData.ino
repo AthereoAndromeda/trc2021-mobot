@@ -93,29 +93,3 @@ uint16_t realign(QTRSensors *sensorA, QTRSensors *sensorB, const MotorDirection 
 
   return retry;
 }
-
-void benchmark() {
-  delay(1000);
-
-  uint16_t initTime = millis();
-  Mobot.followLine(North);
-  Mobot.realign();
-  lifterUp();
-
-  Mobot.followLine(East);
-  Mobot.realign();
-  Mobot.followLine(South);
-  Mobot.realign();
-  Mobot.followLine(West);
-
-  lifterDown();
-
-  uint16_t finishedTime = millis();
-  uint16_t duration = finishedTime - initTime;
-
-  ssd.clearDisplay();
-  ssd.setCursor(0, 0);
-  ssd.println(duration);
-  ssd.display();
-  delay(5000);
-}

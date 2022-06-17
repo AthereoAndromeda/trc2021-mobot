@@ -29,9 +29,11 @@ void lifterMove(LifterState liftState, uint16_t liftAngle, unsigned int liftSpee
 void lifterUp() {
   Serial.println("Moving up the lifter!");
   lifterMove(Up, LIFTER_ANGLE, LIFTER_SPEED);
+  isLifterUp = true;
 }
 
 void lifterDown() {
   Serial.println("Moving down the lifter!");
   lifterMove(Down, LIFTER_ANGLE, LIFTER_SPEED);
+  isLifterUp = false;
 }

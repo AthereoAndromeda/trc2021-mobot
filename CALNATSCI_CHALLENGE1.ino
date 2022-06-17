@@ -4,6 +4,7 @@ Color *color = &Mobot.colorData.color;
 void colorHandler() {
   ssd.clearDisplay();
   ssd.setCursor(0, 0);
+  ssd.setTextSize(1);
 
   detectColor(&Mobot.colorData);
 
@@ -36,7 +37,7 @@ void handleFirstPallet() {
   Mobot.realign();
 
   lifterUp();
-  colorHandler();
+  //  colorHandler();
 
   if (*color == Red) {
     // From (1,1) to (0,1)
@@ -45,7 +46,7 @@ void handleFirstPallet() {
     Mobot.followLine(South);
     Mobot.realign();
     Mobot.followLine(East);
-    //    Mobot.realign();
+    Mobot.realign();
     Mobot.followLine(East);
   }
 
@@ -57,7 +58,7 @@ void handleSecondPallet() {
   // Go to (2,1)
   Mobot.realign();
 
-  if (*colorName == "RED") {
+  if (Mobot.x == 0) {
     Mobot.followLine(East);
     //    Mobot.realign();
     Mobot.followLine(East);
@@ -72,7 +73,7 @@ void handleSecondPallet() {
 
   // deliver
   lifterUp();
-  if (*colorName == "RED") {
+  if (*color == Red) {
     Mobot.followLine(South);
     Mobot.realign();
     Mobot.followLine(West);
@@ -87,11 +88,12 @@ void handleSecondPallet() {
 }
 
 void handleThirdPallet() {
-  if (*color == Red) {
+  if (Mobot.x == 0) {
     // From (0,0) to (1,3)
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(North);
+    Mobot.realign();
     Mobot.followLine(North);
     Mobot.realign();
     Mobot.followLine(East);
@@ -119,7 +121,7 @@ void handleThirdPallet() {
     if (*color == Red) {
       // From (2,2) to (0,1)
       Mobot.followLine(West);
-      //      Mobot.realign();
+      Mobot.realign();
       Mobot.followLine(West);
     } else {
       // From (2,2) to (3,2)
@@ -196,10 +198,10 @@ void returnToStart() {
     Mobot.followLine(South);
     timesMoved++;
 
-    //    if (timesMoved >= 2) {
-    //      Mobot.realign();
-    //      timesMoved = 0;
-    //    }
+    if (timesMoved >= 2) {
+      Mobot.realign();
+      timesMoved = 0;
+    }
   }
 
   Mobot.realign();
