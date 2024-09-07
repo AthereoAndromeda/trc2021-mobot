@@ -53,6 +53,10 @@ Anyways, that's the end of this note. Goodbye CalNat. Hello UPD 🌻.
 **Download the dependencies of these libraries as well**
 
 ## Timeline
+
+**Note: This timeline is incomplete and only spans the first few months or so. There is a 2nd and 3rd Heat, along with the Semi-Finals and Finals. I was not able to document the events
+after the 1st Heat due to time. (The competition spanned nearly an entire year, along with having to deal with schoolworks concurrently) Sorry about that!**
+
 ```mermaid
 gantt
 dateFormat YYY-MM-DD
